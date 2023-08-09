@@ -434,7 +434,7 @@ class transactionController extends Controller
     public function Result(Request $request)
     {
         //echo "Gdghdfhgsfh";
-        $request->event_id = 10;
+        //$request->event_id = 10;
         $currentDate = Carbon::now()->format('Y-m-d');
         $numbers = range(0, 99);
         $existingNumbers = MainNumbers::where('event_id', $request->event_id)->where('current_date', $currentDate)->pluck('number')->toArray();

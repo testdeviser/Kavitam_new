@@ -216,6 +216,24 @@ function Game(props) {
         });
     }
 
+    const handleAmountKeyPress = (e) => {
+        const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    };
+
+    const handleInputValidation = (e) => {
+        const minValue = 0; // Define your desired minimum value
+        const maxValue = 99; // Define your desired maximum value
+        const currentValue = parseFloat(e.target.value);
+
+        //if (currentValue < minValue || currentValue > maxValue) {
+        if (currentValue < minValue && currentValue > maxValue) {
+            e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+        }
+    };
+
 
     const lastIndex = currentPage * DataPerPage.current;
     const firstIndex = lastIndex - DataPerPage.current;
@@ -249,6 +267,8 @@ function Game(props) {
                                     setFinalNum(e.target.value); // Update the finalNum state
                                     setresult({ ...result, number: e.target.value }); // Update the result state
                                 }}
+                                onKeyPress={(e) => handleAmountKeyPress(e)}
+                                onInput={(e) => handleInputValidation(e)}
                                 required
                                 placeholder="Enter your Number"
                             />
