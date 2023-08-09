@@ -973,7 +973,8 @@ ul.ul_privacy {
     left: -50px;
     width: 100px;
     height: 100%;
-    background: url('http://localhost:3000/image/login-right-bttom.png');
+    /* background: url('http://localhost:3000/image/login-right-bttom.png'); */
+    background: url('https://kavitam.com/image/login-right-bttom.png');
     background-position: top left;
     background-repeat: no-repeat;
     background-size: 100%;

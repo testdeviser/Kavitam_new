@@ -299,6 +299,7 @@ section.register-section {
     box-shadow: 0px 0px 34px 0px #ECECEC;
     border-radius: 0px 0px 20px 20px;
 }
+
 .contact_info {
     float: left;
     width: calc(100% - 570px) !important;
@@ -975,7 +976,8 @@ tr {
     position: absolute;
     top: 0;
     left: 0;
-    background: url('http://localhost:3000/image/left-bg-main.png');
+    /* background: url('http://localhost:3000/image/left-bg-main.png'); */
+    background: url('https://kavitam.com/image/left-bg-main.png');
     width: 381px;
     height: 250px;
     z-index: 1;
@@ -989,7 +991,8 @@ tr {
     position: absolute;
     top: 0;
     right: 0;
-    background: url('http://localhost:3000/image/right-bg-main.png');
+    /* background: url('http://localhost:3000/image/right-bg-main.png'); */
+    background: url('https://kavitam.com/image/right-bg-main.png');
     width: 381px;
     height: 250px;
     z-index: 99;
@@ -1171,6 +1174,7 @@ table.total-prize-table tr td {
     font-size: 26px;
     margin: 14px 0 10px 0;
 }
+
 .quickChoose.hindi_text span.heding.hindi_text {
     font-size: 26px;
     line-height: 43px;
@@ -1225,6 +1229,7 @@ table.total-prize-table tr td {
         margin: 0 0 15px;
         padding: 0;
     }
+
     nav .navigation-links ul li:last-child {
         margin: 0;
     }
@@ -1465,6 +1470,7 @@ table.total-prize-table tr td {
     .timer-sec.game-timer-sec {
         margin: 50px 0 50px 0;
     }
+
     .quickChoose.hindi_text span.heding.hindi_text {
         font-size: 20px;
         line-height: 36px;
@@ -1559,6 +1565,7 @@ nav .navigation-links ul li.hover_dropdown {
         transform: translateX(-100%);
     }
 }
+
 .row.show_result_seclive {
     overflow: hidden;
 }
