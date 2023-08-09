@@ -105,7 +105,7 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
   Route::delete('/admin/events/delete/{id}', [AdminEventController::class, 'delete']);
   Route::get('/admin/events/editdata/{id}', [AdminEventController::class, 'EditData'])->name('edit_event_data');
   Route::post('/admin/events/update_events/{id}', [AdminEventController::class, 'update'])->name('uddate');
-  Route::post('/result', [transactionController::class, 'Result'])->name('Result');
+  //Route::post('/result', [transactionController::class, 'Result'])->name('Result');
 
 
   Route::post('/annouce_result', [transactionController::class, 'Annouce_Result']);
@@ -142,7 +142,7 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
 
 });
 
-//Route::get('/result', [transactionController::class, 'Result'])->name('Result');
+Route::get('/result', [transactionController::class, 'Result'])->name('Result');
 
 Route::get('/admin/Numbers/fetch/{eventid}', [MynumbersController::class, 'fetchNumbers'])->name('fetchNumbers');
 
