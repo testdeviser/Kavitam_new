@@ -434,44 +434,117 @@ class transactionController extends Controller
     public function Result(Request $request)
     {
         //echo "Gdghdfhgsfh";
-        //$request->event_id = 57;
+        $request->event_id = 10;
+        $currentDate = Carbon::now()->format('Y-m-d');
         $numbers = range(0, 99);
-        $existingNumbers = MainNumbers::where('event_id', $request->event_id)->pluck('number')->toArray();
+        $existingNumbers = MainNumbers::where('event_id', $request->event_id)->where('current_date', $currentDate)->pluck('number')->toArray();
+        $existingNumbersMain = MainNumbers::where('event_id', $request->event_id)->where('current_date', $currentDate)->pluck('number')->toArray();
+        $existingNumbersInner = inner::where('event_id', $request->event_id)->where('current_date', $currentDate)->pluck('number')->toArray();
+        $existingNumbersOuter = outer::where('event_id', $request->event_id)->where('current_date', $currentDate)->pluck('number')->toArray();
         $nonExistingNumbers = array_diff($numbers, $existingNumbers);
         // echo "<pre>";
-        // print_r($nonExistingNumbers);
+        // print_r($existingNumbersMain);die;
         $randomNumber = null;
         if (!empty($nonExistingNumbers)) {
-            $uniqueRandFirstDigit = [];
-            $uniqueRandSecondDigit = [];
-            $minRandPrice = null;
 
-            // $randomNumber = $nonExistingNumbers[array_rand($nonExistingNumbers)];
-
-            $firstIndex = array_key_first($nonExistingNumbers);
-            $randomNum = $nonExistingNumbers[$firstIndex];
-
-            //$randomNum = $nonExistingNumbers[0];
-            if ($randomNum < 10) {
-                $num_padded = sprintf("%02d", $randomNum);
-                $numberkey = (string) $num_padded;
-                $randomNumber = $numberkey;
+            if (empty($existingNumbersInner) && empty($existingNumbersOuter)) {
+                $InnerOuterNumber = $nonExistingNumbers[array_rand($nonExistingNumbers)];
+                if ($InnerOuterNumber < 10) {
+                    $num_padded = sprintf("%02d", $InnerOuterNumber);
+                    $numberkey = (string) $num_padded;
+                    $randomNumber = $numberkey;
+                    return response()->json([
+                        'status' => 200,
+                        'randomNumber' => $randomNumber,
+                    ]);
+                } else {
+                    $randomNumber = $InnerOuterNumber;
+                    return response()->json([
+                        'status' => 200,
+                        'randomNumber' => $randomNumber,
+                    ]);
+                }
             } else {
-                $randomNumber = $nonExistingNumbers[$firstIndex];
+                // $randomNumber = $nonExistingNumbers[array_rand($nonExistingNumbers)];
+                // $firstIndex = array_key_first($nonExistingNumbers);
+                // $randomNum = $nonExistingNumbers[$firstIndex];
+
+                //$firstIndex = array_key_first($nonExistingNumbers);
+                $randomNum = $nonExistingNumbers;
+                //$randomNum = $nonExistingNumbers[0];
+
+                $priceInner = [];
+                $priceOuter = [];
+                foreach ($randomNum as $key => $value) {
+                    if ($value < 10) {
+                        $num_padded = sprintf("%02d", $value);
+                        $numberkey = (string) $num_padded;
+                        $randomNumbr = $numberkey;
+                    } else {
+                        $randomNumbr = $value;
+                        //$randomNumber = $nonExistingNumbers[$firstIndex];
+                    }
+
+                    $randomNumber1 = str_split($randomNumbr);
+                    $randfrsstDigit = $randomNumber1[0];
+                    $randscndDigit = $randomNumber1[1];
+
+                    $priceSum = Inner::where('event_id', $request->event_id)
+                        ->where('current_date', $currentDate)
+                        ->where('number', $randfrsstDigit)
+                        ->sum('price');
+                    $priceInner[$randfrsstDigit] = $priceSum;
+                    // echo "<prE>";
+                    // print_r($priceSum);
+
+                    $priceSum1 = Outer::where('event_id', $request->event_id)
+                        ->where('current_date', $currentDate)
+                        ->where('number', $randscndDigit)
+                        ->sum('price');
+                    $priceOuter[$randscndDigit] = $priceSum1;
+
+                    if ($priceSum == 0 && $priceSum1 == 0) {
+                        $donhaveEmpty = 0;
+                        $randomNumber = $randomNumbr;
+                        break;
+                    } else {
+                        $donhaveEmpty = 1;
+                    }
+
+                }
+
+                if ($donhaveEmpty == 0) {
+                    return response()->json([
+                        'status' => 200,
+                        'randomNumber' => $randomNumber,
+                    ]);
+                } else {
+                    // Find the number with the minimum value from Inner
+                    $minValueInner = min($priceInner);
+                    $numbersWithMinValueInner = array_keys($priceInner, $minValueInner);
+                    $firstIndexInner = array_key_first($numbersWithMinValueInner);
+                    $numberWithMinValueInner = $numbersWithMinValueInner[$firstIndexInner];
+
+                    // Find the number with the minimum value from Outer
+                    $minValueOuter = min($priceOuter);
+                    $numbersWithMinValueOuter = array_keys($priceOuter, $minValueOuter);
+                    $firstIndexOuter = array_key_first($numbersWithMinValueOuter);
+                    $numberWithMinValueOuter = $numbersWithMinValueOuter[$firstIndexOuter];
+
+                    $randomNumber = $numberWithMinValueInner . $numberWithMinValueOuter;
+                    return response()->json([
+                        'status' => 200,
+                        'randomNumber' => $randomNumber,
+                    ]);
+                }
             }
 
-            // $randomNumber1 = str_split($numberkey);
-            // $randfrsstDigit = $randomNumber1[0];
-            // $randscndDigit = $randomNumber1[1];
-
-            // echo "<prE>";
-            // print_r($randfrsstDigit);
-            // die;
 
         } else {
             //selecting the "number" column from the "MainNumbers" table
             $results = MainNumbers::select('number')
                 ->where('event_id', $request->event_id)
+                ->where('current_date', $currentDate)
                 // ->selectRaw('SUM(price) as total_price')
                 ->groupBy('number')
                 ->get();
@@ -490,12 +563,12 @@ class transactionController extends Controller
                 //selecting the number and sum of price column as total_price on the basis of number
                 $mainPrice = MainNumbers::select('number')
                     ->where('event_id', $request->event_id)
+                    ->where('current_date', $currentDate)
                     ->where('number', $number)
                     ->selectRaw('SUM(prize) as total_price')
                     ->groupBy('number')
                     ->get()
                     ->toArray();
-
 
                 //getting the number from the $mainPrice array
                 $numberkey = $mainPrice[0]['number'];
@@ -521,8 +594,8 @@ class transactionController extends Controller
                 //checking the $uniqueFirstDigit numbers in the inner table and sum the values of the price 
                 $prices = [];
                 foreach ($uniqueFirstDigit as $number) {
-
                     $priceSum = Inner::where('event_id', $request->event_id)
+                        ->where('current_date', $currentDate)
                         ->where('number', $number)
                         ->sum('price');
 
@@ -540,6 +613,7 @@ class transactionController extends Controller
                 $prices1 = [];
                 foreach ($uniqueSecondDigit as $number1) {
                     $priceSum1 = Outer::where('event_id', $request->event_id)
+                        ->where('current_date', $currentDate)
                         ->where('number', $number1)
                         ->sum('price');
 
@@ -562,6 +636,12 @@ class transactionController extends Controller
                 $randomNumber = $min_indices[array_rand($min_indices)];
             }
 
+            return response()->json([
+                'status' => 200,
+                'randomNumber' => $randomNumber,
+                //'Ftotal' => $totalMIO,
+            ]);
+
             // // TO CONVERT IN OBJECT
             // $totalMIO = [];
             // foreach ($mainInnerOuterPrice as $key => $value) {
@@ -571,11 +651,11 @@ class transactionController extends Controller
             //     array_push($totalMIO, $object);
             // }
         }
-        return response()->json([
-            'status' => 200,
-            'randomNumber' => $randomNumber,
-            //'Ftotal' => $totalMIO,
-        ]);
+        // return response()->json([
+        //     'status' => 200,
+        //     'randomNumber' => $randomNumber,
+        //     //'Ftotal' => $totalMIO,
+        // ]);
     }
 
     // public function Result(Request $request)
