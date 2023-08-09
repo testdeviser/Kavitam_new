@@ -1671,6 +1671,70 @@ h3.mobile-show {
 .wallet_after_login button.figmabtn.wallet-btn {
     display: none;
 }
+.sb-sidenav .sb-sidenav-menu .nav .nav-link .submenu-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    transition: 0.4s ease all;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav .nav-link:hover {
+    background: #fff;
+    color: #FC8019;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav .nav-link:hover .sb-nav-link-icon svg path {
+    fill: #FC8019;
+}
+.sb-sidenav .sb-sidenav-menu .nav li:hover .nav-link .submenu-icon {
+    transform: translateY(-50%) rotate(180deg);
+    margin: 2px 0 0;
+}
+ul.submenu_bkend {
+    position: absolute;
+    top: 100%;
+    background: #fff;
+    left: 0;
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+    -webkit-transition: -webkit-transform .3s ease, opacity .3s ease, visibility .3s ease;
+    transition: transform .3s ease, opacity .3s ease, visibility .3s ease;
+    -webkit-transform: translate3d(-15px, 15px, 0);
+    -moz-transform: translate3d(-15px, 15px, 0);
+    -o-transform: translate3d(-15px, 15px, 0);
+    -ms-transform: translate3d(-15px, 15px, 0);
+    transform: translate3d(-15px, 15px, 0);
+}
+
+.sb-sidenav .sb-sidenav-menu .nav li {
+    position: relative;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav ul.submenu_bkend li a {
+    color: #000;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav ul.submenu_bkend li {
+    list-style: none;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav li:hover ul.submenu_bkend {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav li:last-child .nav-link {
+    margin: 0;
+}
 /* Admim CSS End */
 
 
