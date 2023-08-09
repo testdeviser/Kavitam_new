@@ -1,0 +1,177 @@
+.heading {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 60% */
+
+  text-align: center;
+  margin: 0px auto 14px;
+
+  background: linear-gradient(270deg, #F44A33 21.91%, #E8AE3D 76.97%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* text-fill-color: transparent; */
+}
+
+
+/* 
+.hr-lines:before{
+    content:" ";
+    display: block;
+    height: 2px;
+    width: 130px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background: red;
+  }
+  .hr-lines{
+    position: relative;
+    max-width: 500px;
+    margin: 100px auto;
+    text-align: center;
+  }
+  .hr-lines:after{
+    content:" ";
+    height: 2px;
+    width: 130px;
+    background: red;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+  }
+   */
+
+/* Live Result Today */
+
+
+.result {
+  box-sizing: border-box;
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  left: 123px;
+  top: 26px;
+  background: linear-gradient(180deg, #1F556B 0%, #1C798E 100%);
+  border: 1px solid #1F576D;
+  box-shadow: 0px 7px 9px rgba(25, 49, 55, 0.25);
+  border-radius: 50%;
+  display: flex;
+}
+
+.result .number {
+  /* position: absolute; */
+  width: 55px;
+  height: 18px;
+  left: 243px;
+  top: 915px;
+
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  margin: 20px auto;
+  /* line-height: 15px; */
+  /* or 58% */
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.viewAllbtn {
+  width: 156px;
+  height: 46px;
+  background: linear-gradient(90deg, #E9A23C 0%, #F16135 100%);
+  border-radius: 30px;
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 12px;
+  text-align: center;
+  transition: color 1s;
+  color: #FFFFFF;
+  border: none;
+  margin-top: 15px;
+}
+.viewAllbtn:hover {
+  color: white !important;
+  background: linear-gradient(268deg, #E9A23C 0%, #F16135 100%);
+}
+
+.event-text {
+
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 10px;
+  /* or 62% */
+
+  text-align: center;
+
+  color: #F25734;
+}
+
+.normal-text {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 10px;
+  /* or 71% */
+
+  text-align: center;
+
+  color: #000000;
+}
+
+.winning-numbers {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 10px;
+  text-align: center;
+  color: #E98C07;
+  margin-top: 38px !important;
+  float: left;
+  width: 100%;
+}
+
+/* end of Live Result Today  */
+
+/* lines */
+
+.title-text2 {
+  text-align: center;
+  position: relative;
+}
+
+.title-text2 span {
+  padding: 0 15px;
+  background-color: #fff;
+}
+
+.title-text2:before {
+  border-bottom: 1px solid red;
+  content: "";
+  top: 50%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  width: 50%;
+  margin: auto;
+}
+
+
+.live-resultToday-container {
+  overflow: hidden;
+}
+
+
+/* end lines */

@@ -1,0 +1,1563 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700;800;900&display=swap');
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li,
+a {
+    margin: 0px;
+    padding: 0px;
+}
+
+.header_with-bnnr {
+    position: relative;
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+    z-index: 2;
+}
+
+header {
+    width: 100%;
+    border-bottom: 1px solid #485C77;
+    padding: 25px 0;
+    position: relative;
+    z-index: 999;
+}
+
+header.header_kavitam-main .navbar {
+    padding: 0;
+    width: 100%;
+}
+
+
+.container {
+    width: 1170px;
+}
+
+
+header.header_kavitam-main nav {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+
+header.header_kavitam-main nav .logo {
+    display: flex;
+    gap: 12px;
+}
+
+header.header_kavitam-main nav .logo .website-Name {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 20px;
+    color: #FFFFFF;
+
+}
+
+.navigation-links {
+    display: flex;
+    gap: 38px;
+    align-items: center;
+}
+
+nav .navigation-links ul {
+    display: flex;
+    gap: 38px;
+    list-style: none;
+}
+
+nav .navigation-links ul li {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 12px;
+    align-self: center;
+    padding: 5px 0;
+}
+
+nav .navigation-links ul li a {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 500;
+    font-size: clamp(1rem, 1.181vw, 1.063rem);
+    color: #FFFFFF;
+}
+
+/* btn */
+
+.figmabtn {
+    width: auto;
+    background: linear-gradient(90deg, #E9A23C 0%, #F16135 100%);
+    border-radius: 30px;
+    display: inline-block;
+    padding: 16px 38px;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 12px;
+    text-align: center;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .wallet-btn {
+    margin: 24px 0 25px 0;
+} */
+
+/* end btn */
+
+
+/* end Nav section */
+/* ----------------------------------------------------------------------------------------------- */
+
+
+.header-Section {
+    display: flex;
+    justify-content: center;
+    /* height: 251px; */
+}
+
+/* .header-Section .content {
+    margin-top: 75px;
+} */
+
+.header-Section .content .page-name {
+    font-family: 'Barlow Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 1.389vw, 1.25rem);
+    line-height: 30px;
+    text-align: center;
+    background: linear-gradient(270deg, #F44A33 21.91%, #E8AE3D 76.97%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 auto;
+    float: left;
+    width: 100%;
+}
+
+.header-Section .content .dice-icon {
+    text-align: center;
+    margin: 20px auto;
+    float: left;
+    width: 100%;
+}
+
+.header-Section .content .page-details {
+    float: left;
+    width: 100%;
+}
+
+.header-Section .content .page-details p {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2.361vw, 2.125rem);
+    text-align: center;
+    color: #FFFFFF;
+    float: left;
+    width: 100%;
+    margin: 0px;
+}
+
+
+
+/* ------------------------------------------------------------LOGIN PAGE ----------------------------------------------------------- */
+
+.wrapper .login-section {
+    display: flex;
+    gap: 104.29px;
+    justify-content: center;
+    margin: 50px auto;
+}
+
+.wrapper.login-section.left-side {
+    width: 570px;
+    height: 370px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 34px #ECECEC;
+    border-radius: 0px 0px 20px 20px;
+    position: relative;
+}
+
+.login-heading {
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+    border-radius: 20px 20px 0px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.login-heading span {
+    width: 100%;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(1.2rem, 1.389vw, 1.25rem);
+    line-height: 20px;
+    color: #FFFFFF;
+    padding: 28px 15px 28px 30px;
+    float: left;
+}
+
+.login-section .login-form {
+    position: absolute;
+    top: 30%;
+    left: 6.5%;
+}
+
+.login-section .login-form input[type=text],
+input[type=password] {
+    box-sizing: border-box;
+    width: 100%;
+    height: 43px;
+    background: #FFFFFF;
+    border: 1px solid #FC8019;
+    border-radius: 8px;
+}
+
+.SubmitBtn {
+    width: 100%;
+    height: 50px;
+    background: #FC8019;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+.login-section .login-label {
+    width: 57px;
+    height: 10px;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 10px;
+    color: #FC8019;
+}
+
+/* ----------------------------------------------------------END LOGIN PAGE ----------------------------------------------------------- */
+
+/* -------------------------------------------------------------Register--------------------------------------------------------------- */
+.register-wrapper {
+    display: flex;
+    gap: 104px;
+    align-items: center;
+}
+
+section.register-section {
+    padding: 100px 0 120px;
+    position: relative;
+}
+
+.link.copyright p {
+    margin: 0;
+}
+
+.circle_dot-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.circle_dot-left {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.login-right-bttom {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.register-wrapper .left-side {
+    float: left;
+    width: 570px;
+    background: #FFF;
+    box-shadow: 0px 0px 34px 0px #ECECEC;
+    border-radius: 0px 0px 20px 20px;
+}
+.contact_info {
+    float: left;
+    width: calc(100% - 570px) !important;
+}
+
+.register-wrapper .right-side {
+    float: left;
+    width: calc(100% - 570px);
+}
+
+.register-section .left-side .register-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 43px;
+    background: #FFFFFF;
+    border: 1px solid #FC8019;
+    border-radius: 8px;
+    padding: 0 15px;
+    color: rgba(0, 0, 0, 0.60);
+    font-size: 14px;
+    font-family: Barlow;
+    font-weight: 500;
+    line-height: 8px;
+}
+
+.register-section .left-side .register-input:focus-visible {
+    outline: 0;
+}
+
+.register-section .left-side .login-label {
+    width: 100%;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 600;
+    font-size: clamp(0.875rem, 0.972vw, 0.875rem);
+    line-height: 10px;
+    color: #FC8019;
+    float: left;
+    margin: 0 0 9px;
+}
+
+.login_input {
+    float: left;
+    width: 100%;
+    margin: 0 0 30px;
+}
+
+.register-section .left-side .refister-form {
+    padding: 50px;
+    float: left;
+    width: 100%;
+}
+
+.login_btn-global button {
+    margin: 0 !important;
+    color: #FFF;
+    text-align: center;
+    font-size: clamp(1.125rem, 1.250vw, 1.125rem);
+    font-family: Barlow;
+    font-weight: 700;
+    line-height: 10px;
+    transition: 0.4s ease all;
+}
+
+.login_btn-global button:hover {
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+}
+
+.login_btn-global {
+    float: left;
+    width: 100%;
+}
+
+.register-section .right-side .register-right-image {
+    margin-top: 70px;
+}
+
+.top-right-dots {
+    position: absolute;
+    left: 1440px;
+    top: 717px;
+}
+
+
+
+
+/* --------------------------------------------------------------End Register---------------------------------------------------------- */
+
+/* --------------------------------------------------------------------Home page-------------------------------------------------------------- */
+
+
+/* Easiest way to picking a number */
+
+.Easiest-way-container {
+    width: 1440px;
+    height: 480px;
+    background: #FAF9F1;
+}
+
+.Easiest_way_section .cards {
+    margin-top: 15px;
+}
+
+.Easiest_way_section .cards .easyWay-card {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 34px #ECECEC;
+    border-radius: 20px;
+    display: flex;
+    padding: 30px;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+section.Easiest_way_section {
+    background: #FAF9F1;
+    padding: 90px 0;
+    position: relative;
+}
+
+.Easiest_way_section .cards .col-lg-4.col-md-4.col-sm-12 {
+    padding: 0 15px;
+}
+
+.Easiest_way_section .cards .easyWay-card .left {
+    padding: 0 15px 0 0;
+    float: left;
+    width: calc(100% - 75px);
+}
+
+.right {
+    float: left;
+    width: 75px;
+}
+
+section.Easiest_way_section .container {
+    max-width: 1200px;
+}
+
+.Easiest_way_section .cards .easyWay-card .left .Easiest-card-number {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 900;
+    font-size: 66px;
+    line-height: 54px;
+    background: linear-gradient(180deg, #E9A13C 0%, #F16235 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+
+.Easiest_way_section .cards .easyWay-card .left .Easiest-card-info {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 22px;
+    color: #000000;
+}
+
+/* .Easiest_way_section .cards .easyWay-card .right img {
+    width: 76.49px;
+    height: 74px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+} */
+
+
+/* querysection */
+
+.querysection {
+    width: 100%;
+    height: 140px;
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+    float: left;
+}
+
+section.Easiest_way_section .login-right-bttom {
+    position: absolute;
+    z-index: 1;
+    left: 0px;
+    top: -165px;
+    width: max-content;
+    height: max-content;
+}
+
+.querysection section {
+    display: flex;
+    justify-content: center;
+}
+
+.querysection section .content p {
+    width: 330px;
+    height: 24px;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 20px;
+    color: #FFFFFF;
+    align-content: center;
+    margin: 58px 20px;
+}
+
+.querysection section .contactBtn {
+    align-content: center;
+    margin: 49px 20px;
+}
+
+.querybtn {
+    width: 150px;
+    height: 46px;
+    background: linear-gradient(90deg, #008A04 0%, #2AAE32 100%);
+    border-radius: 30px;
+    border: none;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quickChoose {
+    float: left;
+    width: 100%;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(1.875rem, 3.472vw, 3.125rem);
+    color: #FFFFFF;
+}
+
+span.quickChoose {
+    line-height: 65px;
+}
+
+span.heding {
+    color: #F16335;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(1.875rem, 3.472vw, 3.125rem);
+}
+
+.quickChoose.hindi_text span.banner_ques {
+    display: inline-block;
+    width: 100%;
+    font-size: 28px;
+}
+
+.heaading {
+    font-family: 'Barlow Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 1.389vw, 1.25rem);
+    text-align: center;
+    position: relative;
+    background: linear-gradient(270deg, #F44A33 21.91%, #E8AE3D 76.97%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    float: left;
+}
+
+.right-sec img {
+    max-width: 505px;
+    height: auto;
+}
+
+.explore-here {
+    width: 166px;
+    height: 46px;
+    /* background: linear-gradient(90deg, #E9A23C 0%, #F16135 100%); */
+    background: white;
+    border-radius: 30px;
+    padding-right: 30px;
+}
+
+.wrapper.register-wrapper {
+    float: left;
+}
+
+
+section.header-Section {
+    width: 100%;
+    float: left;
+    padding: 40px 0;
+}
+
+.main-div {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 9;
+}
+
+
+.play_explore {
+    display: flex;
+    align-items: center;
+    margin-top: 51px;
+    float: left;
+    width: 100%;
+}
+
+a.explore-here {
+    width: 142px;
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+    padding: 15px 18px;
+    border-radius: 30px;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 12px;
+    text-align: center;
+    color: #FFFFFF !important;
+    position: relative;
+}
+
+a.explore-here::after {
+    position: absolute;
+    content: ' ';
+    width: 100%;
+    height: 46px;
+    top: 0;
+    right: 0;
+    /* background-image: url(/image/Rectangle4.png); */
+    /* background-image: url( http://localhost:3000/image/Rectangle4.png); */
+    background-image: url(https://kavitam.com/image/Rectangle4.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+img.white_dot_img {
+    display: flex;
+    margin: 0 auto;
+}
+
+.wallet-btn {
+    border: none;
+    padding: 15px;
+    text-align: center;
+    font-family: Barlow;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+}
+
+.timer_heading-time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wallet-btn img {
+    margin-right: 10px;
+}
+
+.dice-icon1 {
+    float: left;
+    width: 100%;
+    margin: 12px 0 5px;
+}
+
+section.Easiest_way_section.container {
+    padding-top: 40px;
+}
+
+.left-right-sec {
+    display: flex;
+    justify-content: center;
+}
+
+.rgt-sectn p {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 36px;
+    color: #3D6276;
+    max-width: 519px;
+    margin-left: 20px;
+    margin-bottom: 0;
+}
+
+.lft-sectn {
+    display: flex;
+    align-items: center;
+}
+
+.heading-sectn {
+    margin-right: 47px;
+}
+
+.rgt-sectn {
+    margin-left: 47px;
+}
+
+img.right-quote {
+    position: absolute;
+    right: 0;
+    bottom: 12px;
+}
+
+.rgt-sectn {
+    position: relative;
+}
+
+.heading-sectn h3 {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 20px;
+    text-align: right;
+    color: #3D6276;
+}
+
+.heading-sectn h4 {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 12px;
+    text-align: right;
+    color: #3D6276;
+    margin-top: 25px;
+}
+
+.timer-sec {
+    width: 100%;
+    float: left;
+    margin-top: 50px;
+}
+
+.timer {
+    display: flex;
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+    border-radius: 20px;
+    padding: 45px 50px;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.timer h3 {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 34px;
+    color: #FFFFFF;
+    margin-bottom: 0;
+    display: inline-block;
+    width: auto;
+    padding: 0 15px 0 0;
+}
+
+.timer h2 {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 22px;
+    color: #FFFFFF;
+}
+
+.timer .timer_heading-time h2 {
+    margin: 0;
+}
+
+.col-md-8.btn.border {
+    margin-top: 45px;
+}
+
+.main_num {
+    display: flex;
+    flex-wrap: wrap;
+    background: #FFFFFF;
+    border: 1px solid #B6C2C8;
+    border-radius: 15px;
+    padding: 30px;
+    align-items: center;
+    gap: 18px;
+}
+
+.card.btn.payment_check.zoom.pointer {
+    width: 45px !important;
+    height: 45px !important;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border-radius: 50px;
+    background: #FFFFFF;
+    border: 1px solid #B6C2C8;
+    transition: all ease 0.4s;
+}
+
+.card.btn.payment_check.zoom.pointer h5.card-title {
+    margin-bottom: 0;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 15px;
+    text-align: center;
+    color: #3D6276;
+}
+
+.card.btn.payment_check.zoom.pointer:hover {
+    background: linear-gradient(180deg, #1F556B 0%, #1C798E 100%);
+    border: 1px solid #1F576D;
+    box-shadow: 0px 7px 9px rgba(25, 49, 55, 0.25);
+    color: #fff;
+}
+
+.card.btn.payment_check.zoom.pointer.selected {
+    background: linear-gradient(180deg, #1F556B 0%, #1C798E 100%);
+    border: 1px solid #1F576D;
+    box-shadow: 0px 7px 9px rgba(25, 49, 55, 0.25);
+}
+
+.card.btn.payment_check.zoom.pointer.selected h5.card-title {
+    color: #fff;
+}
+
+.card.btn.payment_check.zoom.pointer:hover h5.card-title {
+    color: #fff;
+}
+
+.game-left-sec {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 34px #ECECEC;
+    border-radius: 20px;
+    padding: 23px;
+    margin-top: 45px;
+    position: relative;
+}
+
+.main_num h3.underline.text-center.mb-3 {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 26px;
+    color: #000000;
+    margin-right: 30px;
+    margin-bottom: 0 !important;
+}
+
+.game-right-sec-inner {
+    /* background: linear-gradient(180deg, #F44E34 0%, #E8AA3D 100%); */
+    /* box-shadow: 0px 4px 34px #ECECEC; */
+    /* border-radius: 20px; */
+    /* max-width: 100%; */
+    /* padding: 0; */
+    /* padding: 36px 0px 0px 0px; */
+    margin-top: 45px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+td.sub-menu {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 15px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-bottom: 31px;
+    float: left;
+}
+
+.game-right-sec table {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.game-right-sec td {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 15px;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+    float: left;
+}
+
+
+tr {
+    float: left;
+    width: 100%;
+}
+
+.login-form {
+    padding: 50px;
+    float: left;
+    width: 100%;
+}
+
+.signUP-here a {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 10px;
+    color: #6D6D6D;
+}
+
+.register-section p {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #6D6D6D;
+    margin-top: 25px;
+    margin-bottom: 0;
+}
+
+.register-section p a {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/********************/
+.game-right-sec table .sub-menu {
+    text-align: center;
+    width: 100%;
+    padding: 0
+}
+
+.game-right-sec>table {
+    margin: 0 0 30px;
+    border-collapse: collapse;
+}
+
+.game-right-sec table tbody td {
+    width: 50%;
+    display: table-cell;
+}
+
+.game-right-sec table tbody td:nth-child(even) {
+    text-align: right;
+}
+
+.game-right-sec table tbody td:nth-child(odd) {
+    text-align: left;
+}
+
+.card.m-1.btn.payment_check.zoom.pointer.mystyle {
+    background: green;
+}
+
+.card.m-1.btn.payment_check.zoom.pointer.mystyle h5.card-title {
+    color: #fff;
+}
+
+.website-Name a {
+    color: white !important;
+}
+
+.header_with-bnnr::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url('http://localhost:3000/image/left-bg-main.png');
+    width: 381px;
+    height: 250px;
+    z-index: 1;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: contain;
+}
+
+.header_with-bnnr::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: url('http://localhost:3000/image/right-bg-main.png');
+    width: 381px;
+    height: 250px;
+    z-index: 99;
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: contain;
+}
+
+nav .navigation-links ul li.hover_dropdown ul li a {
+    opacity: 0.7;
+}
+
+nav .navigation-links ul li.hover_dropdown ul li a:hover {
+    opacity: 1;
+}
+
+/* .header_with-bnnr {
+    overflow: hidden;
+} */
+
+.define_float {
+    float: left;
+    width: 100%;
+}
+
+nav.kaivtam_nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.white_dot_img.client_img-ct img {
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    padding: 11px
+}
+
+.white_dot_img.client_img-ct {
+    border: 1px dashed #F25734;
+    border-radius: 50%;
+}
+
+.disabledd {
+    pointer-events: none;
+    opacity: 0.2;
+    background-color: #fff;
+    cursor: not-allowed;
+}
+
+.upiLogo img {
+    width: 170px;
+    height: auto;
+}
+
+.warning img {
+    width: 30px;
+}
+
+.logo img.upi {
+    width: 120px;
+}
+
+/* -------------------------------------------------------------------End Home page------------------------------------------------------------ */
+
+.game-right-sec table tbody td input {
+    float: none;
+    width: 60px;
+    margin: 0 0 0 10px;
+    border: none;
+    outline: none;
+    color: #000;
+    border-radius: 4px;
+    padding: 0 5px;
+    font-size: 15px;
+    height: 25px;
+    text-align: center;
+}
+
+.game-right-sec .game-result_out td span {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.game-right-sec>table.total-prize-table {
+    margin: 0;
+}
+
+table.total-prize-table tr {
+    margin: 0px !important;
+}
+
+.game-right-sec .game-result_out td.total_prize-td {
+    font-weight: 600;
+}
+
+/* table.total-prize-table thead tr {
+    padding-top: 26px;
+    padding-bottom: 20px;
+}
+
+table.total-prize-table tbody tr {
+    padding-bottom: 36px;
+} */
+
+table.total-prize-table tr td {
+    margin: 0;
+}
+
+.game-right-btn {
+    float: left;
+    width: 100%;
+    margin: 30px 0 0 0;
+    text-align: center;
+}
+
+.game-right-btn .navigation-links {
+    justify-content: center;
+    gap: 0;
+    display: block;
+}
+
+.game-right-btn .navigation-links button.btn {
+    padding: 15px 34px;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #E9A23C 0%, #F16135 100%);
+    border: none;
+    color: #FFF;
+    font-size: 20px;
+    font-family: Barlow;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 12px;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.game-right-btn .navigation-links button.btn img {
+    margin: 0 10px 0 0;
+    width: 16px;
+}
+
+.timer-sec.game-timer-sec {
+    padding: 50px 0 100px;
+    margin: 0;
+    position: relative;
+}
+
+/* 27-06-23 hk css start */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.menuicon {
+    display: none;
+}
+
+.slick-dots {
+    position: static !important;
+}
+
+.header_with-bnnr.home-page::before {
+    display: none;
+}
+
+.header_with-bnnr.home-page::after {
+    width: 515px;
+    height: 624px;
+    z-index: 1;
+    background-size: cover;
+    opacity: 0.4;
+}
+
+.quickChoose.hindi_text span.banner_ques {
+    display: inline-block;
+    width: 100%;
+    font-size: 26px;
+    margin: 14px 0 10px 0;
+}
+.quickChoose.hindi_text span.heding.hindi_text {
+    font-size: 26px;
+    line-height: 43px;
+    display: inline-block;
+    font-weight: 500;
+}
+
+@media (max-width:767px) {
+    .navigation-links {
+        display: none;
+    }
+
+    .menuicon {
+        position: relative;
+        display: block;
+        right: 0;
+    }
+
+    .dice-icon1 {
+        margin: 5px 0 10px;
+    }
+
+    .live_result_sec {
+        margin-top: 32px;
+    }
+
+    .slick-slider.slick-initialized {
+        margin: 0 auto 0px;
+    }
+
+    .navigation-links.showNav {
+        display: block;
+    }
+
+    nav .navigation-links ul {
+        display: block;
+        background: #fff;
+        position: absolute;
+        left: 0;
+        right: 0;
+        list-style: none;
+        text-align: left;
+        padding: 20px;
+        top: 100%;
+        margin: 16px 0 0;
+        border-radius: 8px;
+        box-shadow: 0 6px 15px #00000052;
+    }
+
+    nav .navigation-links ul li {
+        line-height: normal;
+        margin: 0 0 15px;
+        padding: 0;
+    }
+    nav .navigation-links ul li:last-child {
+        margin: 0;
+    }
+
+    nav .navigation-links ul li a {
+        font-size: 16px;
+        line-height: normal;
+        padding: 12px 0;
+        display: block;
+        width: auto;
+        height: auto;
+    }
+
+    .figmabtn {
+        margin: 25px 0 50px;
+    }
+
+    section.header-Section {
+        display: block;
+        padding: 30px 15px;
+    }
+
+    .header_with-bnnr::before {
+        display: none;
+    }
+
+    .header_with-bnnr::after {
+        z-index: 1;
+        background-size: cover;
+        opacity: 0.5;
+    }
+
+    .quickChoose {
+        width: 100%;
+        float: left;
+        font-size: 24px;
+        line-height: normal;
+    }
+
+    .quickChoose span.heding {
+        font-size: 24px;
+        line-height: normal;
+    }
+
+    .play_explore {
+        float: left;
+        width: 100%;
+        margin: 0 auto;
+        justify-content: center;
+    }
+
+    .main-div {
+        display: block;
+        float: left;
+        width: 100%;
+    }
+
+    .left-sec,
+    .right-sec {
+        float: left;
+        width: 100%;
+    }
+
+    .right-sec img {
+        max-width: 100%;
+    }
+
+    .Easiest_way_section .cards,
+    .left-right-sec,
+    .querysection section {
+        display: block;
+    }
+
+    .querysection section .content p {
+        width: 100%;
+    }
+
+    .Easiest_way_section .cards .easyWay-card {
+        width: 100%;
+        height: auto;
+        float: left;
+        padding: 16px;
+        margin: 0 0 15px;
+    }
+
+    .Easiest_way_section .cards .easyWay-card .left,
+    .Easiest_way_section .cards .easyWay-card .right {
+        float: left;
+        width: 50%;
+    }
+
+    .querysection {
+        width: 100%;
+        height: auto;
+        float: left;
+    }
+
+    .slick-slider.slick-initialized {
+        float: left;
+        width: 100%;
+    }
+
+    .slick-slider.slick-initialized .slick-arrow {
+        display: none !important;
+    }
+
+    section.Easiest_way_section.container {
+        padding: 0;
+    }
+
+    .Easiest_way_section .cards .easyWay-card .right {
+        text-align: right;
+    }
+
+    .Easiest_way_section .cards .easyWay-card .left .Easiest-card-number {
+        line-height: 44px;
+        margin-bottom: 20px;
+        font-size: 50px;
+    }
+
+    .Easiest_way_section .cards .easyWay-card .left .Easiest-card-info {
+        font-size: 20px;
+    }
+
+    .live_result_sec .viewAllbtn {
+        margin: 0;
+    }
+
+    .querysection section .content p {
+        width: 100%;
+        height: auto;
+        line-height: normal;
+        text-align: center;
+        margin: 30px 0 0px;
+        font-size: 28px;
+    }
+
+    .querysection section .contactBtn {
+        margin: 20px 0 30px;
+        text-align: center;
+    }
+
+    .lft-sectn {
+        display: block;
+        text-align: center;
+    }
+
+    .heading-sectn h3 {
+        text-align: center;
+        margin: 0 0 22px;
+    }
+
+    .rgt-sectn {
+        margin: 0 15px 10px;
+    }
+
+    .front-footer .links {
+        display: block;
+        text-align: center;
+    }
+
+
+    .front-footer .links .footer-Social ul,
+    .front-footer .footer-logo {
+        justify-content: center;
+    }
+
+    .front-footer {
+        padding: 24px 0 10px;
+    }
+
+    .register-wrapper .left-side,
+    .register-wrapper .right-side {
+        width: 100%;
+    }
+
+    .login-form,
+    .register-section .left-side .refister-form {
+        padding: 16px;
+    }
+
+    .register-wrapper .right-side img,
+    .circle_dot-left img {
+        width: 100%;
+    }
+
+    section.register-section {
+        padding: 52px 0 60px;
+    }
+
+    .navigation-links.showNav {
+        display: block;
+    }
+
+
+    .timer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .timer h3 {
+        width: 100%;
+        font-size: 24px;
+        line-height: 28px;
+        margin: 0 0 10px 0;
+    }
+
+    .timer {
+        padding: 25px 20px;
+    }
+
+    .card.m-1.btn.payment_check.zoom.pointer {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .card.m-1.btn.payment_check.zoom.pointer h5.card-title {
+        font-size: 16px;
+    }
+
+    .main_num h3.underline.text-center.mb-3 {
+        width: 100%;
+        text-align: center;
+        max-width: 100%;
+        margin: 0 0 25px 0 !important;
+        font-size: 22px;
+    }
+
+    .game-left-sec {
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    .main_num {
+        justify-content: center;
+    }
+
+    .timer-sec.game-timer-sec {
+        margin: 50px 0 50px 0;
+    }
+    .quickChoose.hindi_text span.heding.hindi_text {
+        font-size: 20px;
+        line-height: 36px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    section.header-Section .main-div .right-sec img {
+        max-width: 100%;
+    }
+
+
+    .Easiest_way_section .cards .easyWay-card {
+        margin: 0 auto 15px;
+    }
+
+    .querysection section .content p {
+        width: 430px;
+    }
+}
+
+/* 27-06-23 hk css end */
+
+nav .navigation-links ul li.hover_dropdown ul {
+    display: none;
+}
+
+nav .navigation-links ul li.hover_dropdown:hover ul {
+    display: block;
+}
+
+nav .navigation-links ul li.hover_dropdown ul {
+    position: absolute;
+    top: 100%;
+    background: #193453;
+    width: 210px;
+    margin: 0px 0 0;
+    border-radius: 6px;
+    left: 0;
+    padding: 15px;
+}
+
+nav .navigation-links ul li.hover_dropdown ul li {
+    padding: 0;
+    margin: 0 0 15px;
+}
+
+nav .navigation-links ul li.hover_dropdown ul li:last-child {
+    margin: 0;
+}
+
+nav .navigation-links ul li.hover_dropdown ul li a {
+    display: inline-block;
+    /* float: left; */
+    width: 100%;
+}
+
+nav .navigation-links ul li.hover_dropdown {
+    position: relative;
+}
+
+.Payments_below-refers table:last-child {
+    background: none;
+    border-radius: 20px;
+    width: 100%;
+}
+
+
+/* .event-info {
+    display: flex;
+    gap: 30px;
+} */
+
+
+/* jaspreet */
+
+.service_fee {
+    color: red;
+}
+
+.scroll-container {
+    display: flex;
+    animation: scroll-left 10s linear infinite;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* jaspreet */

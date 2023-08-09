@@ -1,0 +1,48 @@
+*,*::after,*::before{
+    box-sizing: border-box;
+}
+.front-footer {
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+    padding: 42px 0;
+}
+.front-footer .footer-logo {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.front-footer .footer-logo .website-Name{ 
+font-family: 'Barlow';
+font-style: normal;
+font-size: 30px;
+line-height: 20px;
+color: #FFFFFF;
+}
+
+.front-footer .links
+{
+    display:flex; 
+    align-items: center;
+    justify-content: space-between;
+}
+
+.front-footer .links .copyright p{
+    color:#FFFFFF;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 12px;
+    text-align: center;
+    color: #FFFFFF;  
+    margin:0px;     
+}
+
+.front-footer .links  .footer-Social ul{
+    display: flex;
+    gap:19.59px;
+    list-style: none;
+}
+.front-footer .links  .footer-Social ul li{
+
+}
+

@@ -1,0 +1,678 @@
+.zoom {
+	transition: transform .2s;
+	margin: 0 auto;
+}
+
+.zoom:hover {
+	-ms-transform: scale(1.2);
+	-webkit-transform: scale(1.3);
+	transform: scale(1.1);
+}
+
+.product {
+	margin: 0;
+}
+
+.product p {
+	margin-bottom: 0;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.card.m-1.zoom.pointer.mystyle {
+	background-color: green;
+}
+
+.countdown {
+	margin: 0 auto;
+}
+
+/*===================== Payment Page CSS Start =====================*/
+section.payment-section {
+	padding: 90px 0 90px;
+	position: relative;
+}
+
+.payment-wrapper {
+	background: #FFF;
+	box-shadow: 0px 0px 34px 0px #ECECEC;
+	border-radius: 20px;
+	padding: 50px;
+}
+
+.upiLogo {
+	float: left;
+	width: 100%;
+	text-align: center;
+	margin: 0 0 30px;
+}
+
+.upiLogo img {
+	max-width: 100%;
+}
+
+.payment-timer {
+	float: left;
+	width: 100%;
+	margin: 25px 0 0;
+	font-family: 'Barlow';
+	font-weight: 700;
+	font-size: 24px;
+}
+
+.payment-step-unique {
+	margin: 0 0 30px;
+	padding: 0;
+	position: relative;
+}
+
+.payment-step-unique .steps_border-inner {
+	border: 1px solid #d7d7d7;
+	background: #fff;
+	padding: 35px;
+	border-radius: 0px 0 8px 8px;
+}
+
+.step_title {
+	float: left;
+	width: 100%;
+}
+
+.step_title h5 {
+	font-size: 20px;
+	color: #fff;
+	background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+	padding: 15px;
+	width: 100%;
+	border-radius: 8px 8px 0 0;
+	margin: 0 auto;
+	font-family: 'Barlow';
+	font-weight: 700;
+}
+
+.amount_require {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	float: left;
+	width: 100%;
+}
+
+.amount_inner-left label {
+	font-size: 18px;
+	font-weight: 700;
+	font-family: 'Barlow';
+	margin: 0 10px 0 0;
+}
+
+.amount_inner-left input {
+	width: 250px;
+	height: 44px;
+	border: 1px solid #d7d7d7;
+	border-radius: 6px;
+	padding: 0 15px;
+}
+
+.amount_inner-left input:focus,
+.amount_inner-left input:focus-visible {
+	outline: 0px;
+	box-shadow: none;
+}
+
+.copy_btn button {
+	margin: 0 !important;
+	color: #FFF;
+	text-align: center;
+	font-size: 16px;
+	font-family: Barlow;
+	font-weight: 700;
+	line-height: 10px;
+	transition: 0.4s ease all;
+	background: #FC8019;
+	border-radius: 8px;
+	border: 1px solid transparent;
+	padding: 0px 25px;
+	height: 44px;
+	text-transform: uppercase;
+}
+
+.copy_btn button:hover {
+	background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+}
+
+.VPA_upi-ct {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 20px 0 0;
+	float: left;
+	width: 100%;
+}
+
+.VPA_inner-left {
+	display: flex;
+	align-items: center;
+}
+
+.qr-code-container.copy_btn {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.VPA_inner-left label {
+	font-size: 18px;
+	font-weight: 700;
+	font-family: 'Barlow';
+	margin: 0 10px 0 0;
+}
+
+.value-VPA {
+	font-size: 18px;
+	font-family: 'Barlow';
+	color: #bababa;
+	font-weight: 400;
+}
+
+.warning_inner-ct {
+	display: flex;
+	align-items: center;
+}
+
+.warning_text-payment img {
+	width: 25px;
+	float: left;
+	margin: 0 10px 0 0;
+}
+
+.warning_inner-ct p {
+	font-size: 16px;
+	font-family: 'Barlow';
+	font-weight: 500;
+	margin: 0;
+	color: #000000;
+	line-height: 22px;
+}
+
+.UTR-field {
+	float: left;
+	width: 100%;
+	margin: 15px 0 0;
+}
+
+.UTR-field input {
+	float: left;
+	width: 100%;
+	margin: 15px 0 0;
+	height: 50px;
+	border: 1px solid #d7d7d7;
+	border-radius: 6px;
+	padding: 0 15px;
+	font-size: 16px;
+	font-family: 'Barlow';
+	font-weight: 500;
+}
+
+.UTR-field input:focus,
+.UTR-field input:focus-visible {
+	outline: 0px;
+	box-shadow: none;
+}
+
+.UTR-field {
+	float: left;
+	width: 100%;
+	margin: 0px 0 0;
+}
+
+.UTR-field input {
+	float: left;
+	width: 100%;
+	margin: 15px 0 0;
+	height: 50px;
+	border: 1px solid #d7d7d7;
+	border-radius: 6px;
+	padding: 0 15px;
+	font-size: 16px;
+	font-family: 'Barlow';
+	font-weight: 500;
+}
+
+.UTR-field input:focus,
+.UTR-field input:focus-visible {
+	outline: 0px;
+	box-shadow: none;
+}
+
+.tip_links span {
+	font-size: 18px;
+	font-weight: 700;
+	font-family: 'Barlow';
+	float: left;
+	margin: 0 5px 0 0px;
+}
+
+.tip_links a {
+	font-size: 18px;
+	font-weight: 600;
+	color: #fc8019;
+	text-decoration: underline;
+	transition: 0.4s ease all;
+	display: inline-block;
+}
+
+.tip_links a:hover {
+	color: #0b3746;
+}
+
+.payment-step-unique:last-child {
+	margin: 0;
+}
+
+.tip_links {
+	margin: 10px 0 50px;
+}
+
+.payment-step-unique:last-child {
+	margin: 0;
+}
+
+.tip_links {
+	margin: 10px 0 50px;
+}
+
+.login_btn-global.payment-submt-UTR button.SubmitBtn {
+	width: auto;
+	padding: 0 75px;
+	font-size: 24px;
+	height: 60px;
+	font-weight: 600;
+}
+
+.login_btn-global.payment-submt-UTR {
+	text-align: center;
+	margin: 0 0 15px;
+}
+
+.payment-copyright p {
+	font-size: 18px;
+	font-weight: 400;
+	font-family: 'Barlow';
+	margin: 0 0 5px;
+	float: left;
+	width: 100%;
+	color: #979797;
+}
+
+.payment-copyright p:last-child {
+	margin: 0;
+}
+
+.payment-step-unique:last-child {
+	margin: 0;
+}
+
+.tip_links {
+	margin: 10px 0 50px;
+}
+
+.login_btn-global.payment-submt-UTR button.SubmitBtn {
+	width: auto;
+	padding: 0 75px;
+	font-size: 24px;
+	height: 60px;
+	font-weight: 600;
+}
+
+.login_btn-global.payment-submt-UTR {
+	text-align: center;
+	margin: 0 0 15px;
+}
+
+.payment-copyright p {
+	font-size: 18px;
+	font-weight: 400;
+	font-family: 'Barlow';
+	margin: 0 0 5px;
+	float: left;
+	width: 100%;
+	color: #979797;
+	line-height: 22px;
+}
+
+.payment-copyright p:last-child {
+	margin: 0;
+}
+
+.payment_bottom-logo {
+	display: flex;
+	align-items: center;
+	gap: 25px;
+	justify-content: center;
+	margin: 30px 0 0;
+}
+
+.payment_bottom-logo img {
+	width: 140px;
+}
+
+.figmabtn:hover {
+	color: #fff;
+}
+
+.amount_inner-left {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.amount_inner-left span.text-danger {
+	position: absolute;
+	left: 0;
+	bottom: -20px;
+	font-size: 13px;
+}
+
+.amount-input {
+	float: left;
+	position: relative;
+}
+
+.UTR-field span.text-danger {
+	font-size: 13px;
+}
+
+/*===================== Payment Page CSS End =====================*/
+
+/*===================== Media Queries Start =====================*/
+@media (max-width:1199px) {
+	.container {
+		max-width: 100% !important;
+	}
+}
+
+@media (max-width:991px) {
+	.upiLogo img {
+		width: 150px;
+	}
+
+	.payment-timer {
+		margin: 15px 0 0;
+	}
+
+	section.payment-section {
+		padding: 70px 0 70px;
+		position: relative;
+	}
+
+	.payment-step-unique .steps_border-inner {
+		padding: 20px;
+	}
+
+	.payment-wrapper {
+		padding: 30px;
+	}
+}
+
+@media (max-width:767px) {
+	.step_title h5 {
+		font-size: 18px;
+		line-height: 26px;
+	}
+
+	.amount_inner-left input {
+		width: 180px;
+		height: 40px;
+	}
+
+	.copy_btn button {
+		margin: 0 !important;
+		font-size: 14px;
+		height: 40px;
+	}
+
+	.amount_inner-left label,
+	.VPA_inner-left label,
+	.value-VPA,
+	.tip_links a,
+	.tip_links span {
+		font-size: 16px;
+	}
+
+	.qr-code-container.copy_btn canvas {
+		width: 40px !important;
+		height: 40px !important;
+	}
+
+	.login_btn-global.payment-submt-UTR button.SubmitBtn {
+		padding: 0 60px;
+		font-size: 20px;
+		height: 55px;
+	}
+
+	.payment_bottom-logo img {
+		width: 100px;
+	}
+
+	.payment-wrapper {
+		padding: 20px;
+	}
+
+	.payment-timer {
+		font-size: 20px;
+	}
+
+	.upiLogo img {
+		width: 120px;
+	}
+
+	.payment-copyright p {
+		font-size: 16px;
+		margin: 0 0 0px;
+	}
+
+	.UTR-field input {
+		font-size: 14px;
+	}
+
+	.payment-step-unique .steps_border-inner {
+		padding: 15px;
+	}
+
+	section.payment-section {
+		padding: 50px 0 50px;
+		position: relative;
+	}
+
+	.tip_links {
+		margin: 10px 0 30px;
+	}
+}
+
+@media (max-width:575px) {
+	.front-footer {
+		padding: 20px 0;
+	}
+
+	.front-footer .links {
+		flex-direction: column;
+		gap: 15px;
+	}
+}
+
+@media (max-width:480px) {
+	.amount_require {
+		flex-direction: column;
+	}
+
+	.copy_btn {
+		margin: 15px 0 0;
+		float: left;
+		width: 100%;
+	}
+
+	.amount_inner-left {
+		float: left;
+		width: 100%;
+	}
+
+	.VPA_upi-ct {
+		flex-direction: column;
+	}
+
+	.amount_inner-left label {
+		float: left;
+		width: 100%;
+		margin: 0 0 0px;
+	}
+
+	.VPA_inner-left {
+		display: flex;
+		align-items: center;
+		float: left;
+		width: 100%;
+	}
+
+	.qr-code-container.copy_btn {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		float: left;
+		width: 100%;
+	}
+
+	.amount_inner-left input {
+		width: 100%;
+		height: 40px;
+	}
+
+	.upiLogo {
+		margin: 0 0 20px;
+	}
+
+	.payment-step-unique {
+		margin: 0 0 15px;
+	}
+
+	.amount_inner-left span.text-danger {
+		position: relative;
+		left: 0;
+		bottom: 0;
+		font-size: 13px;
+	}
+
+	.amount-input {
+		float: left;
+		position: relative;
+		width: 100%;
+	}
+
+	.amount_inner-left {
+		float: left;
+		width: 100%;
+		flex-direction: column;
+	}
+}
+
+@media (max-width:370px) {
+	.copy_btn button {
+		width: 100%;
+	}
+
+	.qr-code-container.copy_btn canvas {
+		width: 80px !important;
+		height: 80px !important;
+	}
+
+	.qr-code-container.copy_btn {
+		flex-direction: column;
+	}
+
+	.warning_inner-ct p {
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	.step_title h5 {
+		font-size: 16px;
+		line-height: 24px;
+	}
+
+	.login_btn-global.payment-submt-UTR button.SubmitBtn {
+		padding: 0 20px;
+		font-size: 18px;
+		height: 50px;
+		width: 100%;
+	}
+
+	.payment_bottom-logo img {
+		width: 80px;
+	}
+
+	.payment-wrapper {
+		padding: 15px;
+		border-radius: 10px;
+	}
+
+	.tip_links {
+		text-align: center;
+	}
+
+	.tip_links a,
+	.tip_links span {
+		float: left;
+		width: 100%;
+	}
+}
+
+/*===================== Media Queries End =====================*/
+
+
+
+/* Jaspreet */
+
+@keyframes pendulum {
+
+	0%,
+	100% {
+		transform: translate(0, 0);
+	}
+
+	50% {
+		transform: translate(0, -10px);
+		/* Adjust the height of the pendulum swing */
+	}
+}
+
+.floating-pendulum {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 1000;
+	animation: pendulum 2s ease-in-out infinite;
+	/* Adjust the animation duration as needed */
+}
+.whatsapp-floating-icon img {
+	width: 35px;
+}
+
+
+
+/* Add appropriate styles for the submenu */
+/* .submenu {
+    display: none;
+    position: absolute;
+    background-color: white; 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.nav-link:hover .submenu {
+    display: block;
+} */
+
+/* You might need to adjust positioning, width, and other styles for the submenu */
+
+
+/* Jaspreet */

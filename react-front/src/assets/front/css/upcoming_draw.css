@@ -1,0 +1,29 @@
+.upcoming-draw{
+    border-radius:0px 0px 20px 20px;
+    background: #1C758A;
+    height:79px;
+    background: rgba(28, 117, 138, 0.1);
+    border-radius:54px 54px 160px 160px;
+    margin-top:-11px;
+}
+
+.upcoming-draw h3{
+    position: absolute;
+    width: 183px;
+    height: 17px;
+    left: 65px;
+    top: 20px;    
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 50px; 
+     /* or 58% */    
+    text-align: center;    
+    color: #0D3B54;
+}
+
+.upcoming-event-container{
+    overflow: hidden;   
+}
+

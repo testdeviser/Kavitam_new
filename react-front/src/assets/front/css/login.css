@@ -1,0 +1,32 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.signUP{
+position: absolute;
+width: 470px;
+height: 11px;
+left: 186px;
+top: 859px;
+
+font-family: 'Barlow';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 10px;
+
+/* or 71% */
+
+color: #6D6D6D;
+}
+
+
+
