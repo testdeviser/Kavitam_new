@@ -12598,11 +12598,11 @@ body {
 .sb-sidenav .sb-sidenav-menu .nav .nav-link {
   display: flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 12px 15px;
   font-size: 18px;
   font-weight: 400;
   position: relative;
-  margin: 3px 0;
+  margin: 0px 0;
   color: #fff;
   font-family: 'Barlow';
 }
