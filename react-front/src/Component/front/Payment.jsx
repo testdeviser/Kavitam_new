@@ -95,6 +95,17 @@ function Payment(props) {
         }
     };
 
+    const handleInputValidation = (e) => {
+        const minValue = 0; // Define your desired minimum value
+        const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+        const currentValue = parseFloat(e.target.value);
+
+        //if (currentValue < minValue || currentValue > maxValue) {
+        if (currentValue < minValue) {
+            e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+        }
+    };
+
     const SubmitHandler = (e) => {
         e.preventDefault();
         var target = e.currentTarget;
@@ -159,7 +170,7 @@ function Payment(props) {
                                                 <div className='amount_inner-left'>
                                                     <label>Amount:</label>
                                                     <div className="amount-input">
-                                                        <input type='number' name='amount' value={inputs.amount || ''} onChange={(e) => { setinputs({ ...inputs, amount: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} />
+                                                        <input type='number' name='amount' value={inputs.amount || ''} onChange={(e) => { setinputs({ ...inputs, amount: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} onInput={(e) => handleInputValidation(e)} />
                                                         <span className='text-danger'>{err.error.amount ? err.error.amount : ''}</span>
                                                     </div>
                                                 </div>

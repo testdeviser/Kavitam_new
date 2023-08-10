@@ -39,6 +39,10 @@ function Refferral(props) {
 
   }
 
+  // componentDidMount(){
+  //   fetchdata();
+  // }
+
   const shareOnInstagram = () => {
     const encodedReferralCode = encodeURIComponent(show.refferralCode);
     const instagramUrl = `https://www.instagram.com/?text=${encodedReferralCode}`;
@@ -71,11 +75,11 @@ function Refferral(props) {
     },
     {
       name: "Amount",
-      selector: (row) => row.amount
+      selector: (row) => row.total_amount
     },
     {
       name: "30% commission",
-      selector: (row) => row.commision
+      selector: (row) => row.total_commision
     },
     // {
     //   name: "Action",
@@ -98,11 +102,28 @@ function Refferral(props) {
 
   const inputRef = useRef(null);
 
+  const [isCopied, setIsCopied] = useState(false); // Add state for tracking copied text
+
+  // const handleCopy = () => {
+  //   const inputValue = inputRef.current.value;
+  //   navigator.clipboard.writeText(inputValue)
+  //     .then(() => {
+  //       console.log('Text copied to clipboard: ', inputValue);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error copying text to clipboard: ', error);
+  //     });
+  // };
+
   const handleCopy = () => {
     const inputValue = inputRef.current.value;
     navigator.clipboard.writeText(inputValue)
       .then(() => {
         console.log('Text copied to clipboard: ', inputValue);
+        setIsCopied(true); // Set the state to indicate that text is copied
+        setTimeout(() => {
+          setIsCopied(false); // Reset the state after 5 seconds
+        }, 5000); // 5000 milliseconds = 5 seconds
       })
       .catch((error) => {
         console.error('Error copying text to clipboard: ', error);
@@ -135,6 +156,7 @@ function Refferral(props) {
                 Copy
               </button>
             </div>
+            {isCopied && <p>Copied!</p>} {/* Show "Copied" when isCopied is true */}
           </div>
         </div>
 

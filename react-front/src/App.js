@@ -38,8 +38,8 @@ import GoogleTranslator from "./Component/front/GoogleTranslator";
 // import 'datatables.net-dt/js/dataTables.dataTables';
 
 
-// axios.defaults.baseURL = 'http://localhost:8000/';
-axios.defaults.baseURL = 'https://kavitam.com/lara_beckend/public';
+axios.defaults.baseURL = 'http://localhost:8000/';
+// axios.defaults.baseURL = 'https://kavitam.com/lara_beckend/public';
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.withCredentials = true;

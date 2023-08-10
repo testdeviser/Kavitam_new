@@ -409,7 +409,7 @@ function Register(props) {
                 <div className="login_btn-global">
                   <button type="submit" className='SubmitBtn mt-3 mb-2' value='Submit' >Submit</button>
                   {/* <button type="submit" className='SubmitBtn' value='Submit'>Submit</button>      */}
-                  <p>Already have an account in website? <Link to='/login' className='mt-3' style={{ 'color': '#FC8019' }}>Login</Link> here to signin.</p>
+                  <p>Already have an account on Kavitam? <Link to='/login' className='mt-3' style={{ 'color': '#FC8019' }}>Login</Link> here to signin.</p>
                   {/* <button type="reset" className="btn btn-danger mt-2" style={{marginLeft:'10px'}}>Reset</button> */}
                 </div>
               </form>

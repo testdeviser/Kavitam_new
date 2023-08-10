@@ -50,6 +50,7 @@ Route::post('/user/Register', [authentication::class, 'Register']);
 Route::post('/user/login', [authentication::class, 'login'])->name('loginn');
 Route::post('/user/changePassword', [authentication::class, 'changePassword'])->name('changePassword');
 Route::post('/user/addBankAccount', [BankController::class, 'index'])->name('addBankAccount');
+Route::post('/user/editBankAccount', [BankController::class, 'editBankAccount'])->name('editBankAccount');
 Route::post('/user/moneyWithdrawal', [BankController::class, 'moneyWithdrawal'])->name('moneyWithdrawal');
 Route::get('/user/bankDetails/{userId}', [BankController::class, 'bankDetails'])->name('bankDetails');
 

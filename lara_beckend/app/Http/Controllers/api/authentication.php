@@ -214,41 +214,66 @@ class authentication extends Controller
             ]);
         } else {
             $user = User::where('username', $req->username)->first();
-            if (!$user) {
+            if (!$user || !Hash::check($req->password, $user->password)) {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'Username does not exists !!',
+                    'message' => 'Invalid Username or Password !!',
                 ]);
             } else {
-                if (!Hash::check($req->password, $user->password)) {
-                    return response()->json([
-                        'status' => 404,
-                        'message' => 'Password  did not match !!',
-                    ]);
+                if ($user->role_as == 1) {
+                    $token = $user->createToken($user->name . '_AdminToken', ['server:admin'])->plainTextToken;
+                    $user_is = 'admin';
                 } else {
-                    if ($user->role_as == 1) {
-
-                        $token = $user->createToken($user->name . '_AdminToken', ['server:admin'])->plainTextToken;
-                        $user_is = 'admin';
-                    } else {
-                        $token = $user->createToken($user->name . '_Token', [''])->plainTextToken;
-                        $user_is = 'user';
-                    }
-
-                    return response()->json([
-                        'status' => 200,
-                        'userid' => $user->id,
-                        'username' => $user->username,
-                        'token' => $token,
-                        'message' => 'Loggedin Successfully',
-                        'user' => $user_is,
-                    ]);
+                    $token = $user->createToken($user->name . '_Token', [''])->plainTextToken;
+                    $user_is = 'user';
                 }
 
+                return response()->json([
+                    'status' => 200,
+                    'userid' => $user->id,
+                    'username' => $user->username,
+                    'token' => $token,
+                    'message' => 'Loggedin Successfully',
+                    'user' => $user_is,
+                ]);
             }
-
-
         }
+
+        // else {
+        //     $user = User::where('username', $req->username)->first();
+        //     if (!$user) {
+        //         return response()->json([
+        //             'status' => 404,
+        //             'message' => 'Username does not exists !!',
+        //         ]);
+        //     } else {
+        //         if (!Hash::check($req->password, $user->password)) {
+        //             return response()->json([
+        //                 'status' => 404,
+        //                 'message' => 'Password  did not match !!',
+        //             ]);
+        //         } else {
+        //             if ($user->role_as == 1) {
+
+        //                 $token = $user->createToken($user->name . '_AdminToken', ['server:admin'])->plainTextToken;
+        //                 $user_is = 'admin';
+        //             } else {
+        //                 $token = $user->createToken($user->name . '_Token', [''])->plainTextToken;
+        //                 $user_is = 'user';
+        //             }
+
+        //             return response()->json([
+        //                 'status' => 200,
+        //                 'userid' => $user->id,
+        //                 'username' => $user->username,
+        //                 'token' => $token,
+        //                 'message' => 'Loggedin Successfully',
+        //                 'user' => $user_is,
+        //             ]);
+        //         }
+
+        //     }
+        // }
     }
 
     public function profile(Request $req)

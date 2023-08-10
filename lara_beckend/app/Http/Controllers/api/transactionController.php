@@ -907,7 +907,7 @@ class transactionController extends Controller
                 'message' => 'Result Updated Successfully!',
             ]);
         } else {
-            // If no record exists, create a new one
+
             $user = EventResult::create([
                 'event_id' => $event,
                 'event_time' => $eventsTime,
@@ -928,103 +928,6 @@ class transactionController extends Controller
             }
         }
 
-
-
-        // $data = events::find($req->id);
-        // $data->result = $req->number;
-        // $res = $data->save();
-
-        $digits1 = str_split($req->number);
-        $frsstDigit = $digits1[0];
-        $scndDigit = $digits1[1];
-
-        $priceMultiplyBy = PriceMultiplyBy::first();
-        $main = $priceMultiplyBy->main;
-        $ander = $priceMultiplyBy->ander;
-        $bahar = $priceMultiplyBy->bahar;
-
-        $winning_users_frm_main = MainNumbers::where('number', $req->number)->where('event_id', $req->id)->get();
-        if (!empty($winning_users_frm_main)) {
-            foreach ($winning_users_frm_main as $key => $value) {
-                $userId = $value->userId;
-                $userAmount = $value->prize;
-                $winningPrice = $userAmount * $main;
-                $userWallet = Wallet::where('user_id', $userId)->first();
-                $userWalletId = $userWallet->id;
-                $priceAddedTowallet = Wallet::where('user_id', $userId)->increment('ammount', $winningPrice);
-
-                $transaction_history = new TransactionHistory();
-                $transaction_history->userId = $userId;
-                $transaction_history->walletId = $userWalletId;
-                $transaction_history->withdrawalId = 0;
-                $transaction_history->payment_mode = "Win";
-                $transaction_history->eventId = $req->id;
-                $transaction_history->price = $winningPrice;
-                $transaction_history->status = 'Cr';
-                $transaction_history->current_date = $currentDate;
-                $transaction_history->save();
-
-            }
-        }
-
-        $winning_users_frm_inner = inner::where('number', $frsstDigit)->where('event_id', $req->id)->get();
-        if (!empty($winning_users_frm_inner)) {
-            foreach ($winning_users_frm_inner as $key => $value1) {
-                $userId1 = $value1->userId;
-                $userAmount1 = $value1->price;
-                $winningPrice1 = $userAmount1 * $ander;
-                $userWallet1 = Wallet::where('user_id', $userId1)->first();
-                $userWalletId1 = $userWallet1->id;
-                $priceAddedTowallet1 = Wallet::where('user_id', $userId1)->increment('ammount', $winningPrice1);
-
-                $transaction_history = new TransactionHistory();
-                $transaction_history->userId = $userId1;
-                $transaction_history->walletId = $userWalletId1;
-                $transaction_history->withdrawalId = 0;
-                $transaction_history->payment_mode = "Win";
-                $transaction_history->eventId = $req->id;
-                $transaction_history->price = $winningPrice1;
-                $transaction_history->status = 'Cr';
-                $transaction_history->current_date = $currentDate;
-                $transaction_history->save();
-            }
-        }
-
-        $winning_users_frm_outer = outer::where('number', $scndDigit)->where('event_id', $req->id)->get();
-        if (!empty($winning_users_frm_outer)) {
-            foreach ($winning_users_frm_outer as $key => $value2) {
-                $userId2 = $value2->userId;
-                $userAmount2 = $value2->price;
-                $winningPrice2 = $userAmount2 * $bahar;
-                $userWallet2 = Wallet::where('user_id', $userId2)->first();
-                $userWalletId2 = $userWallet2->id;
-                $priceAddedTowallet2 = Wallet::where('user_id', $userId2)->increment('ammount', $winningPrice2);
-
-                $transaction_history = new TransactionHistory();
-                $transaction_history->userId = $userId2;
-                $transaction_history->walletId = $userWalletId2;
-                $transaction_history->withdrawalId = 0;
-                $transaction_history->payment_mode = "Win";
-                $transaction_history->eventId = $req->id;
-                $transaction_history->price = $winningPrice2;
-                $transaction_history->status = 'Cr';
-                $transaction_history->current_date = $currentDate;
-                $transaction_history->save();
-            }
-        }
-
-        if ($user) {
-            return response()->json([
-                'status' => 200,
-                'message' => 'Result Announce Successfully!',
-            ]);
-        } else {
-            return response()->json([
-                'status' => 401,
-                'message' => 'not found!',
-            ]);
-        }
-
     }
 
     public function finalResult(Request $req)
@@ -1041,13 +944,87 @@ class transactionController extends Controller
             ->first();
 
         if ($existingRecord) {
-            // // If a record exists, update the 'result' column
-            // $existingRecord->update(['result' => $number]);
 
-            // return response()->json([
-            //     'status' => 200,
-            //     'message' => 'Result Updated Successfully!',
-            // ]);
+            $num = $existingRecord['result'];
+
+            $digits1 = str_split($num);
+            $frsstDigit = $digits1[0];
+            $scndDigit = $digits1[1];
+
+            $priceMultiplyBy = PriceMultiplyBy::first();
+            $main = $priceMultiplyBy->main;
+            $ander = $priceMultiplyBy->ander;
+            $bahar = $priceMultiplyBy->bahar;
+
+            $winning_users_frm_main = MainNumbers::where('number', $num)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            if (!empty($winning_users_frm_main)) {
+                foreach ($winning_users_frm_main as $key => $value) {
+                    $userId = $value->userId;
+                    $userAmount = $value->prize;
+                    $winningPrice = $userAmount * $main;
+                    $userWallet = Wallet::where('user_id', $userId)->first();
+                    $userWalletId = $userWallet->id;
+                    $priceAddedTowallet = Wallet::where('user_id', $userId)->increment('ammount', $winningPrice);
+
+                    $transaction_history = new TransactionHistory();
+                    $transaction_history->userId = $userId;
+                    $transaction_history->walletId = $userWalletId;
+                    $transaction_history->withdrawalId = 0;
+                    $transaction_history->payment_mode = "Win";
+                    $transaction_history->eventId = $req->event;
+                    $transaction_history->price = $winningPrice;
+                    $transaction_history->status = 'Cr';
+                    $transaction_history->current_date = $currentDate;
+                    $transaction_history->save();
+
+                }
+            }
+
+            $winning_users_frm_inner = inner::where('number', $frsstDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            if (!empty($winning_users_frm_inner)) {
+                foreach ($winning_users_frm_inner as $key => $value1) {
+                    $userId1 = $value1->userId;
+                    $userAmount1 = $value1->price;
+                    $winningPrice1 = $userAmount1 * $ander;
+                    $userWallet1 = Wallet::where('user_id', $userId1)->first();
+                    $userWalletId1 = $userWallet1->id;
+                    $priceAddedTowallet1 = Wallet::where('user_id', $userId1)->increment('ammount', $winningPrice1);
+
+                    $transaction_history = new TransactionHistory();
+                    $transaction_history->userId = $userId1;
+                    $transaction_history->walletId = $userWalletId1;
+                    $transaction_history->withdrawalId = 0;
+                    $transaction_history->payment_mode = "Win";
+                    $transaction_history->eventId = $req->event;
+                    $transaction_history->price = $winningPrice1;
+                    $transaction_history->status = 'Cr';
+                    $transaction_history->current_date = $currentDate;
+                    $transaction_history->save();
+                }
+            }
+
+            $winning_users_frm_outer = outer::where('number', $scndDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            if (!empty($winning_users_frm_outer)) {
+                foreach ($winning_users_frm_outer as $key => $value2) {
+                    $userId2 = $value2->userId;
+                    $userAmount2 = $value2->price;
+                    $winningPrice2 = $userAmount2 * $bahar;
+                    $userWallet2 = Wallet::where('user_id', $userId2)->first();
+                    $userWalletId2 = $userWallet2->id;
+                    $priceAddedTowallet2 = Wallet::where('user_id', $userId2)->increment('ammount', $winningPrice2);
+
+                    $transaction_history = new TransactionHistory();
+                    $transaction_history->userId = $userId2;
+                    $transaction_history->walletId = $userWalletId2;
+                    $transaction_history->withdrawalId = 0;
+                    $transaction_history->payment_mode = "Win";
+                    $transaction_history->eventId = $req->event;
+                    $transaction_history->price = $winningPrice2;
+                    $transaction_history->status = 'Cr';
+                    $transaction_history->current_date = $currentDate;
+                    $transaction_history->save();
+                }
+            }
         } else {
 
             // If no record exists, create a new one
@@ -1057,6 +1034,85 @@ class transactionController extends Controller
                 'current_date' => $currentDate,
                 'result' => $number,
             ]);
+
+            $digits1 = str_split($req->number);
+            $frsstDigit = $digits1[0];
+            $scndDigit = $digits1[1];
+
+            $priceMultiplyBy = PriceMultiplyBy::first();
+            $main = $priceMultiplyBy->main;
+            $ander = $priceMultiplyBy->ander;
+            $bahar = $priceMultiplyBy->bahar;
+
+            $winning_users_frm_main = MainNumbers::where('number', $req->number)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            if (!empty($winning_users_frm_main)) {
+                foreach ($winning_users_frm_main as $key => $value) {
+                    $userId = $value->userId;
+                    $userAmount = $value->prize;
+                    $winningPrice = $userAmount * $main;
+                    $userWallet = Wallet::where('user_id', $userId)->first();
+                    $userWalletId = $userWallet->id;
+                    $priceAddedTowallet = Wallet::where('user_id', $userId)->increment('ammount', $winningPrice);
+
+                    $transaction_history = new TransactionHistory();
+                    $transaction_history->userId = $userId;
+                    $transaction_history->walletId = $userWalletId;
+                    $transaction_history->withdrawalId = 0;
+                    $transaction_history->payment_mode = "Win";
+                    $transaction_history->eventId = $req->event;
+                    $transaction_history->price = $winningPrice;
+                    $transaction_history->status = 'Cr';
+                    $transaction_history->current_date = $currentDate;
+                    $transaction_history->save();
+
+                }
+            }
+
+            $winning_users_frm_inner = inner::where('number', $frsstDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            if (!empty($winning_users_frm_inner)) {
+                foreach ($winning_users_frm_inner as $key => $value1) {
+                    $userId1 = $value1->userId;
+                    $userAmount1 = $value1->price;
+                    $winningPrice1 = $userAmount1 * $ander;
+                    $userWallet1 = Wallet::where('user_id', $userId1)->first();
+                    $userWalletId1 = $userWallet1->id;
+                    $priceAddedTowallet1 = Wallet::where('user_id', $userId1)->increment('ammount', $winningPrice1);
+
+                    $transaction_history = new TransactionHistory();
+                    $transaction_history->userId = $userId1;
+                    $transaction_history->walletId = $userWalletId1;
+                    $transaction_history->withdrawalId = 0;
+                    $transaction_history->payment_mode = "Win";
+                    $transaction_history->eventId = $req->event;
+                    $transaction_history->price = $winningPrice1;
+                    $transaction_history->status = 'Cr';
+                    $transaction_history->current_date = $currentDate;
+                    $transaction_history->save();
+                }
+            }
+
+            $winning_users_frm_outer = outer::where('number', $scndDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            if (!empty($winning_users_frm_outer)) {
+                foreach ($winning_users_frm_outer as $key => $value2) {
+                    $userId2 = $value2->userId;
+                    $userAmount2 = $value2->price;
+                    $winningPrice2 = $userAmount2 * $bahar;
+                    $userWallet2 = Wallet::where('user_id', $userId2)->first();
+                    $userWalletId2 = $userWallet2->id;
+                    $priceAddedTowallet2 = Wallet::where('user_id', $userId2)->increment('ammount', $winningPrice2);
+
+                    $transaction_history = new TransactionHistory();
+                    $transaction_history->userId = $userId2;
+                    $transaction_history->walletId = $userWalletId2;
+                    $transaction_history->withdrawalId = 0;
+                    $transaction_history->payment_mode = "Win";
+                    $transaction_history->eventId = $req->event;
+                    $transaction_history->price = $winningPrice2;
+                    $transaction_history->status = 'Cr';
+                    $transaction_history->current_date = $currentDate;
+                    $transaction_history->save();
+                }
+            }
 
             // $testing = [
             //     'event_id' => $event,
@@ -1077,103 +1133,6 @@ class transactionController extends Controller
                     'message' => 'Not Found!',
                 ]);
             }
-        }
-
-
-
-        // $data = events::find($req->id);
-        // $data->result = $req->number;
-        // $res = $data->save();
-
-        $digits1 = str_split($req->number);
-        $frsstDigit = $digits1[0];
-        $scndDigit = $digits1[1];
-
-        $priceMultiplyBy = PriceMultiplyBy::first();
-        $main = $priceMultiplyBy->main;
-        $ander = $priceMultiplyBy->ander;
-        $bahar = $priceMultiplyBy->bahar;
-
-        $winning_users_frm_main = MainNumbers::where('number', $req->number)->where('event_id', $req->event)->get();
-        if (!empty($winning_users_frm_main)) {
-            foreach ($winning_users_frm_main as $key => $value) {
-                $userId = $value->userId;
-                $userAmount = $value->prize;
-                $winningPrice = $userAmount * $main;
-                $userWallet = Wallet::where('user_id', $userId)->first();
-                $userWalletId = $userWallet->id;
-                $priceAddedTowallet = Wallet::where('user_id', $userId)->increment('ammount', $winningPrice);
-
-                $transaction_history = new TransactionHistory();
-                $transaction_history->userId = $userId;
-                $transaction_history->walletId = $userWalletId;
-                $transaction_history->withdrawalId = 0;
-                $transaction_history->payment_mode = "Win";
-                $transaction_history->eventId = $req->event;
-                $transaction_history->price = $winningPrice;
-                $transaction_history->status = 'Cr';
-                $transaction_history->current_date = $currentDate;
-                $transaction_history->save();
-
-            }
-        }
-
-        $winning_users_frm_inner = inner::where('number', $frsstDigit)->where('event_id', $req->event)->get();
-        if (!empty($winning_users_frm_inner)) {
-            foreach ($winning_users_frm_inner as $key => $value1) {
-                $userId1 = $value1->userId;
-                $userAmount1 = $value1->price;
-                $winningPrice1 = $userAmount1 * $ander;
-                $userWallet1 = Wallet::where('user_id', $userId1)->first();
-                $userWalletId1 = $userWallet1->id;
-                $priceAddedTowallet1 = Wallet::where('user_id', $userId1)->increment('ammount', $winningPrice1);
-
-                $transaction_history = new TransactionHistory();
-                $transaction_history->userId = $userId1;
-                $transaction_history->walletId = $userWalletId1;
-                $transaction_history->withdrawalId = 0;
-                $transaction_history->payment_mode = "Win";
-                $transaction_history->eventId = $req->event;
-                $transaction_history->price = $winningPrice1;
-                $transaction_history->status = 'Cr';
-                $transaction_history->current_date = $currentDate;
-                $transaction_history->save();
-            }
-        }
-
-        $winning_users_frm_outer = outer::where('number', $scndDigit)->where('event_id', $req->event)->get();
-        if (!empty($winning_users_frm_outer)) {
-            foreach ($winning_users_frm_outer as $key => $value2) {
-                $userId2 = $value2->userId;
-                $userAmount2 = $value2->price;
-                $winningPrice2 = $userAmount2 * $bahar;
-                $userWallet2 = Wallet::where('user_id', $userId2)->first();
-                $userWalletId2 = $userWallet2->id;
-                $priceAddedTowallet2 = Wallet::where('user_id', $userId2)->increment('ammount', $winningPrice2);
-
-                $transaction_history = new TransactionHistory();
-                $transaction_history->userId = $userId2;
-                $transaction_history->walletId = $userWalletId2;
-                $transaction_history->withdrawalId = 0;
-                $transaction_history->payment_mode = "Win";
-                $transaction_history->eventId = $req->event;
-                $transaction_history->price = $winningPrice2;
-                $transaction_history->status = 'Cr';
-                $transaction_history->current_date = $currentDate;
-                $transaction_history->save();
-            }
-        }
-
-        if ($res) {
-            return response()->json([
-                'status' => 200,
-                'message' => 'Result Announce Successfully!',
-            ]);
-        } else {
-            return response()->json([
-                'status' => 401,
-                'message' => 'not found!',
-            ]);
         }
 
     }
@@ -1324,14 +1283,11 @@ class transactionController extends Controller
     {
 
         $user = auth('sanctum')->user();
+        //$data = Referral::where('referred_by_userid', $user->id)->get();
         $sumData = Referral::where('referred_by_userid', $user->id)
             ->select('referred_to_userid', \DB::raw('SUM(amount) as total_amount'), \DB::raw('SUM(commision) as total_commision'))
             ->groupBy('referred_to_userid')
             ->get();
-
-        // echo "<pre>";
-        // print_r($sumData);
-
 
         if ($sumData) {
             return response()->json([

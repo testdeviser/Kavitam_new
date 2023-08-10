@@ -17,7 +17,7 @@ function Game(props) {
   const navigate = useNavigate();
   const [dataa, setdataa] = useState({
     event: [],
-    no_of_result: 4,
+    no_of_result: 17,
     showAllButton: true,
     showLessButton: false
   });
@@ -38,7 +38,7 @@ function Game(props) {
   };
 
   const viewLessbtn = () => {
-    setdataa({ ...dataa, no_of_result: 4, showAllButton: true, showLessButton: false });
+    setdataa({ ...dataa, no_of_result: 17, showAllButton: true, showLessButton: false });
   };
 
   const data11 = dataa.event.slice(0, dataa.no_of_result);
@@ -892,8 +892,8 @@ function Game(props) {
                 name="updated_event_time1"
                 value={updatedEventsTime1}
               />
-              <h3 className="mobile-hide">Pick your lucky number</h3>
-              <h3 className="mobile-show">Quick Pick or Choose Your Own Numbers</h3>
+              <h3 className="mobile-hide">Last Result is:</h3>
+              <h3 className="mobile-show">Choose your lucky number</h3>
               <div className="time_flex-right">
                 {/* <button className="figmabtn wallet-btn">
                   {" "}
