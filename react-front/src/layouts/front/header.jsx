@@ -322,11 +322,11 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                         <div className="page-details"><p>Sign-up to create an account</p></div>
                     ) : pageName === 'game' ? (
                         <div>
-                            <div className="page-name">Numbers</div>
-                            <div className="dice-icon">
+                            {/* <div className="page-name">Numbers</div> */}
+                            {/* <div className="dice-icon">
                                 <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div>
+                            </div> */}
+                            <div className="page-details"><p>Choose your lucky number</p></div>
                         </div>
                     ) : pageName === 'privacypolicy' ? (
                         <div>
@@ -334,7 +334,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                             <div className="dice-icon">
                                 <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
                             </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
+                            {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
                         </div>
                     ) : pageName === 'faq' ? (
                         <div>
@@ -342,7 +342,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                             <div className="dice-icon">
                                 <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
                             </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
+                            {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
                         </div>
                     ) : pageName === 'contactus' ? (
                         <div>
@@ -350,7 +350,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                             <div className="dice-icon">
                                 <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
                             </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
+                            {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
                         </div>
                     ) : pageName === 'payment' ? (
                         <div>
@@ -358,7 +358,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                             <div className="dice-icon">
                                 <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
                             </div>
-                            <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
+                            <div className="page-details"><p>Choose your lucky number</p></div> */}
                         </div>
                     ) : pageName === 'termsconditions' ? (
                         <div>
@@ -366,7 +366,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                             <div className="dice-icon">
                                 <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
                             </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
+                            {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
                         </div>
                     ) : pageName === 'aboutus' ? (
                         <div>
@@ -374,7 +374,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                             <div className="dice-icon">
                                 <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
                             </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
+                            {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
                         </div>
                     ) : pageName === 'allEventResults' ? (
                         <div>
@@ -382,7 +382,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                             <div className="dice-icon">
                                 <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
                             </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
+                            {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
                         </div>
                     ) : pageName === 'setting' || pageName === 'mynumbers' || pageName === 'Setting/wallet' || pageName === 'Setting' || pageName === 'Setting/changePassword' || pageName === 'Setting/Refferral' || pageName === 'Setting/history' || pageName === 'Setting/withdrawal' || pageName === 'Setting/wallet/refferal-history' ? (
                         <div>

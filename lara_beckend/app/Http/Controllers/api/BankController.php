@@ -50,6 +50,41 @@ class BankController extends Controller
         }
     }
 
+    public function editBankAccount(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'bank_holder_name' => 'required|string',
+            'account_no' => 'required|numeric|digits_between:11,14',
+            'confirm_account_no' => 'required|same:account_no',
+            'ifsc_code' => 'required',
+            //'ifsc_code' => 'required|regex:/^[a-zA-Z0-9]{11}$/',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 401,
+                'error' => $validator->messages(),
+            ]);
+        } else {
+            $userId = $request->user_id;
+            $bank_holder_name = $request->bank_holder_name;
+            $account_no = $request->account_no;
+            $ifsc_code = $request->ifsc_code;
+
+            $userBankDetails = BankDetails::where('user_id', $userId)->first();
+            $userBankDetails->bank_holder_name = $bank_holder_name;
+            $userBankDetails->account_no = $account_no;
+            $userBankDetails->ifsc_code = $ifsc_code;
+            $userBankDetails->update();
+
+            return response()->json([
+                'status' => 200,
+                'data' => $userBankDetails,
+                'message' => 'Bank Details updated Successfully',
+            ]);
+        }
+    }
+
     public function moneyWithdrawal(Request $request)
     {
         $user = auth('sanctum')->user();
