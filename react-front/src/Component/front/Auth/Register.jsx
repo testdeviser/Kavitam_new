@@ -246,6 +246,24 @@ function Register(props) {
 
   }
 
+  const handleAmountKeyPress = (e) => {
+    const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
+    if (!allowedCharacters.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  const handleInputValidation = (e) => {
+    const minValue = 0; // Define your desired minimum value
+    const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+    const currentValue = parseFloat(e.target.value);
+
+    //if (currentValue < minValue || currentValue > maxValue) {
+    if (currentValue < minValue) {
+      e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+    }
+  };
+
 
   var password_suggestion = '';
   // if(p_suggestion )
@@ -366,7 +384,8 @@ function Register(props) {
 
                 <div className="input-container login_input">
                   <label htmlFor="email" className='login-label'>Phone number</label>
-                  <input type="number" className="register-input" name="phone" maxLength={15} minLength={10} onChange={phonehandler} disabled={inputs.verify_phone ? true : false} />
+                  <input type="number" className="register-input" name="phone" maxLength={15} minLength={10} onChange={phonehandler} onKeyPress={(e) => handleAmountKeyPress(e)}
+                    onInput={(e) => handleInputValidation(e)} disabled={inputs.verify_phone ? true : false} />
                   <span className='text-danger'>{err.error.phone ? err.error.phone : ''}</span>
                 </div>
 

@@ -24,6 +24,7 @@ use App\Models\refferalHistory;
 use App\Models\Referral;
 use \stdClass;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class transactionController extends Controller
 {
@@ -90,6 +91,7 @@ class transactionController extends Controller
                         $transaction_history->userId = $user->id;
                         $transaction_history->walletId = $wallet->id;
                         $transaction_history->withdrawalId = 0;
+                        $transaction_history->UpiId = 0;
                         $transaction_history->payment_mode = "Game Play";
                         $transaction_history->eventId = $event_id;
                         $transaction_history->price = $grandTotal;
@@ -111,6 +113,7 @@ class transactionController extends Controller
                                 $transaction_history->userId = $referredByUser->id;
                                 $transaction_history->walletId = $referredByUserWalletId->id;
                                 $transaction_history->withdrawalId = 0;
+                                $transaction_history->UpiId = 0;
                                 $transaction_history->payment_mode = "Refferal amount";
                                 $transaction_history->eventId = $event_id;
                                 $transaction_history->price = $commission;
@@ -210,6 +213,7 @@ class transactionController extends Controller
                         $transaction_history->userId = $user->id;
                         $transaction_history->walletId = $wallet->id;
                         $transaction_history->withdrawalId = 0;
+                        $transaction_history->UpiId = 0;
                         $transaction_history->payment_mode = "Game Play";
                         $transaction_history->eventId = $event_id;
                         $transaction_history->price = $grandTotal;
@@ -945,7 +949,17 @@ class transactionController extends Controller
 
         if ($existingRecord) {
 
-            $num = $existingRecord['result'];
+            $numb = $existingRecord['result'];
+
+            if ($numb < 10) {
+                $num_padded = sprintf("%02d", $numb);
+                $numberkey = (string) $num_padded;
+                $num = $numberkey;
+            } else {
+                $num = $numb;
+                //$randomNumber = $nonExistingNumbers[$firstIndex];
+            }
+
 
             $digits1 = str_split($num);
             $frsstDigit = $digits1[0];
@@ -970,6 +984,7 @@ class transactionController extends Controller
                     $transaction_history->userId = $userId;
                     $transaction_history->walletId = $userWalletId;
                     $transaction_history->withdrawalId = 0;
+                    $transaction_history->UpiId = 0;
                     $transaction_history->payment_mode = "Win";
                     $transaction_history->eventId = $req->event;
                     $transaction_history->price = $winningPrice;
@@ -994,6 +1009,7 @@ class transactionController extends Controller
                     $transaction_history->userId = $userId1;
                     $transaction_history->walletId = $userWalletId1;
                     $transaction_history->withdrawalId = 0;
+                    $transaction_history->UpiId = 0;
                     $transaction_history->payment_mode = "Win";
                     $transaction_history->eventId = $req->event;
                     $transaction_history->price = $winningPrice1;
@@ -1017,6 +1033,7 @@ class transactionController extends Controller
                     $transaction_history->userId = $userId2;
                     $transaction_history->walletId = $userWalletId2;
                     $transaction_history->withdrawalId = 0;
+                    $transaction_history->UpiId = 0;
                     $transaction_history->payment_mode = "Win";
                     $transaction_history->eventId = $req->event;
                     $transaction_history->price = $winningPrice2;
@@ -1035,7 +1052,18 @@ class transactionController extends Controller
                 'result' => $number,
             ]);
 
-            $digits1 = str_split($req->number);
+            $numb = $req->number;
+
+            if ($numb < 10) {
+                $num_padded = sprintf("%02d", $numb);
+                $numberkey = (string) $num_padded;
+                $num = $numberkey;
+            } else {
+                $num = $numb;
+                //$randomNumber = $nonExistingNumbers[$firstIndex];
+            }
+
+            $digits1 = str_split($num);
             $frsstDigit = $digits1[0];
             $scndDigit = $digits1[1];
 
@@ -1044,7 +1072,7 @@ class transactionController extends Controller
             $ander = $priceMultiplyBy->ander;
             $bahar = $priceMultiplyBy->bahar;
 
-            $winning_users_frm_main = MainNumbers::where('number', $req->number)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            $winning_users_frm_main = MainNumbers::where('number', $num)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
             if (!empty($winning_users_frm_main)) {
                 foreach ($winning_users_frm_main as $key => $value) {
                     $userId = $value->userId;
@@ -1058,6 +1086,7 @@ class transactionController extends Controller
                     $transaction_history->userId = $userId;
                     $transaction_history->walletId = $userWalletId;
                     $transaction_history->withdrawalId = 0;
+                    $transaction_history->UpiId = 0;
                     $transaction_history->payment_mode = "Win";
                     $transaction_history->eventId = $req->event;
                     $transaction_history->price = $winningPrice;
@@ -1082,6 +1111,7 @@ class transactionController extends Controller
                     $transaction_history->userId = $userId1;
                     $transaction_history->walletId = $userWalletId1;
                     $transaction_history->withdrawalId = 0;
+                    $transaction_history->UpiId = 0;
                     $transaction_history->payment_mode = "Win";
                     $transaction_history->eventId = $req->event;
                     $transaction_history->price = $winningPrice1;
@@ -1105,6 +1135,7 @@ class transactionController extends Controller
                     $transaction_history->userId = $userId2;
                     $transaction_history->walletId = $userWalletId2;
                     $transaction_history->withdrawalId = 0;
+                    $transaction_history->UpiId = 0;
                     $transaction_history->payment_mode = "Win";
                     $transaction_history->eventId = $req->event;
                     $transaction_history->price = $winningPrice2;

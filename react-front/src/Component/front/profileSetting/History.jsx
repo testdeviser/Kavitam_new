@@ -218,7 +218,7 @@ function History(props) {
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <td className="sub-menu" colSpan={2}>Ander</td>
+                                                            <td className="sub-menu" colSpan={2}>Andar</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -354,7 +354,7 @@ function History(props) {
                     //                             <table>
                     //                                 <thead>
                     //                                     <tr>
-                    //                                         <td className="sub-menu" colSpan={2}>Ander</td>
+                    //                                         <td className="sub-menu" colSpan={2}>Andar</td>
                     //                                     </tr>
                     //                                 </thead>
                     //                                 <tbody>
@@ -495,7 +495,7 @@ function History(props) {
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <td className="sub-menu" colSpan={2}>Ander</td>
+                                                            <td className="sub-menu" colSpan={2}>Andar</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -636,7 +636,7 @@ function History(props) {
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <td className="sub-menu" colSpan={2}>Ander</td>
+                                                            <td className="sub-menu" colSpan={2}>Andar</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -777,7 +777,7 @@ function History(props) {
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <td className="sub-menu" colSpan={2}>Ander</td>
+                                                            <td className="sub-menu" colSpan={2}>Andar</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -897,7 +897,7 @@ function History(props) {
                                 <table>
                                     <thead>
                                         <tr>
-                                            <td className="sub-menu" colspan={2}>Ander</td>
+                                            <td className="sub-menu" colspan={2}>Andar</td>
                                         </tr>
                                     </thead>
                                     <tbody>

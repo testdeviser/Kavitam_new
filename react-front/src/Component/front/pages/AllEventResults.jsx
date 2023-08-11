@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FaCalendarAlt } from "react-icons/fa";
 
 function AllEventResults(props) {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -10,7 +11,7 @@ function AllEventResults(props) {
     });
     const [data, setdata] = useState({
         event: [],
-        no_of_result: 4,
+        no_of_result: 17,
     });
 
     const fetch_events = () => {
@@ -56,7 +57,9 @@ function AllEventResults(props) {
                         onChange={date => setSelectedDate(date)}
                         maxDate={new Date()}
                         dateFormat="dd/MM/yyyy"
+                        //customInput={<CustomDatePickerInput />}
                     />
+                    {/* <FaCalendarAlt className="calendar-icon" /> */}
 
                     <div className="row show_result_seclive">
                         {eventResults.map((e, i) => {
@@ -131,5 +134,13 @@ function AllEventResults(props) {
         </React.Fragment>
     );
 }
+
+const CustomDatePickerInput = ({ value, onClick }) => (
+    <div className="custom-datepicker-input" onClick={onClick}>
+        <FaCalendarAlt className="calendar-icon" onClick={onClick} /> {/* Calendar icon */}
+        <span className="date-value">{value}</span>
+    </div>
+);
+
 
 export default AllEventResults;

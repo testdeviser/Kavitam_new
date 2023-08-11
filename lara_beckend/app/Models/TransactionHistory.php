@@ -13,6 +13,7 @@ class TransactionHistory extends Model
         'userId',
         'walletId',
         'withdrawalId',
+        'UpiId',
         'payment_mode',
         'eventId',
         'price',

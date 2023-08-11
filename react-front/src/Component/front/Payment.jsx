@@ -84,9 +84,20 @@ function Payment(props) {
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
+        // console.log(minutes);
         const seconds = time % 60;
+        // console.log(seconds);
+
+        // console.log(seconds);
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
+
+    useEffect(() => {
+        if (formatTime(time) <= "00:00") {
+            navigate('/game');
+        }
+    }, [time]);
+
 
     const handleAmountKeyPress = (e) => {
         const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
@@ -126,13 +137,13 @@ function Payment(props) {
                     icon: 'success',
                     title: res.data.message,
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 30000
                 });
                 // localStorage.setItem('auth_token', res.data.token);
                 // localStorage.setItem('user_name', res.data.username);
                 // localStorage.setItem('user_id', res.data.userid);
 
-                navigate('/game');
+                //navigate('/game');
             }
             else {
                 seterr({ error: res.data.error });
@@ -160,7 +171,7 @@ function Payment(props) {
                             <form onSubmit={SubmitHandler}>
                                 <div className='upiLogo define_float'>
                                     <img src={process.env.PUBLIC_URL + '/image/upilogo.webp'} alt="circle_dot-left" />
-                                    {/* <div className='payment-timer'>{formatTime(time)}</div> */}
+                                    <div className='payment-timer'>{formatTime(time)}</div>
                                 </div>
                                 <div className="steps_main-wrapper define_float">
                                     <div className='step1 payment-step-unique define_float'>
@@ -183,13 +194,22 @@ function Payment(props) {
                                                     <label>VPA/UPI:{' '}</label>
                                                     {/* <div className='value-VPA'>{upiValue}</div> */}
                                                     <div className='value-VPA'>{upiId}</div>
+                                                    <div className='qr-code-container copy_btn'>
+                                                        {/* <img src={qrImage} width={60} height={60} /> */}
+                                                        <button type="button" onClick={handleCopyUPI}>Copy</button>
+                                                        {isCopied && <span className="copy-success-message">Copied!</span>}
+                                                    </div>
                                                 </div>
 
-                                                <div className='qr-code-container copy_btn'>
+                                                {/* <div className='qr-code-container copy_btn'>
                                                     {isCopied && <span className="copy-success-message">Copied!</span>}
                                                     <img src={qrImage} width={60} height={60} />
                                                     <button type="button" onClick={handleCopyUPI}>Copy</button>
-                                                </div>
+                                                </div> */}
+                                            </div>
+
+                                            <div className='qrCode'>
+                                                <img src={qrImage} width={150} height={150} />
                                             </div>
 
                                             <div className='googlePhonePay'>

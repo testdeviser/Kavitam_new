@@ -73,7 +73,7 @@ class MynumbersController extends Controller
         //$result = events::where('result', '!=', null)->orderByDesc('id')->get();
         //$result = EventResult::orderByDesc('id')->get();
         $currentDate = Carbon::now()->format('Y-m-d');
-        $result = EventResult::where('current_date', $currentDate)->orderByDesc('id')->get();
+        $result = EventResult::where('current_date', $currentDate)->orderBy('id')->get();
         if (!empty($result)) {
             foreach ($result as $key => $value) {
                 $resVal = $value->result;

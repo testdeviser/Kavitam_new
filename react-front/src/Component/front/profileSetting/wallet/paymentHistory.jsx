@@ -14,6 +14,7 @@ function PaymentHistory(props) {
     try {
       const res = await axios.get('/api/transactionHistory');
       if (res.data.status === 200) {
+        console.log(res.data.transaction);
         setdata(res.data.transaction);
       }
     } catch (error) {
@@ -39,7 +40,10 @@ function PaymentHistory(props) {
           return 'Debits';
         } else if (row.status === 'Dr-Pending') {
           return 'Debits-Pending';
-        } else {
+        } else if (row.status === 'Pending') {
+          return 'Pending';
+        }
+        else {
           return 'Unknown Status';
         }
       },

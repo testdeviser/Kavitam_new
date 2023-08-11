@@ -2,14 +2,9 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import Navbar from "../../../layouts/front/navbar";
 import "bootstrap/dist/css/bootstrap.css";
 import "./../../../assets/front/css/home.css";
-import Prize_Model_box from "../model";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
-import CountDouwn from "../CountDown/CountDouwn";
-import Event from "../Events/Event";
-import moment from "moment";
-import Header from "../../../layouts/front/header";
 import { WalletContext } from "../../../WalletContext";
 
 function Game(props) {
@@ -826,6 +821,26 @@ function Game(props) {
   const data2 = inner.slice(firstIndex, lastIndex);
   const data3 = outer.slice(firstIndex, lastIndex);
 
+  function format12HourTime() {
+    const lastResultTime = data11[0].event_time;
+
+    const [lasthours, lastminutes] = lastResultTime.split(':');
+
+    // Convert hours to a number
+    const hoursNum = parseInt(lasthours);
+
+    // Determine whether it's AM or PM
+    const period = hoursNum >= 12 ? 'PM' : 'AM';
+
+    // Convert hours to 12-hour format
+    const hours12 = hoursNum % 12 || 12;
+
+    // Create the formatted time string
+    const formattedTime = `${hours12}:${lastminutes} ${period}`;
+    return formattedTime;
+  }
+
+
 
   if (loading) {
     return (
@@ -892,7 +907,18 @@ function Game(props) {
                 name="updated_event_time1"
                 value={updatedEventsTime1}
               />
-              <h3 className="mobile-hide">Last Result is:</h3>
+              <h3 className="mobile-hide">Last Result is:
+                {
+                  data11?.length > 0 && (
+                    <div>
+                      <h4>{data11[0].result}</h4>
+                      <p className='event-time'>
+                        {format12HourTime(data11[0].event_time)}
+                      </p>
+                    </div>
+                  )
+                }
+              </h3>
               <h3 className="mobile-show">Choose your lucky number</h3>
               <div className="time_flex-right">
                 {/* <button className="figmabtn wallet-btn">
@@ -1071,7 +1097,7 @@ function Game(props) {
                       </button>
                     </div>
                     <div id="countdownDiv1" className="main_num">
-                      <h3 className="underline text-center mb-3">Ander</h3>
+                      <h3 className="underline text-center mb-3">Andar</h3>
                       {[...Array(10)].map((n, i) => {
                         i += 0;
                         return (
@@ -1185,7 +1211,7 @@ function Game(props) {
                             <thead>
                               <tr>
                                 <td className="sub-menu" colSpan={2}>
-                                  Ander
+                                  Andar
                                 </td>
                               </tr>
                             </thead>
@@ -1318,7 +1344,7 @@ function Game(props) {
                         <thead>
                           <tr>
                             <td className="sub-menu" colSpan={2}>
-                              Ander
+                              Andar
                             </td>
                           </tr>
                         </thead>
