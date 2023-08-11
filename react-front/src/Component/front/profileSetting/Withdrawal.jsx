@@ -172,7 +172,11 @@ function Withdrawal(props) {
             ...prevState,
             [name]: value,
         }));
-        setErrors({});
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: '', // Clear the error for this field
+        }));
+        //setErrors({});
         setShowReceivedAmount(!!value); // Show received amount div if value is not empty
     };
 
@@ -197,14 +201,32 @@ function Withdrawal(props) {
 
     // ... (Other states and useEffects)
 
-    const handleEdit = () => {
+    const handleEdit = async () => {
         setEditMode(true);
-        setEditData({
-            bank_holder_name: bankDetails[0].bank_holder_name,
-            account_no: bankDetails[0].account_no,
-            confirm_account_no: bankDetails[0].account_no,
-            ifsc_code: bankDetails[0].ifsc_code,
-        });
+
+        try {
+            const res = await axios.get('api/fetchBankData'); // Modify the API endpoint accordingly
+            if (res.data.status === 200 && res.data.bankDetails.length > 0) {
+                const bankDetails = res.data.bankDetails[0]; // Assuming you're fetching a single bank detail
+                setEditData({
+                    bank_holder_name: bankDetails.bank_holder_name,
+                    account_no: bankDetails.account_no,
+                    confirm_account_no: bankDetails.account_no,
+                    ifsc_code: bankDetails.ifsc_code,
+                });
+            } else {
+                console.log('Bank details not found');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        // setEditData({
+        //     bank_holder_name: bankDetails[0].bank_holder_name,
+        //     account_no: bankDetails[0].account_no,
+        //     confirm_account_no: bankDetails[0].account_no,
+        //     ifsc_code: bankDetails[0].ifsc_code,
+        // });
     };
 
     // const handleEditInputChange = (e) => {

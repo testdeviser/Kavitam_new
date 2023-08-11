@@ -130,6 +130,7 @@ class PaymentController extends Controller
                 $transaction_history->userId = $userId;
                 $transaction_history->walletId = $wallet->id;
                 $transaction_history->withdrawalId = 0;
+                $transaction_history->UpiId = 0;
                 $transaction_history->payment_mode = "Add in wallet";
                 $transaction_history->eventId = 0;
                 $transaction_history->price = $data->amount;
@@ -185,17 +186,22 @@ class PaymentController extends Controller
                     $wallet->save();
                 }
 
+                $userTransHistory = TransactionHistory::where('userId', $data->userId)->where('UpiId', $id)->first();
+                $userTransHistory->status = 'Cr';
+                $userTransHistory->update();
+
                 // Add transaction history
-                $transaction_history = new TransactionHistory();
-                $transaction_history->userId = $userId;
-                $transaction_history->walletId = $wallet->id;
-                $transaction_history->withdrawalId = 0;
-                $transaction_history->payment_mode = "Add in wallet";
-                $transaction_history->eventId = 0;
-                $transaction_history->price = $data->amount;
-                $transaction_history->status = 'Cr';
-                $transaction_history->current_date = $currentDate;
-                $transaction_history->save();
+                // $transaction_history = new TransactionHistory();
+                // $transaction_history->userId = $userId;
+                // $transaction_history->walletId = $wallet->id;
+                // $transaction_history->withdrawalId = 0;
+                // $transaction_history->UpiId = 0;
+                // $transaction_history->payment_mode = "Add in wallet";
+                // $transaction_history->eventId = 0;
+                // $transaction_history->price = $data->amount;
+                // $transaction_history->status = 'Cr';
+                // $transaction_history->current_date = $currentDate;
+                // $transaction_history->save();
             }
 
             if ($res) {

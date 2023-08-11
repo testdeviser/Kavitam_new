@@ -15,12 +15,30 @@ class BankController extends Controller
 {
     public function index(Request $request)
     {
+        // $validator = Validator::make($request->all(), [
+        //     'bank_holder_name' => 'required|string',
+        //     'account_no' => 'required|numeric|digits_between:11,14',
+        //     'confirm_account_no' => 'required|same:account_no',
+        //     //'ifsc_code' => 'required',
+        //     'ifsc_code' => 'required|regex:/^[a-zA-Z0-9]{11}$/',
+        // ]);
+
         $validator = Validator::make($request->all(), [
             'bank_holder_name' => 'required|string',
             'account_no' => 'required|numeric|digits_between:11,14',
             'confirm_account_no' => 'required|same:account_no',
-            'ifsc_code' => 'required',
-            //'ifsc_code' => 'required|regex:/^[a-zA-Z0-9]{11}$/',
+            //'ifsc_code' => 'required',
+            'ifsc_code' => 'required|regex:/^[a-zA-Z0-9]{11}$/',
+        ], [
+            'bank_holder_name.required' => 'Please enter bank holder name',
+            'bank_holder_name.string' => 'Bank Holder Name must be string',
+            'account_no.required' => 'Please enter Account No.',
+            'account_no.numeric' => 'Account No. must be numeric',
+            'account_no.digits_between' => 'Account No. must be between 11 and 14 digits',
+            'confirm_account_no.required' => 'Please enter Confirm Account No.',
+            'confirm_account_no.same' => 'Confirm Account No. must match Account No.',
+            'ifsc_code.required' => 'Please enter IFSC Code',
+            'ifsc_code.regex' => 'IFSC Code must be 11 alphanumeric characters',
         ]);
 
         if ($validator->fails()) {
@@ -52,13 +70,32 @@ class BankController extends Controller
 
     public function editBankAccount(Request $request)
     {
+        // $validator = Validator::make($request->all(), [
+        //     'bank_holder_name' => 'required|string',
+        //     'account_no' => 'required|numeric|digits_between:11,14',
+        //     'confirm_account_no' => 'required|same:account_no',
+        //     'ifsc_code' => 'required',
+        //     //'ifsc_code' => 'required|regex:/^[a-zA-Z0-9]{11}$/',
+        // ]);
+
         $validator = Validator::make($request->all(), [
             'bank_holder_name' => 'required|string',
             'account_no' => 'required|numeric|digits_between:11,14',
             'confirm_account_no' => 'required|same:account_no',
-            'ifsc_code' => 'required',
-            //'ifsc_code' => 'required|regex:/^[a-zA-Z0-9]{11}$/',
+            //'ifsc_code' => 'required',
+            'ifsc_code' => 'required|regex:/^[a-zA-Z0-9]{11}$/',
+        ], [
+            'bank_holder_name.required' => 'Please enter bank holder name',
+            'bank_holder_name.string' => 'Bank Holder Name must be string',
+            'account_no.required' => 'Please enter Account No.',
+            'account_no.numeric' => 'Account No. must be numeric',
+            'account_no.digits_between' => 'Account No. must be between 11 and 14 digits',
+            'confirm_account_no.required' => 'Please enter Confirm Account No.',
+            'confirm_account_no.same' => 'Confirm Account No. must match Account No.',
+            'ifsc_code.required' => 'Please enter IFSC Code',
+            'ifsc_code.regex' => 'IFSC Code must be 11 alphanumeric characters',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json([
@@ -107,6 +144,7 @@ class BankController extends Controller
         $transaction_history->userId = $userId;
         $transaction_history->walletId = $userWalletId;
         $transaction_history->withdrawalId = $withdrawal->id;
+        $transaction_history->UpiId = 0;
         $transaction_history->payment_mode = "Withdrawal";
         $transaction_history->eventId = 0;
         $transaction_history->price = $withdrawal_amount;

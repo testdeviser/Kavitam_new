@@ -43,7 +43,6 @@ Route::post('/outerNumber/create', [OuterController::class, 'create']);
 Route::post('/outerNumber/remove/{id}', [OuterController::class, 'remove']);
 //Route::post('/outerNumber/remove/{number}/{username}', [OuterController::class, 'remove']);
 
-
 // Register
 Route::post('/user/Register', [authentication::class, 'Register']);
 // login

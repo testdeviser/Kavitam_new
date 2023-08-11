@@ -386,11 +386,11 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                         </div>
                     ) : pageName === 'setting' || pageName === 'mynumbers' || pageName === 'Setting/wallet' || pageName === 'Setting' || pageName === 'Setting/changePassword' || pageName === 'Setting/Refferral' || pageName === 'Setting/history' || pageName === 'Setting/withdrawal' || pageName === 'Setting/wallet/refferal-history' ? (
                         <div>
-                            <div className="page-name">Numbers</div>
+                            {/* <div className="page-name">Numbers</div>
                             <div className="dice-icon">
                                 <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            <div className="page-details"><p>Welcome to our number games</p></div>
+                            </div> */}
+                            <div className="page-details"><p>Welcome to Kavitam</p></div>
                         </div>
                     ) : (
                         <div className="main-div">

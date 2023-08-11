@@ -1553,7 +1553,7 @@ nav .navigation-links ul li.hover_dropdown {
 
 .scroll-container {
     display: flex;
-    animation: scroll-left 10s linear infinite;
+    animation: scroll-left 18s linear infinite;
 }
 
 @keyframes scroll-left {

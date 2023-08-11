@@ -52,6 +52,7 @@ export default function Footer(props) {
                </div>
 
                <div className="whatsapp-floating-icon">
+                  {/* <span className="whatsapp-text floating-pendulum">Please contact us if you have any questions</span> */}
                   <Link to={`https://wa.me/9915970179`} target="_blank" rel="noopener noreferrer">
                      <img
                         src={process.env.PUBLIC_URL + '/image/whatsapp.png'} // Replace with your WhatsApp icon image path

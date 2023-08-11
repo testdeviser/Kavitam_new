@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->integer('userId');
             $table->integer('walletId');
             $table->integer('withdrawalId')->nullable();
+            $table->integer('UpiId')->nullable();
             $table->string('payment_mode');
             $table->integer('eventId');
             $table->integer('price')->nullable();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,7 @@ use App\Models\PriceMultiplyBy;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MyTestMail;
+use Carbon\Carbon;
 
 class authentication extends Controller
 {
@@ -59,14 +61,32 @@ class authentication extends Controller
         //          ]);
         // }
 
+        // $validator = Validator::make($req->all(), [
+        //     // 'name' => 'required|min:3|max:191|unique:users,name',
+        //     'name' => 'required|min:3|max:191',
+        //     'username' => 'required|min:3|max:191|unique:users,username',
+        //     'user_password' => 'required|min:6',
+        //     'user_confirmpassword' => 'required|same:user_password',
+        //     'phone' => 'numeric|digits_between:10,15',
+        // ]);
+
         $validator = Validator::make($req->all(), [
-            // 'name' => 'required|min:3|max:191|unique:users,name',
             'name' => 'required|min:3|max:191',
             'username' => 'required|min:3|max:191|unique:users,username',
             'user_password' => 'required|min:6',
             'user_confirmpassword' => 'required|same:user_password',
             'phone' => 'numeric|digits_between:10,15',
+        ], [
+            'name.required' => 'Please enter Name',
+            'username.required' => 'Please enter Username',
+            'user_password.required' => 'Please enter Password',
+            'user_password.min' => 'Password must be at least of 6 digits',
+            'user_confirmpassword.required' => 'Please enter Confirm Password',
+            'user_confirmpassword.same' => 'Confirm Password must match Password',
+            'phone.numeric' => 'Phone number must be numeric and',
+            'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json([
@@ -203,10 +223,19 @@ class authentication extends Controller
     public function login(Request $req)
     {
 
-        $validator = validator::make($req->all(), [
+        // $validator = validator::make($req->all(), [
+        //     'username' => 'required',
+        //     'password' => 'required',
+        // ]);
+
+        $validator = Validator::make($req->all(), [
             'username' => 'required',
             'password' => 'required',
+        ], [
+            'username.required' => 'Please enter Username',
+            'password.required' => 'Please enter Password',
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 401,
@@ -322,9 +351,20 @@ class authentication extends Controller
 
     public function payment(Request $request)
     {
+        $currentDate = Carbon::now()->format('Y-m-d');
+        // $validator = Validator::make($request->all(), [
+        //     'amount' => 'required|numeric',
+        //     'refNo' => 'required|digits:12',
+        // ]);
+
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
             'refNo' => 'required|digits:12',
+        ], [
+            'amount.required' => 'Please enter Amount',
+            'amount.numeric' => 'Amount must be a number',
+            'refNo.required' => 'Please enter Reference Number',
+            'refNo.digits' => 'Reference Number must be of 12 digits',
         ]);
 
         if ($validator->fails()) {
@@ -351,6 +391,21 @@ class authentication extends Controller
                 'bonus' => $hasBonus ? 0 : 1, // Set bonus value based on whether the user has a bonus or not
             ]);
 
+            $userWallet = Wallet::where('user_id', $request->userId)->first();
+            $userWalletId = $userWallet->id;
+
+            $transaction_history = new TransactionHistory();
+            $transaction_history->userId = $request->userId;
+            $transaction_history->walletId = $userWalletId;
+            $transaction_history->withdrawalId = 0;
+            $transaction_history->UpiId = $payment->id;
+            $transaction_history->payment_mode = "UPI";
+            $transaction_history->eventId = 0;
+            $transaction_history->price = $totalAmount;
+            $transaction_history->status = 'Pending';
+            $transaction_history->current_date = $currentDate;
+            $transaction_history->save();
+
             // $payment = Payment::create([
             //     'userId' => $request->userId,
             //     'username' => $request->username,
@@ -365,7 +420,8 @@ class authentication extends Controller
                 'userId' => $payment->userId,
                 'amount' => $payment->amount,
                 'refNo' => $payment->refNo,
-                'message' => 'Payment done successfully',
+                //'message' => 'Payment done successfully',
+                'message' => 'Payment request has been accepted, It will be credit in your account within 1-2 minutes.',
             ]);
 
 
@@ -400,11 +456,24 @@ class authentication extends Controller
 
     public function changePassword(Request $request)
     {
+        // $validator = Validator::make($request->all(), [
+        //     'oldPassword' => 'required',
+        //     'newPassword' => 'required|min:6',
+        //     'confirmPassword' => 'required|same:newPassword',
+        // ]);
+
         $validator = Validator::make($request->all(), [
             'oldPassword' => 'required',
             'newPassword' => 'required|min:6',
             'confirmPassword' => 'required|same:newPassword',
+        ], [
+            'oldPassword.required' => 'Please enter Old Password',
+            'newPassword.required' => 'Please enter New Password',
+            'confirmPassword.required' => 'Please enter Confirm Password',
+            'newPassword.min' => 'New Password must be at least of 6 digits',
+            'confirmPassword.same' => 'Confirm Password must match New Password',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json([

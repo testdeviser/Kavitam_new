@@ -318,7 +318,7 @@ function Game(props) {
                     </table>
                 </div>
                 <div className="game_backend-col">
-                    <h3>Ander</h3>
+                    <h3>Andar</h3>
                     <table className="table bordered table-striped  table-hover mt-4">
                         <thead className="thead-dark text-center">
                             <tr>
