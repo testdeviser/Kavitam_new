@@ -83,7 +83,7 @@ class authentication extends Controller
             'user_password.min' => 'Password must be at least of 6 digits',
             'user_confirmpassword.required' => 'Please enter Confirm Password',
             'user_confirmpassword.same' => 'Confirm Password must match Password',
-            'phone.numeric' => 'Phone number must be numeric and',
+            'phone.numeric' => 'Phone number must be numeric and ',
             'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
         ]);
 
