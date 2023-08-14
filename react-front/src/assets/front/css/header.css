@@ -1570,4 +1570,12 @@ nav .navigation-links ul li.hover_dropdown {
     overflow: hidden;
 }
 
+.top-message {
+    background-color: #ffff; /* Red background color */
+    color: black; /* Text color */
+    padding: 10px;
+    text-align: center;
+    display: none; /* Initially hidden */
+  }
+  
 /* jaspreet */

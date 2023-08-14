@@ -6,9 +6,16 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { FaClockRotateLeft } from "react-icons/fa";
 import ListGroup from "react-bootstrap/ListGroup";
+import { handleSidebarStyle } from "../../../utils";
+import { setActiveSidebarLink } from "../../../utils/utils";
 
 function Setting(props) {
   const navigate = useNavigate();
+
+  // const handleSidebar_style = (e, data) => {
+  //   setActiveSidebarLink(data);
+  //   // Rest of your code...
+  // };
 
   const handleSidebar_style = (e, data) => {
     if (data == "profile") {
@@ -67,8 +74,8 @@ function Setting(props) {
                 <li
                   onClick={(e) => {
                     handleSidebar_style(e, "profile");
-                  }}
-                  className="active-sidebar">
+                  }} >
+                  {/* className="active-sidebar" > */}
                   <Link to="/Setting">
                     <span className="payment_side_ioc">
                       <svg

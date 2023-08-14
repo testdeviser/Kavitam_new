@@ -38,6 +38,8 @@ function Game(props) {
 
   const data11 = dataa.event.slice(0, dataa.no_of_result);
 
+  // console.log(data11);
+
 
   // useEffect(() => {
   //   const refreshInterval = 60000; // Refresh interval in milliseconds (e.g., 30 seconds)
@@ -545,13 +547,40 @@ function Game(props) {
 
           //  callback({ ...paymentStatus, status: true, price: grandtotal });
           // return true;
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: res.data.message,
-          });
         }
+        else {
+          const topMessageElement = document.getElementById("topMessage");
+          const messageTextElement = document.getElementById("messageText");
+          const navigateButton = document.getElementById("navigateButton");
+
+          if (topMessageElement && messageTextElement && navigateButton) {
+            messageTextElement.textContent = res.data.message; // Set the message content
+            navigateButton.style.display = "block"; // Show the button
+
+            navigateButton.addEventListener("click", () => {
+              // Add navigation logic here
+              navigate('/payment'); // Replace with the actual URL of the payment page
+            });
+
+            topMessageElement.style.display = "block"; // Show the message element
+          }
+        }
+
+        // else {
+        //   const topMessageElement = document.getElementById("topMessage");
+        //   if (topMessageElement) {
+        //     topMessageElement.textContent = res.data.message; // Set the message content
+        //     topMessageElement.style.display = "block"; // Show the message element
+        //   }
+        // }
+
+        // else {y
+        //   Swal.fire({
+        //     // icon: "error",
+        //     // title: "Oops...",
+        //     text: res.data.message,
+        //   });
+        // }
       });
     } catch (err) {
       console.log(err);
@@ -822,7 +851,8 @@ function Game(props) {
   const data3 = outer.slice(firstIndex, lastIndex);
 
   function format12HourTime() {
-    const lastResultTime = data11[0].event_time;
+    // const lastResultTime = data11[0].event_time;
+    const lastResultTime = data11[data11.length - 1].event_time;
 
     const [lasthours, lastminutes] = lastResultTime.split(':');
 
@@ -888,6 +918,10 @@ function Game(props) {
           <div>No Event Found</div>
         ) : (
           <div className="container">
+            <div id="topMessage" class="top-message">
+              <p id="messageText"></p>
+              <button id="navigateButton" style={{ 'display': 'none' }}>Add Money</button>
+            </div>
             <div className="timer">
               <input type="hidden" name="active_event" value={events} />
               <input type="hidden" name="currentTime" value={currentTime1} />
@@ -907,7 +941,22 @@ function Game(props) {
                 name="updated_event_time1"
                 value={updatedEventsTime1}
               />
+
               <h3 className="mobile-hide">Last Result is:
+                {
+                  data11?.length > 0 && (
+                    <div>
+                      <h4>{data11[data11.length - 1].result}</h4>
+                      <p className='event-time'>
+                        {format12HourTime(data11[data11.length - 1].event_time)}
+                      </p>
+                    </div>
+                  )
+                }
+              </h3>
+
+
+              {/* <h3 className="mobile-hide">Last Result is:
                 {
                   data11?.length > 0 && (
                     <div>
@@ -918,7 +967,7 @@ function Game(props) {
                     </div>
                   )
                 }
-              </h3>
+              </h3> */}
               <h3 className="mobile-show">Choose your lucky number</h3>
               <div className="time_flex-right">
                 {/* <button className="figmabtn wallet-btn">

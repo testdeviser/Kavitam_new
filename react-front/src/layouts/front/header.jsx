@@ -12,6 +12,8 @@ import { FaGamepad } from 'react-icons/fa';
 import axios from 'axios';
 import { WalletContext } from '../../WalletContext';
 import GoogleTranslator from '../../Component/front/GoogleTranslator';
+import { handleSidebarStyle } from '../../utils';
+import { setActiveSidebarLink } from '../../utils/utils';
 
 
 // function Header({ callback, setcheckNumber_loading, paymentStatus, walletBalance, ...props }) {
@@ -32,10 +34,14 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
         setShowNavigationLinks(!showNavigationLinks);
     };
 
-    const handleLinkClick = () => {
-        setShowNavigationLinks(false);
+    const handleLinkClick = (linkText) => {
+        handleNavShow(); // Close the navigation links
+        setActiveSidebarLink(linkText);
     };
 
+    // const handleLinkClick = () => {
+    //     setShowNavigationLinks(false);
+    // };
 
     var currentPath = location.pathname;
     var pageName = currentPath.slice(1);
@@ -46,9 +52,6 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
     };
-
-
-
 
     // sidebar 
     const [show, setShow] = useState(false);
@@ -125,24 +128,64 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                 <li className="hover_dropdown">
                     <Link to="/setting"><img src={process.env.PUBLIC_URL + '/image/undraw_profile.svg'} className="rounded-circle" width="45px" height="30" />{auth_token ? user_name : 'guest'}</Link>
                     <ul>
-                        <li >
+
+                        <li onClick={() => handleLinkClick("Profile")}>
                             <Link to="/Setting">Profile</Link>
                         </li>
-                        <li >
+                        <li onClick={() => handleLinkClick("Wallet")}>
                             <Link to="/Setting/wallet">Wallet</Link>
                         </li>
-                        <li >
+                        <li onClick={() => handleLinkClick("History")}>
                             <Link to="/Setting/history">History</Link>
                         </li>
-                        <li >
-                            <Link to="/Setting/Refferral">Referral</Link>
+                        <li onClick={() => handleLinkClick("Refferal")}>
+                            <Link to="/Setting/Refferral">Refferal</Link>
                         </li>
-                        <li >
+                        <li onClick={() => handleLinkClick("Change Password")}>
                             <Link to="/Setting/changePassword">Change Password</Link>
                         </li>
-                        <li >
+                        <li onClick={() => handleLinkClick("Withdrawal")}>
                             <Link to="/Setting/withdrawal">Withdrawal</Link>
                         </li>
+
+                        {/* <li >
+                            <Link to="/Setting/Refferral" onClick={handleLinkClick}>Referral</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/changePassword" onClick={handleLinkClick}>Change Password</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/withdrawal" onClick={handleLinkClick}>Withdrawal</Link>
+                        </li> */}
+
+                        {/* <li>
+                            <Link to="/Setting" onClick={() => handleLinkClick("/Setting")}>Profile</Link>
+                        </li>
+                        <li>
+                            <Link to="/Setting/wallet" onClick={() => handleLinkClick("/Setting/wallet")}>Wallet</Link>
+                        </li>
+                        <li>
+                            <Link to="/Setting/history" onClick={() => handleLinkClick("/Setting/history")}>History</Link>
+                        </li> */}
+
+                        {/* <li >
+                            <Link to="/Setting" onClick={handleLinkClick}>Profile</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/wallet" onClick={handleLinkClick}>Wallet</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/history" onClick={handleLinkClick}>History</Link>
+                        </li> */}
+                        {/* <li >
+                            <Link to="/Setting/Refferral" onClick={handleLinkClick}>Referral</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/changePassword" onClick={handleLinkClick}>Change Password</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/withdrawal" onClick={handleLinkClick}>Withdrawal</Link>
+                        </li> */}
 
                         <li >
                             <Link to="#" onClick={logout}>Logout</Link>
