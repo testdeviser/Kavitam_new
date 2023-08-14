@@ -104,7 +104,7 @@ class MynumbersController extends Controller
     public function Result_by_date(Request $request)
     {
         $date = $request->date;
-        $result = EventResult::where('current_date', $date)->orderByDesc('id')->get();
+        $result = EventResult::where('current_date', $date)->orderBy('id')->get();
         if (!empty($result)) {
             foreach ($result as $key => $value) {
                 $resVal = $value->result;
