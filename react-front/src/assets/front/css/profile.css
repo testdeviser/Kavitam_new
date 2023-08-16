@@ -850,22 +850,42 @@ ul.ul_privacy {
     padding: 90px 0;
 }
 .live_main-sec {
-    padding: 90px 0;
+    padding: 50px 0;
     position: relative;
     z-index: 3;
 }
-
+.circle_dot-right img {
+    width: 250px;
+}
+.fdg {
+    margin: 0 auto;
+    display: table;
+    text-align: center;
+    position: relative;
+}
+.row.show_result_seclive {
+    float: left;
+}
+svg.calendar-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+}
 .card_live-result {
     text-align: center;
     border-radius: 20px;
     background: #FFF;
     box-shadow: 0px 2px 15px 0px #ecececbf;
-    padding: 40px 15px;
+    padding: 20px 15px;
     position: relative;
     height: 100%;
 }
+.result_live {
+    margin: 0 0 15px;
+}
 .live_result_sec {
-    margin: 0 0 35px;
+    margin: 0 0 15px;
 }
 .card_live-result::after {
     content: '';
@@ -887,7 +907,7 @@ ul.ul_privacy {
     line-height: 34px;
     float: left;
     width: 100%;
-    margin: 24px 0 0;
+    margin: 0px 0 0;
 }
 .result_live h4 {
     color: #FFF;
@@ -948,7 +968,7 @@ ul.ul_privacy {
     color: #fc8019;
 }
 .testimonial-main {
-    padding: 90px 0 100px;
+    padding: 50px 0 50px;
     position: relative;
 }
 .testi_dots {
@@ -1543,6 +1563,13 @@ h3.mobile-show {
     font-size: 16px;
     font-weight: 500;
     font-family: 'Barlow';
+    position: relative;
+    z-index: 9;
+    background: transparent;
+    cursor: pointer;
+}
+.result_live {
+    margin: 0 0 15px;
 }
 .react-datepicker__input-container input:focus,
 .react-datepicker__input-container input:hover {
@@ -1925,16 +1952,8 @@ ul.submenu_bkend {
     section.header-Section .main-div .left-sec {
         width: calc(100% - 450px);
     }
-    .live_main-sec {
-        padding: 70px 0;
-        position: relative;
-    }
-    section.Easiest_way_section {
-        padding: 70px 0;
-    }
-    .testimonial-main {
-        padding: 70px 0 70px;
-    }
+
+
     section.Easiest_way_section .login-right-bttom img {
         width: 70px;
     }
@@ -2159,7 +2178,7 @@ ul.submenu_bkend {
     }
     .live_result_sec h2 {
         font-size: 28px;
-        margin: 20px 0 0;
+        margin: 0px 0 0;
     }
     .querybtn {
         margin: 0 auto;

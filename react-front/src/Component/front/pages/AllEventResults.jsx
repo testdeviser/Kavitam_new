@@ -51,7 +51,7 @@ function AllEventResults(props) {
                             </div>
                         </div>
                     </div> */}
-
+                <div className="fdg">
                     <DatePicker
                         selected={selectedDate}
                         onChange={date => setSelectedDate(date)}
@@ -59,8 +59,8 @@ function AllEventResults(props) {
                         dateFormat="dd/MM/yyyy"
                         //customInput={<CustomDatePickerInput />}
                     />
-                    {/* <FaCalendarAlt className="calendar-icon" /> */}
-
+                    { <FaCalendarAlt className="calendar-icon" />}
+</div>
                     <div className="row show_result_seclive">
                         {eventResults.map((e, i) => {
                             // var event_time = e.event_time;
@@ -117,10 +117,11 @@ function AllEventResults(props) {
                             return (
                                 <div className="col-lg-3 col-md-4 col-sm-6 col-6 live-resultToday-container" key={i}>
                                     <div className="card_live-result ">
+                                        <h6 className="winning-numbers">Winning numbers</h6>
                                         <div className='result_live'>
                                             <h4>{e.result}</h4>
                                         </div>
-                                        <h6 className="winning-numbers">Winning numbers</h6>
+                                        
                                         <p className="normal-text">Draw took place on</p>
                                         <b className='event-text'>{event_date.toLocaleDateString('en-IN', options)}</b>
                                         <p className='event-time'>({formatted_event_time} to {formatted_new_event_time})</p>

@@ -130,10 +130,10 @@ function LiveResultToday(props) {
                             return (
                                 <div className="col-lg-3 col-md-4 col-sm-6 col-6 live-resultToday-container" key={i}>
                                     <div className="card_live-result ">
+                                        <h6 className="winning-numbers" >Winning numbers</h6>
                                         <div className='result_live'>
                                             <h4>{e.result}</h4>
                                         </div>
-                                        <h6 className="winning-numbers" >Winning numbers</h6>
                                         <p className="normal-text">Draw took place on</p>
                                         {/* <b className='event-text'>{event_date.toDateString() + ' ' + event_date.toLocaleTimeString()}</b> */}
                                         <b className='event-text'>{event_date.toLocaleDateString('en-IN', options)}</b>
