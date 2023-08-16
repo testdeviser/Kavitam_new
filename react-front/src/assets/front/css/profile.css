@@ -863,9 +863,9 @@ ul.ul_privacy {
     text-align: center;
     position: relative;
 }
-.row.show_result_seclive {
+/* .row.show_result_seclive {
     float: left;
-}
+} */
 svg.calendar-icon {
     position: absolute;
     top: 50%;
