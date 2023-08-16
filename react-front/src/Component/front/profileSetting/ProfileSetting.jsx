@@ -74,8 +74,8 @@ function Setting(props) {
                 <li
                   onClick={(e) => {
                     handleSidebar_style(e, "profile");
-                  }} >
-                  {/* className="active-sidebar" > */}
+                  }} 
+                  className="active-sidebar" >
                   <Link to="/Setting">
                     <span className="payment_side_ioc">
                       <svg

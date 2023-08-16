@@ -203,6 +203,8 @@ function Withdrawal(props) {
 
     const handleEdit = async () => {
         setEditMode(true);
+        // Clear errors when switching to edit mode
+        setErrors({});
 
         try {
             const res = await axios.get('api/fetchBankData'); // Modify the API endpoint accordingly
