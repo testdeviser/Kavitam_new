@@ -24,7 +24,7 @@ function Contactus(props) {
         console.log(data);
 
         try {
-            await axios.post(`/api/user/login`, data).then(res => {
+            await axios.post(`/api/contactus`, data).then(res => {
                 if (res.data.status == 200) {
                     Swal.fire({
                         position: 'center',
