@@ -415,7 +415,7 @@ section.register-section {
 
 section.Easiest_way_section {
     background: #FAF9F1;
-    padding: 90px 0;
+    padding: 50px 0;
     position: relative;
 }
 
@@ -472,11 +472,10 @@ section.Easiest_way_section .container {
 
 .querysection {
     width: 100%;
-    height: 140px;
     background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
     float: left;
+    padding: 25px 0px;
 }
-
 section.Easiest_way_section .login-right-bttom {
     position: absolute;
     z-index: 1;
@@ -489,11 +488,11 @@ section.Easiest_way_section .login-right-bttom {
 .querysection section {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
 .querysection section .content p {
-    width: 330px;
-    height: 24px;
     font-family: 'Barlow';
     font-style: normal;
     font-weight: 700;
@@ -501,12 +500,7 @@ section.Easiest_way_section .login-right-bttom {
     line-height: 20px;
     color: #FFFFFF;
     align-content: center;
-    margin: 58px 20px;
-}
-
-.querysection section .contactBtn {
-    align-content: center;
-    margin: 49px 20px;
+    margin: 0;
 }
 
 .querybtn {
@@ -1363,12 +1357,12 @@ table.total-prize-table tr td {
         height: auto;
         line-height: normal;
         text-align: center;
-        margin: 30px 0 0px;
+        margin: 0px 0 0px;
         font-size: 28px;
     }
 
     .querysection section .contactBtn {
-        margin: 20px 0 30px;
+        margin: 20px 0 0px;
         text-align: center;
     }
 
@@ -1571,11 +1565,14 @@ nav .navigation-links ul li.hover_dropdown {
 }
 
 .top-message {
-    background-color: #ffff; /* Red background color */
-    color: black; /* Text color */
+    background-color: #ffff;
+    /* Red background color */
+    color: black;
+    /* Text color */
     padding: 10px;
     text-align: center;
-    display: none; /* Initially hidden */
-  }
-  
+    display: none;
+    /* Initially hidden */
+}
+
 /* jaspreet */
