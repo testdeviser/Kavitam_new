@@ -169,7 +169,8 @@ function Register(props) {
       name: inputs.name,
       // email:inputs.email,
       // mail_pass:inputs.gmail_password,
-      referredby_user_link: referralCode,
+      // referredby_user_link: referralCode,
+      referredby_user_link: referralCode || inputs.referredby_user_link || null,
       user_password: inputs.user_password,
       user_confirmpassword: inputs.user_confirmpassword,
       phone: phone.current,
@@ -368,7 +369,7 @@ function Register(props) {
             <div className="refister-form">
               <form onSubmit={SubmitHandler}>
 
-                <input type="hidden" name="referredby_user_link" value={referralCode} />
+                {/* <input type="hidden" name="referredby_user_link" value={referralCode} /> */}
 
                 <div className="input-container login_input">
                   <label htmlFor="name" className='login-label'>Name </label>
@@ -416,8 +417,10 @@ function Register(props) {
 
                 <div className="input-container login_input">
                   <label htmlFor="name" className='login-label'>Referral Code</label>
-                  <input type="text" className='register-input' name="referredby_user_link" value={referralCode} />
-                  {/* <span className='text-danger'>{err.error.user_confirmpassword ? err.error.user_confirmpassword : ''}</span> */}
+                  {/* <input type="text" className='register-input' name="referredby_user_link" value={referralCode} /> */}
+                  <input type="text" className='register-input' name="referredby_user_link" value={inputs.referredby_user_link || ''}
+                    onChange={(e) => setinputs({ ...inputs, referredby_user_link: e.target.value })} />
+                  <span className='text-danger'>{err.error.referredby_user_link ? err.error.referredby_user_link : ''}</span>
                 </div>
 
                 {/* <div className="input-container">

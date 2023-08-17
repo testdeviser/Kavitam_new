@@ -491,7 +491,7 @@ function Game(props) {
         if (res.data.status === 200) {
           await axios.get("api/fetchWalletBalance").then((res) => {
             if (res.data.status === 200) {
-              console.log(res.data.amount);
+              //console.log(res.data.amount);
               setWalletAmount(res.data.amount);
               //setWalletBalance(res.data.amount);
               localStorage.setItem("wallet", res.data.amount);
@@ -563,6 +563,10 @@ function Game(props) {
             });
 
             topMessageElement.style.display = "block"; // Show the message element
+
+            // Scroll to the top of the page
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // You can adjust the behavior as needed
+
           }
         }
 
@@ -870,6 +874,15 @@ function Game(props) {
     return formattedTime;
   }
 
+  function addOneHour(time) {
+    const [hours, minutes] = time.split(':');
+    const hoursNum = parseInt(hours);
+    const newHoursNum = (hoursNum + 1) % 24; // Adding 1 hour and accounting for rollover
+    const period = newHoursNum >= 12 ? 'PM' : 'AM';
+    const hours12 = newHoursNum % 12 || 12;
+    return `${hours12}:${minutes} ${period}`;
+  }
+
 
 
   if (loading) {
@@ -943,7 +956,7 @@ function Game(props) {
               />
 
               <h3 className="mobile-hide">Last Result is:</h3>
-              
+
 
               {/* <h3 className="mobile-hide">Last Result is:
                 {
@@ -959,15 +972,15 @@ function Game(props) {
               </h3> */}
               <h3 className="mobile-show">Choose your lucky number</h3>
               {
-                  data11?.length > 0 && (
-                    <div className="winner_result-time">
-                      <h4>{data11[data11.length - 1].result}</h4>
-                      <p className='event-time'>
-                        {format12HourTime(data11[data11.length - 1].event_time)}
-                      </p>
-                    </div>
-                  )
-                }
+                data11?.length > 0 && (
+                  <div className="winner_result-time">
+                    <h4>{data11[data11.length - 1].result}</h4>
+                    <p className='event-time'>
+                      {format12HourTime(data11[data11.length - 1].event_time)} to {addOneHour(data11[data11.length - 1].event_time)}
+                    </p>
+                  </div>
+                )
+              }
 
               <div className="time_flex-right">
                 {/* <button className="figmabtn wallet-btn">
