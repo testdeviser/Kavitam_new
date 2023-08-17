@@ -47,6 +47,7 @@ Route::post('/outerNumber/remove/{id}', [OuterController::class, 'remove']);
 Route::post('/user/Register', [authentication::class, 'Register']);
 // login
 Route::post('/user/login', [authentication::class, 'login'])->name('loginn');
+Route::post('/contactus', [authentication::class, 'contactus'])->name('contactus');
 Route::post('/user/changePassword', [authentication::class, 'changePassword'])->name('changePassword');
 Route::post('/user/addBankAccount', [BankController::class, 'index'])->name('addBankAccount');
 Route::post('/user/editBankAccount', [BankController::class, 'editBankAccount'])->name('editBankAccount');

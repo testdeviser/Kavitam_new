@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +14,7 @@ use App\Models\Wallet;
 use App\Models\PriceMultiplyBy;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactUsEmail;
 use App\Mail\MyTestMail;
 use Carbon\Carbon;
 
@@ -526,8 +528,41 @@ class authentication extends Controller
             ]);
         }
 
-
     }
+
+    public function contactus(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'emailPhone' => 'required',
+            'message' => 'required',
+        ], [
+            'emailPhone.required' => 'Please enter Email or Phone No.',
+            'message.required' => 'Please enter message',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 401,
+                'error' => $validator->messages(),
+            ]);
+        } else {
+            $contact = Contact::create([
+                'emailPhone' => $request->emailPhone,
+                'message' => $request->message,
+            ]);
+
+            // Send email
+            Mail::to('Kavitam.70179@gmail.com')->send(new ContactUsEmail($contact));
+
+            return response()->json([
+                'status' => 200,
+                'emailPhone' => $contact->emailPhone,
+                'messge' => $contact->message,
+                'message' => 'Thank You for getting in Touch',
+            ]);
+        }
+    }
+
 
     // public function PriceMultiplyBy(Request $req)
     // {
