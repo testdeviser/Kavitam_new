@@ -102,7 +102,7 @@ a {
     box-shadow: 0px 0px 34px #ECECEC;
     border-radius: 15px;
     position: relative;
-    margin: 30px 0 0;
+    margin: 15px 0 0;
     padding: 50px 35px;
 }
 .userProfileForm {
@@ -163,6 +163,7 @@ top: 788px; */
     padding: 40px;
     display: flex;
     align-items: center;
+    margin: 0px !important;
 }
 .user-wallet_info .wallet {
     float: left;
@@ -250,7 +251,7 @@ top: 788px; */
 }
 
 .wallet_tabs {
-    margin: 40px auto 0;
+    margin: 20px auto 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -431,7 +432,7 @@ top: 788px; */
 /* end history */
 
 .profile_setting {
-    padding: 80px 0 99px;
+    padding: 50px 0;
     position: relative;
 }
 
@@ -856,6 +857,12 @@ ul.ul_privacy {
 }
 .circle_dot-right img {
     width: 250px;
+}
+.circle_dot-left img {
+    width: 250px;
+}
+.login-right-bttom img {
+    width: 80px;
 }
 .fdg {
     margin: 0 auto;
@@ -1779,6 +1786,43 @@ ul.submenu_bkend {
 .qr_img-bkend {
     margin: 0 0 15px;
 }
+.account_edit {
+    margin: 10px 0 0;
+    color: #FFF;
+    text-align: center;
+    font-family: Barlow;
+    font-weight: 700;
+    line-height: 10px;
+    transition: 0.4s ease all;
+    padding: 0 25px;
+    border: none;
+    height: 43px;
+    font-size: 16px;
+    background: #FC8019;
+    border-radius: 8px;
+    display: inline-block;
+}
+.account_edit:hover {
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+}
+.Update_and-cancel button {
+    width: auto;
+    padding: 0 25px;
+}
+
+.Update_and-cancel button.update_cancel1 {
+    border: none;
+    height: 43px;
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+    border-radius: 8px;
+}
+.Update_and-cancel button.update_cancel1:hover {
+    background: #FC8019;
+}
+.Update_and-cancel {
+    display: flex;
+    gap: 10px;
+}
 /* Admim CSS End */
 
 
@@ -1786,13 +1830,13 @@ ul.submenu_bkend {
     h2.profile_ac-name {
         font-size: 24px;
         line-height: 20px;
-        margin: 0 0 30px;
-        padding: 30px 18px 0;
+        margin: 0 0 15px;
+        padding: 20px 18px 0;
     }
     ul.profile_side-ul li a {
         font-size: 18px;
         line-height: 18px;
-        padding: 18px 18px;
+        padding: 12px 12px;
         gap: 15px;
     }
     .contact_info {
@@ -1895,8 +1939,14 @@ ul.submenu_bkend {
         height: auto;
         float: left;
         width: 100%;
-        margin: 0 0 30px;
+        margin: 0 0 20px;
         border-radius: 10px;
+    }
+    h2.profile_ac-name {
+        font-size: 20px;
+        line-height: 20px;
+        margin: 0 0 15px;
+        padding: 20px 18px 0;
     }
     .login_input {
         margin: 0 0 20px;
@@ -1987,9 +2037,9 @@ ul.submenu_bkend {
         font-size: 20px;
         line-height: 20px;
     }
-    .profile_setting {
+    /* .profile_setting {
         padding: 70px 0;
-    }
+    } */
     .register-wrapper.change_pass-tabs .login-form {
         padding-bottom: 0;
     }
@@ -2073,6 +2123,16 @@ ul.submenu_bkend {
         line-height: 36px;
         margin: 30px 0 15px 0;
     }
+    #messageText {
+        margin: 0 0 15px;
+        font-size: 18px;
+        line-height: 18px;
+    }
+    #navigateButton {
+        padding: 10px 15px;
+        font-size: 16px;
+        line-height: 16px;
+    }
 }
 
 @media (max-width:767px) {
@@ -2106,7 +2166,7 @@ ul.submenu_bkend {
         width: 70px;
     }
     .profile_setting {
-        padding: 70px 0 70px;
+        padding: 30px 0 30px;
     }
     .refferCode ul li a svg {
         width: 16px;
@@ -2332,6 +2392,11 @@ ul.submenu_bkend {
     }
     ul.ul_privacy {
         margin: 15px 0 0 20px;
+    }
+    #messageText {
+        margin: 0 0 15px;
+        font-size: 16px;
+        line-height: 18px;
     }
     .header-Section .page-details p {
         font-size: 24px;
