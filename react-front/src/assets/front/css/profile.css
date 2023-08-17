@@ -2136,6 +2136,14 @@ ul.submenu_bkend {
 }
 
 @media (max-width:767px) {
+    .card.btn.payment_check.zoom.pointer:hover h5.card-title {
+        color: #3D6276;
+    }
+    .card.btn.payment_check.zoom.pointer:hover {
+        box-shadow: 0px 7px 9px rgba(25, 49, 55, 0.25);
+        background: #FFFFFF;
+        border: 1px solid #B6C2C8;
+    }
     .refferal-heading .refferCode {
         gap: 15px;
         flex-direction: column;
