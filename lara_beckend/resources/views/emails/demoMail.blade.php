@@ -4,11 +4,7 @@
 <head>
     <title>ItsolutionStuff.com</title>
 </head>
-<body>
-    <h1>{{ $mailData['title'] }}</h1>
-    <h4>User:<b>{{$mailData['user']}}</b></h4>
-    <h4>Password :<b>{{$mailData['password']}}</b></h4>
-    <p>{{ $mailData['body'] }}</p>    
+<body>  
   
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

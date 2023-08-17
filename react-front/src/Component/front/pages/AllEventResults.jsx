@@ -122,7 +122,7 @@ function AllEventResults(props) {
                                             <h4>{e.result}</h4>
                                         </div>
                                         
-                                        <p className="normal-text">Draw took place on</p>
+                                        {/* <p className="normal-text">Draw took place on</p> */}
                                         <b className='event-text'>{event_date.toLocaleDateString('en-IN', options)}</b>
                                         <p className='event-time'>({formatted_event_time} to {formatted_new_event_time})</p>
                                     </div>
