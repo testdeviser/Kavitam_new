@@ -265,7 +265,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
 
 
         axios.post(`/api/logout`).then(res => {
-            console.log(res);
+            //console.log(res);
             if (localStorage.getItem("auth_token")) {
 
                 Swal.fire({

@@ -78,6 +78,7 @@ class authentication extends Controller
             'user_password' => 'required|min:6',
             'user_confirmpassword' => 'required|same:user_password',
             'phone' => 'numeric|digits_between:10,15',
+            'referredby_user_link' => 'exists:users,user_referral_link|nullable',
         ], [
             'name.required' => 'Please enter Name',
             'username.required' => 'Please enter Username',
@@ -87,6 +88,7 @@ class authentication extends Controller
             'user_confirmpassword.same' => 'Confirm Password must match Password',
             'phone.numeric' => 'Phone number must be numeric and ',
             'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+            'referredby_user_link.exists' => 'Referral code does not exist',
         ]);
 
 

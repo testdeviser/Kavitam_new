@@ -92,11 +92,11 @@ function Payment(props) {
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
 
-    useEffect(() => {
-        if (formatTime(time) <= "00:00") {
-            navigate('/game');
-        }
-    }, [time]);
+    // useEffect(() => {
+    //     if (formatTime(time) <= "00:00") {
+    //         navigate('/game');
+    //     }
+    // }, [time]);
 
 
     const handleAmountKeyPress = (e) => {
@@ -136,8 +136,14 @@ function Payment(props) {
                     position: 'center',
                     icon: 'success',
                     title: res.data.message,
-                    showConfirmButton: false,
-                    timer: 30000
+                    showConfirmButton: true,
+                    //timer: 30000
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/game');
+                        // Navigate to the game page here
+                        // window.location.href = '/game'; // Change the URL to your actual game page URL
+                    }
                 });
                 // localStorage.setItem('auth_token', res.data.token);
                 // localStorage.setItem('user_name', res.data.username);
@@ -198,7 +204,7 @@ function Payment(props) {
                                                                 {/* <div className='value-VPA'>{upiValue}</div> */}
                                                                 <div className='value-VPA'>{upiId}</div>
                                                             </div>
-                                                            
+
                                                             <div className='qr-code-container copy_btn'>
                                                                 {/* <img src={qrImage} width={60} height={60} /> */}
                                                                 <button type="button" onClick={handleCopyUPI}>Copy</button>
@@ -212,7 +218,7 @@ function Payment(props) {
                                                             <button type="button" onClick={handleCopyUPI}>Copy</button>
                                                         </div> */}
                                                     </div>
-                                                </div> 
+                                                </div>
 
                                                 <div className='qrCode'>
                                                     <img src={qrImage} width={150} height={150} />
