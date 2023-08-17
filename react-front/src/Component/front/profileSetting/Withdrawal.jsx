@@ -367,13 +367,15 @@ function Withdrawal(props) {
                                             </div>
 
                                             {/* Rest of the form fields for editing */}
-                                            <div className="login_btn-global confirm_pass-btn col-lg-6 col-md-6 col-sm-12">
-                                                <button type="submit" className='SubmitBtn update_cancel' value='Submit'>
-                                                    Update
-                                                </button>
-                                                <button type="button update_cancel" onClick={() => setEditMode(false)}>
-                                                    Cancel
-                                                </button>
+                                            <div className="login_btn-global confirm_pass-btn col-lg-12 col-md-12 col-sm-12">
+                                                <div className="Update_and-cancel">
+                                                    <button type="submit" className='SubmitBtn update_cancel' value='Submit'>
+                                                        Update
+                                                    </button>
+                                                    <button type="button" className="update_cancel1" onClick={() => setEditMode(false)}>
+                                                        Cancel
+                                                    </button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>

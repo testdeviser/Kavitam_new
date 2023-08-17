@@ -498,7 +498,7 @@ section.payment-section {
 
 	.front-footer .links {
 		flex-direction: column;
-		gap: 15px;
+		gap: 10px;
 	}
 }
 
