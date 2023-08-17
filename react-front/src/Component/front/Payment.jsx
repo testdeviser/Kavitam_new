@@ -177,41 +177,47 @@ function Payment(props) {
                                     <div className='step1 payment-step-unique define_float'>
                                         <div className='step_title'><h5>Step 1.Copy UPI Information</h5></div>
                                         <div className='steps_border-inner define_float'>
-                                            <div className='amount_require'>
-                                                <div className='amount_inner-left'>
-                                                    <label>Amount:</label>
-                                                    <div className="amount-input">
-                                                        <input type='number' name='amount' value={inputs.amount || ''} onChange={(e) => { setinputs({ ...inputs, amount: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} onInput={(e) => handleInputValidation(e)} />
-                                                        <span className='text-danger'>{err.error.amount ? err.error.amount : ''}</span>
+                                            <div className="payment_wrapper-main define_float">
+                                                <div className="amount_wrap-outer">
+                                                    <div className='amount_require'>
+                                                        <div className='amount_inner-left'>
+                                                            <label>Amount:</label>
+                                                            <div className="amount-input">
+                                                                <input type='number' name='amount' value={inputs.amount || ''} onChange={(e) => { setinputs({ ...inputs, amount: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} onInput={(e) => handleInputValidation(e)} />
+                                                                <span className='text-danger'>{err.error.amount ? err.error.amount : ''}</span>
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className='copy_btn'>
+                                                            <button type="button" onClick={handleCopyUPI}>Copy</button>
+                                                        </div> */}
                                                     </div>
-                                                </div>
-                                                {/* <div className='copy_btn'>
-                                                    <button type="button" onClick={handleCopyUPI}>Copy</button>
-                                                </div> */}
-                                            </div>
-                                            <div className='VPA_upi-ct'>
-                                                <div className='VPA_inner-left'>
-                                                    <label>VPA/UPI:{' '}</label>
-                                                    {/* <div className='value-VPA'>{upiValue}</div> */}
-                                                    <div className='value-VPA'>{upiId}</div>
-                                                    <div className='qr-code-container copy_btn'>
-                                                        {/* <img src={qrImage} width={60} height={60} /> */}
-                                                        <button type="button" onClick={handleCopyUPI}>Copy</button>
-                                                        {isCopied && <span className="copy-success-message">Copied!</span>}
+                                                    <div className='VPA_upi-ct'>
+                                                        <div className='VPA_inner-left'>
+                                                            <div className="upi_main-ct">
+                                                                <label>VPA/UPI:{' '}</label>
+                                                                {/* <div className='value-VPA'>{upiValue}</div> */}
+                                                                <div className='value-VPA'>{upiId}</div>
+                                                            </div>
+                                                            
+                                                            <div className='qr-code-container copy_btn'>
+                                                                {/* <img src={qrImage} width={60} height={60} /> */}
+                                                                <button type="button" onClick={handleCopyUPI}>Copy</button>
+                                                                {isCopied && <span className="copy-success-message">Copied!</span>}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* <div className='qr-code-container copy_btn'>
+                                                            {isCopied && <span className="copy-success-message">Copied!</span>}
+                                                            <img src={qrImage} width={60} height={60} />
+                                                            <button type="button" onClick={handleCopyUPI}>Copy</button>
+                                                        </div> */}
                                                     </div>
+                                                </div> 
+
+                                                <div className='qrCode'>
+                                                    <img src={qrImage} width={150} height={150} />
                                                 </div>
-
-                                                {/* <div className='qr-code-container copy_btn'>
-                                                    {isCopied && <span className="copy-success-message">Copied!</span>}
-                                                    <img src={qrImage} width={60} height={60} />
-                                                    <button type="button" onClick={handleCopyUPI}>Copy</button>
-                                                </div> */}
                                             </div>
-
-                                            <div className='qrCode'>
-                                                <img src={qrImage} width={150} height={150} />
-                                            </div>
-
                                             <div className='googlePhonePay'>
                                                 <Link to="upi://pay?pa=kamalmaurya9646@okaxis&amp;pn=FNAME SNAME K&amp;cu=INR" class="upi-pay1">
                                                     <img src={process.env.PUBLIC_URL + '/image/googlePay.jpg'} alt="circle_dot-left" />
