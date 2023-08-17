@@ -1149,7 +1149,7 @@ svg.calendar-icon {
     display: block;
     border-radius: 20px;
     padding: 23px;
-    margin: 30px 0 0;
+    margin: 20px 0 0;
     background: #fff;
 }
 .table_border-horizontal {
@@ -1836,6 +1836,31 @@ ul.submenu_bkend {
     display: flex;
     gap: 10px;
 }
+.winner_result-time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.winner_result-time h4,
+.winner_result-time p {
+    font-size: 24px;
+    line-height: 24px;
+    color: #fff;
+    font-family: barlow;
+    font-weight: 700;
+    margin: 0;
+}
+
+.winner_result-time h4 {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #E9A23C 0%, #F16135 100%);
+}
 /* Admim CSS End */
 
 
@@ -1845,6 +1870,10 @@ ul.submenu_bkend {
         line-height: 20px;
         margin: 0 0 15px;
         padding: 20px 18px 0;
+    }
+    .header_with-bnnr::before,
+    .header_with-bnnr::after {
+        content: unset;
     }
     ul.profile_side-ul li a {
         font-size: 18px;
@@ -2061,7 +2090,6 @@ ul.submenu_bkend {
         box-shadow: 0px 0px 34px #ECECEC;
         border-radius: 10px;
         padding: 20px;
-        margin-top: 30px;
     }
     .main_num {
         border-radius: 10px;
@@ -2077,7 +2105,7 @@ ul.submenu_bkend {
         padding: 20px;
     }
     .timer-sec.game-timer-sec {
-        padding: 50px 0 70px;
+        padding: 50px 0 50px;
         margin: 0;
         position: relative;
     }
@@ -2091,7 +2119,10 @@ ul.submenu_bkend {
         margin: 0px;
     }
     .time_flex-right {
-        margin: 5px 0 0;
+        margin: 15px 0 0;
+    }
+    .winner_result-time {
+        margin: 15px 0 0;
     }
     .timer h3 {
         padding: 0
@@ -2145,6 +2176,15 @@ ul.submenu_bkend {
         padding: 10px 15px;
         font-size: 16px;
         line-height: 16px;
+    }
+    .winner_result-time h4,
+    .winner_result-time p {
+        font-size: 18px;
+        line-height: 18px;
+    }
+    .winner_result-time h4 {
+        width: 40px;
+        height: 40px;
     }
 }
 
@@ -2495,6 +2535,7 @@ ul.submenu_bkend {
     .time_flex-right .timer_heading-time {
         margin: 0;
     }
+
 }
 
 @media (max-width:480px) {
@@ -2649,10 +2690,11 @@ ul.submenu_bkend {
         width: 100%;
     }
     .time_flex-right {
-        gap: 20px;
-        flex-direction: column;
+        gap: 10px;
+        /* flex-direction: column; */
         float: left;
         width: 100%;
+        justify-content: center;
     }
     .time_flex-right button.figmabtn.wallet-btn {
         width: 100%;

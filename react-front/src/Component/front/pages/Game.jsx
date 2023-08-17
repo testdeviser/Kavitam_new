@@ -942,19 +942,8 @@ function Game(props) {
                 value={updatedEventsTime1}
               />
 
-              <h3 className="mobile-hide">Last Result is:
-                {
-                  data11?.length > 0 && (
-                    <div>
-                      <h4>{data11[data11.length - 1].result}</h4>
-                      <p className='event-time'>
-                        {format12HourTime(data11[data11.length - 1].event_time)}
-                      </p>
-                    </div>
-                  )
-                }
-              </h3>
-
+              <h3 className="mobile-hide">Last Result is:</h3>
+              
 
               {/* <h3 className="mobile-hide">Last Result is:
                 {
@@ -969,6 +958,17 @@ function Game(props) {
                 }
               </h3> */}
               <h3 className="mobile-show">Choose your lucky number</h3>
+              {
+                  data11?.length > 0 && (
+                    <div className="winner_result-time">
+                      <h4>{data11[data11.length - 1].result}</h4>
+                      <p className='event-time'>
+                        {format12HourTime(data11[data11.length - 1].event_time)}
+                      </p>
+                    </div>
+                  )
+                }
+
               <div className="time_flex-right">
                 {/* <button className="figmabtn wallet-btn">
                   {" "}
