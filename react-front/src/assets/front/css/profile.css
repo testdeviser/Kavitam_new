@@ -1682,14 +1682,19 @@ h3.mobile-show {
 }
 
 .googlePhonePay a img {
-    width: 30px !important;
+    width: 50px !important;
     height: auto;
     margin: 0 10px 0 0;
 }
 .googlePhonePay a:last-child img {
     margin: 0;
 }
-
+span.copy-success-message {
+    font-size: 16px;
+    font-family: 'Barlow';
+    color: #000;
+    font-weight: 700;
+}
 .live_result_sec h2.hindi_text {
     font-size: 18px;
     line-height: 30px;
@@ -1820,6 +1825,14 @@ ul.submenu_bkend {
     background: #FC8019;
 }
 .Update_and-cancel {
+    display: flex;
+    gap: 10px;
+}
+.payment_wrapper-main {
+    display: flex;
+    justify-content: space-between;
+}
+.upi_main-ct {
     display: flex;
     gap: 10px;
 }
@@ -2398,6 +2411,10 @@ ul.submenu_bkend {
     .register-wrapper .right-side {
         width: 80%;
     }
+    .payment_wrapper-main {
+        flex-direction: column;
+        margin: 0 0 15px;
+    }
     ul.ul_privacy {
         margin: 15px 0 0 20px;
     }
@@ -2488,10 +2505,18 @@ ul.submenu_bkend {
         align-items: center;
         flex-wrap: wrap;
     }
+    .qrCode {
+        text-align: center;
+        margin: 15px 0 0;
+    }
     .googlePhonePay {
         float: left;
         width: 100%;
-        margin: 15px 0 0;
+        margin: 0px 0 0;
+        justify-content: center;
+    }
+    .googlePhonePay a img {
+        width: 40px !important;
     }
     .backend_number-filed button {
         width: auto;
