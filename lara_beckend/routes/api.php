@@ -125,6 +125,12 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
   Route::get('/admin/payments/editdata/{id}', [PaymentController::class, 'EditData'])->name('edit_payment_data');
   Route::post('/admin/payments/update_payments/{id}', [PaymentController::class, 'update'])->name('update');
 
+  //users
+  Route::get('/admin/users/fetch', [UserController::class, 'users'])->name('users');
+  Route::delete('/admin/users/{id}', [UserController::class, 'deleteUser']);
+  Route::put('/admin/users/{user}', [UserController::class, 'update']);
+
+
   //withdrawals
   Route::get('/admin/withdrawals/fetch', [PaymentController::class, 'withdrawals'])->name('withdrawals');
   Route::post('/admin/withdrawal/update_withdrawals/{id}', [PaymentController::class, 'updateWithdrawals'])->name('updateWithdrawals');

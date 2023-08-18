@@ -37,7 +37,13 @@ class PaymentController extends Controller
 
     public function withdrawals()
     {
-        $data = Withdrawal::where('status', 0)->orderBy('updated_at', 'desc')->get();
+        //$data = Withdrawal::where('status', 0)->orderBy('updated_at', 'desc')->get();
+
+        $data = Withdrawal::select('bank_details.bank_name', 'bank_details.bank_holder_name', 'bank_details.ifsc_code', 'bank_details.account_no', 'bank_details.user_name', 'withdrawals.amount', 'withdrawals.id')
+            ->join('bank_details', 'withdrawals.userId', '=', 'bank_details.user_id')
+            ->where('withdrawals.status', 0)
+            ->orderBy('withdrawals.updated_at', 'desc')
+            ->get();
 
         if ($data) {
             return response()->json([
@@ -55,7 +61,13 @@ class PaymentController extends Controller
 
     public function withdrawalHistory()
     {
-        $approved = Withdrawal::where('status', 1)->orderBy('updated_at', 'desc')->get();
+        //$approved = Withdrawal::where('status', 1)->orderBy('updated_at', 'desc')->get();
+
+        $approved = Withdrawal::select('bank_details.bank_name', 'bank_details.bank_holder_name', 'bank_details.ifsc_code', 'bank_details.account_no', 'bank_details.user_name', 'withdrawals.amount', 'withdrawals.id')
+            ->join('bank_details', 'withdrawals.userId', '=', 'bank_details.user_id')
+            ->where('withdrawals.status', 1)
+            ->orderBy('withdrawals.updated_at', 'desc')
+            ->get();
 
         if ($approved) {
             return response()->json([
@@ -73,7 +85,13 @@ class PaymentController extends Controller
 
     public function pendingWithdrawal()
     {
-        $rejected = Withdrawal::where('status', 2)->orderBy('updated_at', 'desc')->get();
+        //$rejected = Withdrawal::where('status', 2)->orderBy('updated_at', 'desc')->get();
+
+        $rejected = Withdrawal::select('bank_details.bank_name', 'bank_details.bank_holder_name', 'bank_details.ifsc_code', 'bank_details.account_no', 'bank_details.user_name', 'withdrawals.amount', 'withdrawals.id')
+            ->join('bank_details', 'withdrawals.userId', '=', 'bank_details.user_id')
+            ->where('withdrawals.status', 2)
+            ->orderBy('withdrawals.updated_at', 'desc')
+            ->get();
 
         if ($rejected) {
             return response()->json([

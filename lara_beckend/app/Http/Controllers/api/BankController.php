@@ -25,13 +25,15 @@ class BankController extends Controller
 
         $validator = Validator::make($request->all(), [
             'bank_holder_name' => 'required|string',
+            'bank_name' => 'required|string',
             'account_no' => 'required|numeric|digits_between:11,14',
             'confirm_account_no' => 'required|same:account_no',
             //'ifsc_code' => 'required',
             'ifsc_code' => 'required|regex:/^[a-zA-Z0-9]{11}$/',
         ], [
-            'bank_holder_name.required' => 'Please enter bank holder name',
+            'bank_holder_name.required' => 'Please enter name',
             'bank_holder_name.string' => 'Bank Holder Name must be string',
+            'bank_name.required' => 'Please enter Bank Name',
             'account_no.required' => 'Please enter Account No.',
             'account_no.numeric' => 'Account No. must be numeric',
             'account_no.digits_between' => 'Account No. must be between 11 and 14 digits',
@@ -54,6 +56,7 @@ class BankController extends Controller
             $bank_details = BankDetails::create([
                 'user_id' => $userId,
                 'user_name' => $userName,
+                'bank_name' => $request->bank_name,
                 'bank_holder_name' => $request->bank_holder_name,
                 'account_no' => $request->account_no,
                 'ifsc_code' => $request->ifsc_code,
@@ -80,13 +83,15 @@ class BankController extends Controller
 
         $validator = Validator::make($request->all(), [
             'bank_holder_name' => 'required|string',
+            'bank_name' => 'required|string',
             'account_no' => 'required|numeric|digits_between:11,14',
             'confirm_account_no' => 'required|same:account_no',
             //'ifsc_code' => 'required',
             'ifsc_code' => 'required|regex:/^[a-zA-Z0-9]{11}$/',
         ], [
-            'bank_holder_name.required' => 'Please enter bank holder name',
+            'bank_holder_name.required' => 'Please enter name',
             'bank_holder_name.string' => 'Bank Holder Name must be string',
+            'bank_name.required' => 'Please enter Bank Name',
             'account_no.required' => 'Please enter Account No.',
             'account_no.numeric' => 'Account No. must be numeric',
             'account_no.digits_between' => 'Account No. must be between 11 and 14 digits',
@@ -105,11 +110,13 @@ class BankController extends Controller
         } else {
             $userId = $request->user_id;
             $bank_holder_name = $request->bank_holder_name;
+            $bank_name = $request->bank_name;
             $account_no = $request->account_no;
             $ifsc_code = $request->ifsc_code;
 
             $userBankDetails = BankDetails::where('user_id', $userId)->first();
             $userBankDetails->bank_holder_name = $bank_holder_name;
+            $userBankDetails->bank_name = $bank_name;
             $userBankDetails->account_no = $account_no;
             $userBankDetails->ifsc_code = $ifsc_code;
             $userBankDetails->update();

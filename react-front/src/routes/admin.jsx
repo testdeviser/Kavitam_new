@@ -13,6 +13,7 @@ import Payments from '../Component/admin/Payments/Payments';
 import EditPayment from '../Component/admin/Payments/Editpayment';
 import PriceMultiplyBy from '../Component/admin/PriceMultiplyBy';
 import UpiQR from '../Component/admin/UpiQR';
+import User from '../Component/admin/User';
 import Withdrawal from '../Component/admin/Withdrawal';
 import WithdrawalHistory from '../Component/admin/WithdrawalHistory';
 import PendingWithdrawal from '../Component/admin/PendingWithdrawal';
@@ -33,6 +34,7 @@ const AdminRoutes = [
     { path: '/admin/payment/Edit/:id', exact: true, name: EditPayment, component: EditPayment },
     { path: '/admin/PriceMultiplyBy', exact: true, name: PriceMultiplyBy, component: PriceMultiplyBy },
     { path: '/admin/UpiQR', exact: true, name: UpiQR, component: UpiQR },
+    { path: '/admin/User', exact: true, name: User, component: User },
     { path: '/admin/Withdrawal', exact: true, name: Withdrawal, component: Withdrawal },
     { path: '/admin/WithdrawalHistory', exact: true, name: WithdrawalHistory, component: WithdrawalHistory },
     { path: '/admin/PendingWithdrawal', exact: true, name: PendingWithdrawal, component: PendingWithdrawal },
