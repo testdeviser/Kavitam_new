@@ -113,11 +113,11 @@ function App() {
           <Route path='/EmailSent' element={<EmailSuccess />} />
           <Route path='/login' element={localStorage.getItem('auth_token') ? <Home /> : <Login />} />
           <Route path='/register' exact element={localStorage.getItem('auth_token') ? <Home /> : <Register />} />
-          {/* <Route path='/Setting' element={<Setting />}> */}
-          <Route
+          <Route path='/Setting' element={<Setting />}>
+            {/* <Route
             path="/Setting"
             element={isLoggedIn ? <Setting /> : <Navigate to="/login" />}
-          >
+          > */}
             <Route index element={<Profile />} />
             <Route path='/Setting/wallet' element={<Wallet />}>
               <Route index element={<PaymentHistory />} />

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->integer('user_id');
             $table->string('user_name');
+            $table->string('bank_name');
             $table->string('bank_holder_name');
             $table->integer('account_no');
             $table->string('ifsc_code');

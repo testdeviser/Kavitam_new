@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSave, FaWallet } from "react-icons/fa";
-import { FaGamepad, FaTag, FaCreditCard,FaAngleDown,FaQrcode,FaMoneyBillAlt, FaCalendarAlt } from "react-icons/fa";
+import { FaGamepad, FaTag, FaCreditCard, FaAngleDown, FaQrcode, FaMoneyBillAlt, FaCalendarAlt } from "react-icons/fa";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { AiOutlineBarChart, AiFillBuild } from "react-icons/ai";
 import { MdEmojiEvents } from "react-icons/md";
@@ -26,6 +26,12 @@ function Sidebar(props) {
                             <Link className={`nav-link  ${isLinkActive("/admin/dashboard")}`} to="/admin/dashboard" onClick={() => handleLinkClick("/admin/dashboard")}>
                                 <div className="sb-nav-link-icon"><MdOutlineDashboardCustomize size={25} /></div>
                                 Dashboard
+                            </Link>
+                        </li>
+                        <li>
+                            <Link className={`nav-link ${isLinkActive("/admin/user")}`} to="/admin/user" onClick={() => handleLinkClick("/admin/user")}>
+                                <div className="sb-nav-link-icon"><FaGamepad size={25} /></div>
+                                Users
                             </Link>
                         </li>
                         <li>

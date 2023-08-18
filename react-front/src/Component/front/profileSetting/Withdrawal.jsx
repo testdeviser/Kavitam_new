@@ -41,6 +41,7 @@ function Withdrawal(props) {
         e.preventDefault();
         const data = {
             bank_holder_name: inputs.bank_holder_name,
+            bank_name: inputs.bank_name,
             account_no: inputs.account_no,
             confirm_account_no: inputs.confirm_account_no,
             ifsc_code: inputs.ifsc_code,
@@ -194,6 +195,7 @@ function Withdrawal(props) {
     const [editMode, setEditMode] = useState(false);
     const [editData, setEditData] = useState({
         bank_holder_name: '',
+        bank_name: '',
         account_no: '',
         confirm_account_no: '',
         ifsc_code: '',
@@ -212,6 +214,7 @@ function Withdrawal(props) {
                 const bankDetails = res.data.bankDetails[0]; // Assuming you're fetching a single bank detail
                 setEditData({
                     bank_holder_name: bankDetails.bank_holder_name,
+                    bank_name: bankDetails.bank_name,
                     account_no: bankDetails.account_no,
                     confirm_account_no: bankDetails.account_no,
                     ifsc_code: bankDetails.ifsc_code,
@@ -261,6 +264,7 @@ function Withdrawal(props) {
         const data = {
             user_id: localStorage.getItem('user_id'),
             bank_holder_name: editData.bank_holder_name,
+            bank_name: editData.bank_name,
             account_no: editData.account_no,
             confirm_account_no: editData.confirm_account_no,
             ifsc_code: editData.ifsc_code,
@@ -309,22 +313,7 @@ function Withdrawal(props) {
                                     <div className="login-form">
                                         {/* <form onSubmit={handleEditSubmit} className="row"> */}
                                         <form onSubmit={handleEditSubmit} className="row">
-                                            <div className='login_input col-lg-6 col-md-6 col-sm-12'>
-                                                <label htmlFor="bank_holder_name" className='login-label'>
-                                                    Bank Holder Name
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name="bank_holder_name"
-                                                    autoComplete='off'
-                                                    className='form-control'
-                                                    value={editData.bank_holder_name}
-                                                    onChange={handleEditInputChange}
-                                                />
-                                                <span className='text-danger'>
-                                                    {errors.bank_holder_name ? errors.bank_holder_name : ''}
-                                                </span>
-                                            </div>
+
 
                                             <div className="login_input col-lg-6 col-md-6 col-sm-12">
                                                 <label htmlFor="account_no" className='login-label'>
@@ -352,6 +341,39 @@ function Withdrawal(props) {
                                                     onChange={handleEditInputChange}
                                                 />
                                                 <span className='text-danger'>{errors.confirm_account_no ? errors.confirm_account_no : ''}</span>
+                                            </div>
+
+                                            <div className='login_input col-lg-6 col-md-6 col-sm-12'>
+                                                <label htmlFor="bank_name" className='login-label'>
+                                                    Bank Name
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="bank_name"
+                                                    autoComplete='off'
+                                                    id="bank_name"
+                                                    className='form-control'
+                                                    value={editData.bank_name}
+                                                    onChange={handleEditInputChange}
+                                                />
+                                                <span className='text-danger'>{errors.bank_name ? errors.bank_name : ''}</span>
+                                            </div>
+
+                                            <div className='login_input col-lg-6 col-md-6 col-sm-12'>
+                                                <label htmlFor="bank_holder_name" className='login-label'>
+                                                    Name
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="bank_holder_name"
+                                                    autoComplete='off'
+                                                    className='form-control'
+                                                    value={editData.bank_holder_name}
+                                                    onChange={handleEditInputChange}
+                                                />
+                                                <span className='text-danger'>
+                                                    {errors.bank_holder_name ? errors.bank_holder_name : ''}
+                                                </span>
                                             </div>
 
                                             <div className="login_input col-lg-6 col-md-6 col-sm-12">
@@ -388,15 +410,17 @@ function Withdrawal(props) {
                                 <h2>Bank Details</h2>
                                 {submittedData ? (
                                     <>
-                                        <p>Bank Name: {submittedData.bank_holder_name}</p>
                                         <p>Account No.: {submittedData.account_no}</p>
+                                        <p>Bank Name: {submittedData.bank_name}</p>
+                                        <p>Name: {submittedData.bank_holder_name}</p>
                                         <p>IFSC Code: {submittedData.ifsc_code}</p>
                                         <button className='account_edit' onClick={handleEdit}>Edit</button>
                                     </>
                                 ) : bankDetails && bankDetails.length > 0 ? (
                                     <>
-                                        <p>Bank Name: {bankDetails[0].bank_holder_name}</p>
                                         <p>Account No.: {bankDetails[0].account_no}</p>
+                                        <p>Bank Name: {bankDetails[0].bank_name}</p>
+                                        <p>Name: {bankDetails[0].bank_holder_name}</p>
                                         <p>IFSC Code: {bankDetails[0].ifsc_code}</p>
                                         <button className='account_edit' onClick={handleEdit}>Edit</button> {/* Add Edit Button */}
                                     </>
@@ -469,24 +493,6 @@ function Withdrawal(props) {
                             </div>
                             <div className="login-form">
                                 <form onSubmit={handleBankSubmit} className="row">
-                                    <div className='login_input col-lg-6 col-md-6 col-sm-12'>
-                                        <label htmlFor="bank_name" className='login-label'>
-                                            Bank Holder Name
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="bank_holder_name"
-                                            autoComplete='off'
-                                            id="bank_holder_name"
-                                            className='form-control'
-                                            value={inputs.bank_holder_name}
-                                            onChange={(e) =>
-                                                setInputs({ ...inputs, bank_holder_name: e.target.value })
-                                            }
-                                        />
-                                        <span className='text-danger'>{errors.bank_holder_name ? errors.bank_holder_name : ''}</span>
-                                    </div>
-
                                     <div className="login_input col-lg-6 col-md-6 col-sm-12">
                                         <label htmlFor="account_no" className='login-label'>
                                             Account No.
@@ -517,6 +523,42 @@ function Withdrawal(props) {
                                             }
                                         />
                                         <span className='text-danger'>{errors.confirm_account_no ? errors.confirm_account_no : ''}</span>
+                                    </div>
+
+                                    <div className='login_input col-lg-6 col-md-6 col-sm-12'>
+                                        <label htmlFor="bank_name" className='login-label'>
+                                            Bank Name
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="bank_name"
+                                            autoComplete='off'
+                                            id="bank_name"
+                                            className='form-control'
+                                            value={inputs.bank_name}
+                                            onChange={(e) =>
+                                                setInputs({ ...inputs, bank_name: e.target.value })
+                                            }
+                                        />
+                                        <span className='text-danger'>{errors.bank_name ? errors.bank_name : ''}</span>
+                                    </div>
+
+                                    <div className='login_input col-lg-6 col-md-6 col-sm-12'>
+                                        <label htmlFor="bank_holder_name" className='login-label'>
+                                            Name
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="bank_holder_name"
+                                            autoComplete='off'
+                                            id="bank_holder_name"
+                                            className='form-control'
+                                            value={inputs.bank_holder_name}
+                                            onChange={(e) =>
+                                                setInputs({ ...inputs, bank_holder_name: e.target.value })
+                                            }
+                                        />
+                                        <span className='text-danger'>{errors.bank_holder_name ? errors.bank_holder_name : ''}</span>
                                     </div>
 
                                     <div className="login_input col-lg-6 col-md-6 col-sm-12">
