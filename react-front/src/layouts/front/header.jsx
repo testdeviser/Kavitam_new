@@ -15,7 +15,6 @@ import GoogleTranslator from '../../Component/front/GoogleTranslator';
 import { handleSidebarStyle } from '../../utils';
 import { setActiveSidebarLink } from '../../utils/utils';
 
-
 // function Header({ callback, setcheckNumber_loading, paymentStatus, walletBalance, ...props }) {
 function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
     const navigate = useNavigate();
@@ -98,6 +97,8 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
         }
     };
 
+    const googleTranslatorId = "google_translate_element_header";
+
     var authentication = '';
     if (auth_token) {
         authentication = (
@@ -115,15 +116,17 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                     <Link to="/contactus" onClick={handleLinkClick}>Contact Us</Link>
                 </li>
 
-                <li>
+                {/* <li>
                     <GoogleTranslator />
-                </li>
+                </li> */}
 
+                <li>
+                    <GoogleTranslator id={googleTranslatorId} />
+                </li>
 
                 {/* <li >
                     <Link to="/mynumbers">My numbers</Link>
                 </li> */}
-
 
                 <li className="hover_dropdown">
                     <Link to="/setting"><img src={process.env.PUBLIC_URL + '/image/undraw_profile.svg'} className="rounded-circle" width="45px" height="30" />{auth_token ? user_name : 'guest'}</Link>
@@ -234,9 +237,14 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                 <li>
                     <Link to="/contactus" onClick={handleLinkClick}>Contact Us</Link>
                 </li>
-                <li>
+                {/* <li>
                     <GoogleTranslator />
+                </li> */}
+
+                <li>
+                    <GoogleTranslator id={googleTranslatorId} />
                 </li>
+
 
                 {/* <li>
                     <Link to="/termsconditions">Terms&Conditions</Link>
