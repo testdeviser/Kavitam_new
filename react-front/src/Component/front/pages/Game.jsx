@@ -883,7 +883,15 @@ function Game(props) {
     return `${hours12}:${minutes} ${period}`;
   }
 
-
+  function chekNegativeValue(time) {
+    const containsSubstring = time.includes("-");
+    if (containsSubstring) {
+      // return "00:00";
+      return <div className="loader">Loading...</div>;
+    } else {
+      return time;
+    }
+  }
 
   if (loading) {
     return (
@@ -1116,8 +1124,9 @@ function Game(props) {
               <div className="col-lg-9 col-md-12">
                 <div className="game-left-sec">
                   <div className="counter_disable-num" id="block1">
+
                     <button className="clockdownTimer" id="timerBlock" style={{ 'display': 'none' }}>
-                      {formatTime(time)}
+                      {chekNegativeValue(formatTime(time))}
                     </button>
                   </div>
                   <div id="countdownDiv" className="main_num">
@@ -1155,7 +1164,8 @@ function Game(props) {
                   <div className="game-left-sec">
                     <div className="counter_disable-num" id="block2">
                       <button className="clockdownTimer" id="timerBlock1" style={{ 'display': 'none' }}>
-                        {formatTime(time)}
+                        {/* {formatTime(time)} */}
+                        {chekNegativeValue(formatTime(time))}
                       </button>
                     </div>
                     <div id="countdownDiv1" className="main_num">
@@ -1193,7 +1203,8 @@ function Game(props) {
 
                     <div className="counter_disable-num" id="block3">
                       <button className="clockdownTimer" id="timerBlock2" style={{ 'display': 'none' }}>
-                        {formatTime(time)}
+                        {/* {formatTime(time)} */}
+                        {chekNegativeValue(formatTime(time))}
                       </button>
                     </div>
 

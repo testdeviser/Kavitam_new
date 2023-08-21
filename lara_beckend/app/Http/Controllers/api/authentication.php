@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AdminContactUsEmail;
+use App\Mail\ResetPasswordMail;
 use App\Models\Contact;
 use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
@@ -535,11 +537,15 @@ class authentication extends Controller
     public function contactus(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'emailPhone' => 'required',
+            'email' => 'required|email',
+            'phone' => 'numeric|digits_between:10,15',
             'message' => 'required',
         ], [
-            'emailPhone.required' => 'Please enter Email or Phone No.',
-            'message.required' => 'Please enter message',
+            'email.required' => 'Please enter Email',
+            'email.email' => 'Please enter a valid Email',
+            'phone.numeric' => 'Phone number must be numeric and ',
+            'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+            'message.required' => 'Please enter Message',
         ]);
 
         if ($validator->fails()) {
@@ -548,20 +554,28 @@ class authentication extends Controller
                 'error' => $validator->messages(),
             ]);
         } else {
+            $email = $request->email;
+            $message = $request->message;
+
             $contact = Contact::create([
-                'emailPhone' => $request->emailPhone,
-                'message' => $request->message,
+                'email' => $email,
+                'phone' => $request->phone,
+                'message' => $message,
             ]);
 
-            // Send email
-            Mail::to('Kavitam.70179@gmail.com')->send(new ContactUsEmail($contact));
-
-            return response()->json([
-                'status' => 200,
-                'emailPhone' => $contact->emailPhone,
-                'messge' => $contact->message,
-                'message' => 'Thank You for getting in Touch',
-            ]);
+            //send the password reset email (In Gmail)
+            if ($contact) {
+                try {
+                    Mail::mailer('smtp')->to($email)->send(new ContactUsEmail($contact));
+                    Mail::mailer('smtp')->to('kavi998854@gmail.com')->send(new AdminContactUsEmail($contact));
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Thank You for getting in Touch'
+                    ]);
+                } catch (\Exception $err) {
+                    return response()->json(['status' => 500, 'message' => 'Could not send email']);
+                }
+            }
         }
     }
 

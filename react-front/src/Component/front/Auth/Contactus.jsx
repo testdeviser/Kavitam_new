@@ -1,4 +1,4 @@
-import React, { useState, useReff, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate, Link } from 'react-router-dom';
@@ -6,22 +6,52 @@ import { FaPhone, FaEnvelope } from 'react-icons/fa';
 
 function Contactus(props) {
     const navigate = useNavigate();
-    const [inputs, setinputs] = useState({
-        emailPhone: '',
-        message: '',
+    const phone = useRef();
 
+    const phonehandler = (e) => {
+        phone.current = e.target.value;
+        if (phone.current.length == 10) {
+
+            setinputs({ ...inputs, verifyBtn: true });
+        }
+        else {
+            setinputs({ ...inputs, verifyBtn: false });
+        }
+    }
+
+    const [inputs, setinputs] = useState({
+        email: '',
+        phone: '',
+        message: '',
     });
     const [erros, setError] = useState({});
+
+    const handleAmountKeyPress = (e) => {
+        const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    };
+
+    const handleInputValidation = (e) => {
+        const minValue = 0; // Define your desired minimum value
+        const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+        const currentValue = parseFloat(e.target.value);
+
+        //if (currentValue < minValue || currentValue > maxValue) {
+        if (currentValue < minValue) {
+            e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = {
-            emailPhone: inputs.emailPhone,
+            email: inputs.email,
+            //phone: inputs.phone,
+            phone: phone.current,
             message: inputs.message,
         };
-
-        console.log("rav");
-        console.log(data);
 
         try {
             await axios.post(`/api/contactus`, data).then(res => {
@@ -32,18 +62,21 @@ function Contactus(props) {
                         title: res.data.message,
                         timer: 1500,
                     });
-                    localStorage.setItem('auth_token', res.data.token);
-                    localStorage.setItem('user_name', res.data.username);
-                    localStorage.setItem('user_id', res.data.userid);
-                    //window.location.reload();
 
-                    // r2Admin
-                    if (res.data.user == 'admin') {
-                        navigate('/admin');
-                    }
-                    else {
-                        navigate('/game');
-                    }
+                    navigate('/');
+
+                    // localStorage.setItem('auth_token', res.data.token);
+                    // localStorage.setItem('user_name', res.data.username);
+                    // localStorage.setItem('user_id', res.data.userid);
+                    // //window.location.reload();
+
+                    // // r2Admin
+                    // if (res.data.token) {
+                    //     navigate('/game');
+                    // }
+                    // else {
+                    //     navigate('/');
+                    // }
 
                 }
                 else if (res.data.status == 404) {
@@ -72,10 +105,18 @@ function Contactus(props) {
                         <div className="refister-form">
                             <form action="" onSubmit={handleSubmit}>
                                 <div className="input-container login_input">
-                                    <label htmlFor="emailPhone" className='login-label'>Email/Phone No.</label>
-                                    <input type="text" className="register-input" name="emailPhone" onChange={(e) => { setinputs({ ...inputs, emailPhone: e.target.value }) }} />
-                                    <span className='text-danger'>{erros.emailPhone ? erros.emailPhone : ''}</span>
+                                    <label htmlFor="email" className='login-label'>Email</label>
+                                    <input type="text" className="register-input" name="email" onChange={(e) => { setinputs({ ...inputs, email: e.target.value }) }} />
+                                    <span className='text-danger'>{erros.email ? erros.email : ''}</span>
                                 </div>
+
+                                <div className="input-container login_input">
+                                    <label htmlFor="phone" className='login-label'>Phone number</label>
+                                    <input type="number" className="register-input" name="phone" maxLength={15} minLength={10} onChange={phonehandler} onKeyPress={(e) => handleAmountKeyPress(e)}
+                                        onInput={(e) => handleInputValidation(e)} />
+                                    <span className='text-danger'>{erros.phone ? erros.phone : ''}</span>
+                                </div>
+
                                 <div className="input-container login_input">
                                     <label htmlFor="message" className='login-label'>Message</label>
                                     <textarea name="message" rows={10} cols={61} onChange={(e) => { setinputs({ ...inputs, message: e.target.value }) }} />

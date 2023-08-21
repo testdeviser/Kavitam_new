@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactUsEmail extends Mailable
+class AdminContactUsEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -41,7 +41,7 @@ class ContactUsEmail extends Mailable
         return $this->from('kavi998854@gmail.com', 'Developer Test')
             ->subject('Contact Us')
             //->view('emails.reset_password');
-            ->view('emails.contact_us');
+            ->view('emails.adminContact_us');
         // ->markdown('emails.subscribers');
     }
 

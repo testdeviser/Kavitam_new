@@ -7,12 +7,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactUsEmail extends Mailable
+class ResetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    //public $email;
-    public $contact;
+    public $resetLink;
+    public $email;
 
     /**
      * Create a new message instance.
@@ -20,9 +20,9 @@ class ContactUsEmail extends Mailable
      * @return void
      */
 
-    public function __construct($contact)
+    public function __construct($email)
     {
-        $this->contact = $contact;
+        $this->email = $email;
     }
 
     // public function __construct($resetLink)
@@ -39,9 +39,8 @@ class ContactUsEmail extends Mailable
     public function build()
     {
         return $this->from('kavi998854@gmail.com', 'Developer Test')
-            ->subject('Contact Us')
-            //->view('emails.reset_password');
-            ->view('emails.contact_us');
+            ->subject('Reset Password Link')
+            ->view('emails.reset_password');
         // ->markdown('emails.subscribers');
     }
 

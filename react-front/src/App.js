@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Main from "./Component/front/Main";
 import Game from "./Component/front/pages/Game";
 import Home from "./Component/front/pages/Home";
@@ -38,8 +38,8 @@ import GoogleTranslator from "./Component/front/GoogleTranslator";
 // import 'datatables.net-dt/js/dataTables.dataTables';
 
 
-axios.defaults.baseURL = 'http://localhost:8000/';
-// axios.defaults.baseURL = 'https://kavitam.com/lara_beckend/public';
+// axios.defaults.baseURL = 'http://localhost:8000/';
+axios.defaults.baseURL = 'https://kavitam.com/lara_beckend/public';
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.withCredentials = true;
@@ -73,6 +73,19 @@ function App() {
   //   document.body.appendChild(addScript);
   //   window.googleTranslateElementInit = googleTranslateElementInit;
   // }, []);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    // Extract the current route path and format it for class names
+    const routeClassName = location.pathname.replace('/', '').replace('/', '-');
+    if (routeClassName === '') {
+      document.body.className = 'page-main';
+    } else {
+      document.body.className = `page-${routeClassName}`;
+    }
+
+  }, [location]);
 
   return (
 
