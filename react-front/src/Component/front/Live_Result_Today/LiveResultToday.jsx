@@ -23,6 +23,14 @@ function LiveResultToday(props) {
         });
     }
 
+    // const fetch_events = () => {
+    //     axios.get('/api/ResultexceptLast').then(res => {
+    //         //console.log(res.data.event.event_time);
+    //         setdata({ ...data, event: res.data.event });
+    //     });
+    // }
+
+
     // const fetch_all_events = () => {
     //     axios.get('/api/fetch_all_events').then(res => {
     //         setAllEvents({ ...data, allEventResult: res.data.allEventResult });
@@ -52,7 +60,6 @@ function LiveResultToday(props) {
     const viewLessbtn = () => {
         setdata({ ...data, no_of_result: 17, showAllButton: true, showLessButton: false });
     };
-
 
     const data1 = data.event.slice(0, data.no_of_result);
     return (

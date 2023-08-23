@@ -62,13 +62,15 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
     const [events, setEvents] = useState();
 
     useEffect(() => {
-        fetchData();
-        const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+        if (auth_token) {
+            fetchData();
+            const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
 
-        return () => {
-            clearInterval(interval); // Clean up the interval on component unmount
-        };
-    }, []);
+            return () => {
+                clearInterval(interval); // Clean up the interval on component unmount
+            };
+        }
+    }, [auth_token]);
 
     const fetchData = () => {
         axios.get('api/fetchWalletBalance').then((res) => {
@@ -82,19 +84,9 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
         });
     };
 
-
     const handleButtonClick = () => {
         // Redirect to the login page
         navigate('/payment');
-    };
-
-    const handlePlayNowClick = () => {
-        // Check if the user is logged in
-        if (auth_token) {
-            navigate('/game'); // Navigate to the game page if logged in
-        } else {
-            navigate('/login'); // Navigate to the login page if not logged in
-        }
     };
 
     const googleTranslatorId = "google_translate_element_header";

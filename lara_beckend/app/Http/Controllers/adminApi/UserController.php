@@ -28,7 +28,8 @@ class UserController extends Controller
 
     public function users(Request $request)
     {
-        $users = User::all();
+        //$users = User::all();
+        $users = User::where('role_as', '!=', 1)->get();
         if ($users) {
             return response()->json([
                 'status' => 200,

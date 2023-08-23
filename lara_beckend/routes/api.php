@@ -207,6 +207,7 @@ Route::get('/Sidebar/outerNumber/fetch', [sidebarController::class, 'fetchOuter'
 
 //  Live Result Today
 Route::get('/Result_today', [MynumbersController::class, 'Live_result_today']);
+Route::get('/ResultexceptLast', [MynumbersController::class, 'ResultexceptLast']);
 Route::get('/Result_by_date/{date}', [MynumbersController::class, 'Result_by_date']);
 Route::get('/fetch_all_events', [MynumbersController::class, 'fetch_all_events']);
 Route::get('/events/fetch', [AdminEventController::class, 'Fetch_Event_in_Front']);

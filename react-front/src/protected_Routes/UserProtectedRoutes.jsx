@@ -26,7 +26,7 @@ function UserProtectedRoutes({componentName,children,...props}) {
 
 
     useEffect(() => {
-        checkAuth();   
+        //checkAuth();   
         setloading(false); 
         return () => {
           setAuthenticated(false);

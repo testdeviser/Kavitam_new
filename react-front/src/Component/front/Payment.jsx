@@ -225,13 +225,13 @@ function Payment(props) {
                                                 </div>
                                             </div>
                                             <div className='googlePhonePay'>
-                                                <Link to="upi://pay?pa=kamalmaurya9646@okaxis&amp;pn=FNAME SNAME K&amp;cu=INR" class="upi-pay1">
+                                                <Link to="upi://pay?pa=kamalmaurya9646@okaxis&amp;pn=FNAME SNAME K&amp;cu=INR" className="upi-pay1">
                                                     <img src={process.env.PUBLIC_URL + '/image/googlePay.jpg'} alt="circle_dot-left" />
                                                 </Link>
-                                                <Link to="phonepe://pay?pa=8699755546@ybl&amp;pn=FNAME SNAME K&amp;cu=INR" class="upi-pay1">
+                                                <Link to="phonepe://pay?pa=8699755546@ybl&amp;pn=FNAME SNAME K&amp;cu=INR" className="upi-pay1">
                                                     <img src={process.env.PUBLIC_URL + '/image/phonePay.jpg'} alt="circle_dot-left" />
                                                 </Link>
-                                                <Link to="paytm://pay?pa=8699755546@paytm&amp;pn=FNAME SNAME K&amp;cu=INR" class="upi-pay1">
+                                                <Link to="paytm://pay?pa=8699755546@paytm&amp;pn=FNAME SNAME K&amp;cu=INR" className="upi-pay1">
                                                     <img src={process.env.PUBLIC_URL + '/image/paytm.png'} alt="circle_dot-left" />
                                                 </Link>
                                             </div>
