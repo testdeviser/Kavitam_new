@@ -72,20 +72,24 @@ function Withdrawal(props) {
         }
     };
 
+    var auth_token = localStorage.getItem("auth_token");
+
     // const handleEdit = () => {
     //     setSubmittedData(null);
     // };
 
     const [events, setEvents] = useState();
     useEffect(() => {
-        axios.get('api/fetchWalletBalance').then((res) => {
-            if (res.data.status === 200) {
-                setEvents(res.data.amount);
-            } else {
-                console.log('Events not found');
-            }
-        });
-    }, []);
+        if (auth_token) {
+            axios.get('api/fetchWalletBalance').then((res) => {
+                if (res.data.status === 200) {
+                    setEvents(res.data.amount);
+                } else {
+                    console.log('Events not found');
+                }
+            });
+        }
+    }, [auth_token]);
 
     const [bankDetails, setBankDetails] = useState([]);
     useEffect(() => {

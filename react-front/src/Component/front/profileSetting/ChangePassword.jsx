@@ -23,9 +23,6 @@ function Login(props) {
             confirmPassword: inputs.confirmPassword,
         };
 
-        console.log("jaspreeet");
-        console.log(data);
-
         try {
             await axios.post(`/api/user/changePassword`, data).then(res => {
                 //console.log(res.data);
@@ -104,7 +101,6 @@ function Login(props) {
             </div>
             {/* </div >
             </section> */}
-
 
         </>
     );

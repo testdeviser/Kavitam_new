@@ -291,50 +291,89 @@ function Game(props) {
   // }, [events]);
 
   const autoRefreshTimer = useRef(null);
+  const fetchedDataRef = useRef({
+    eventID: null,
+    currentTime: null,
+    eventTime: null,
+    setTimeDifference: null,
+    setUpdatedEventTime2: null
+  });
 
-  const fetchActiveEvents = () => {
+  // const fetchActiveEvents = async () => {
+  //   try {
+  //     //axios.get("api/todayActiveEvents").then((res) => {
+  //     const res = await axios.get("api/todayActiveEvents");
+
+  const fetchActiveEvents = async () => {
     try {
-      axios.get("api/todayActiveEvents").then((res) => {
-        if (res.data.status === 200) {
-          setEvents(res.data.event_id);
-          setCurrentTime(res.data.currentTime1);
-          setEventTime(res.data.time);
+      const res = await axios.get("api/todayActiveEvents");
 
-          var currentTime = new Date("2000-01-01T" + res.data.currentTime1 + "Z");
-          var eventTime = new Date("2000-01-01T" + res.data.time + "Z");
-          var timeDifference = new Date(currentTime - eventTime);
-          // Calculate the total number of minutes and seconds in the time difference
-          var totalMinutes = timeDifference.getUTCMinutes();
-          var totalSeconds = timeDifference.getUTCSeconds();
-          var difference =
-            totalMinutes + ":" + totalSeconds.toString().padStart(2, "0");
+      // const fetchActiveEvents = () => {
+      //   var finalData = [];
+      //   try {
+      //     axios.get("api/todayActiveEvents").then((res) => {
+      if (res.data.status === 200) {
 
-          var time1 = "60:00";
-          var time2 = difference;
-          var [hours1, minutes1] = time1.split(":").map(Number);
-          var [hours2, minutes2] = time2.split(":").map(Number);
-          var totalMinutes1 = hours1 * 60 + minutes1;
-          var totalMinutes2 = hours2 * 60 + minutes2;
-          var differenceMinutes = totalMinutes1 - totalMinutes2;
-          var differenceHours = Math.floor(differenceMinutes / 60);
-          var differenceRemainingMinutes = differenceMinutes % 60;
-          var difference1 =
-            differenceHours.toString().padStart(2, "0") +
-            ":" +
-            differenceRemainingMinutes.toString().padStart(2, "0");
+        // finalData['eventID'] = res.data.event_id;
+        // finalData['currentTime'] = res.data.currentTime1;
+        // finalData['eventTime'] = res.data.time;
 
-          // console.log("kuch bhi");
-          // console.log(difference1);
-          setTimeDifference(difference1);
+        // setEvents(res.data.event_id);
+        // setCurrentTime(res.data.currentTime1);
+        // setEventTime(res.data.time);
 
-          const timeString = difference1;
-          const [minutes, seconds] = timeString.split(":").map(Number);
-          const totalSeconds1 = minutes * 60 + seconds;
-          setUpdatedEventTime2(totalSeconds1);
-        } else {
-          console.log("Events not found");
-        }
-      });
+        var currentTime = new Date("2000-01-01T" + res.data.currentTime1 + "Z");
+        var eventTime = new Date("2000-01-01T" + res.data.time + "Z");
+        var timeDifference = new Date(currentTime - eventTime);
+        // Calculate the total number of minutes and seconds in the time difference
+        var totalMinutes = timeDifference.getUTCMinutes();
+        var totalSeconds = timeDifference.getUTCSeconds();
+        var difference =
+          totalMinutes + ":" + totalSeconds.toString().padStart(2, "0");
+
+        var time1 = "60:00";
+        var time2 = difference;
+        var [hours1, minutes1] = time1.split(":").map(Number);
+        var [hours2, minutes2] = time2.split(":").map(Number);
+        var totalMinutes1 = hours1 * 60 + minutes1;
+        var totalMinutes2 = hours2 * 60 + minutes2;
+        var differenceMinutes = totalMinutes1 - totalMinutes2;
+        var differenceHours = Math.floor(differenceMinutes / 60);
+        var differenceRemainingMinutes = differenceMinutes % 60;
+        var difference1 =
+          differenceHours.toString().padStart(2, "0") +
+          ":" +
+          differenceRemainingMinutes.toString().padStart(2, "0");
+
+        // console.log("kuch bhi");
+        // console.log(difference1);
+
+        //finalData['setTimeDifference'] = difference1;
+        // setTimeDifference(difference1);
+
+        const timeString = difference1;
+        const [minutes, seconds] = timeString.split(":").map(Number);
+        const totalSeconds1 = minutes * 60 + seconds;
+        // setUpdatedEventTime2(totalSeconds1);
+
+        //finalData['setUpdatedEventTime2'] = totalSeconds1;
+
+        //console.log("jaspreet", finalData['eventID']);
+
+        fetchedDataRef.current = {
+          eventID: res.data.event_id,
+          currentTime: res.data.currentTime1,
+          eventTime: res.data.time,
+          setTimeDifference: difference1,
+          setUpdatedEventTime2: totalSeconds1
+        };
+
+        //return finalData;
+
+      } else {
+        console.log("Events not found");
+      }
+      //});
     }
     catch (err) {
       console.log(err);
@@ -342,31 +381,27 @@ function Game(props) {
   }
 
   //Function to start auto-refresh
-  const startAutoRefresh = () => {
-    autoRefreshTimer.current = setInterval(fetchActiveEvents, 3000); // 5 seconds
-  }
+  // const startAutoRefresh = () => {
+  //   autoRefreshTimer.current = setInterval(fetchActiveEvents, 3000); // 5 seconds
+  // }
 
-  // Function to stop auto-refresh
-  const stopAutoRefresh = () => {
-    clearInterval(autoRefreshTimer.current);
-  }
+  // // Function to stop auto-refresh
+  // const stopAutoRefresh = () => {
+  //   clearInterval(autoRefreshTimer.current);
+  // }
 
-  useEffect(() => {
-    // Initial fetch
-    //fetchActiveEvents();
-    // Start auto-refresh when the component mounts
-    startAutoRefresh();
-    // Clean up the interval when the component unmounts
-    return () => stopAutoRefresh();
-  }, []);
+  // useEffect(() => {
+  //   // Start auto-refresh when the component mounts
+  //   startAutoRefresh();
+  //   // Clean up the interval when the component unmounts
+  //   return () => stopAutoRefresh();
+  // }, []);
 
-
-
-  //Function to handle the auto-refresh
-  const handleAutoRefresh = () => {
-    fetchActiveEvents();
-    //fetchPreviousNumbers();
-  };
+  // //Function to handle the auto-refresh
+  // const handleAutoRefresh = () => {
+  //   fetchActiveEvents();
+  //   //fetchPreviousNumbers();
+  // };
 
   //Set up the auto-refresh effect using useEffect
   useEffect(() => {
@@ -375,11 +410,11 @@ function Game(props) {
     // fetchPreviousNumbers();
 
     // Set up the interval for auto-refresh (e.g., every 5 seconds)
-    const intervalId = setInterval(handleAutoRefresh, 5000);
+    // const intervalId = setInterval(handleAutoRefresh, 5000);
 
     // Clean up the interval when the component unmounts to avoid memory leaks
-    return () => clearInterval(intervalId);
-  }, [events]);
+    // return () => clearInterval(intervalId);
+  }, [events, fetchedDataRef.current]);
 
   const handleAmountKeyPress = (e) => {
     const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
@@ -756,9 +791,9 @@ function Game(props) {
       console.log(err);
     }
   };
-  useEffect(() => {
-    fetchdata();
-  }, []);
+  // useEffect(() => {
+  //   fetchdata();
+  // }, []);
 
   //end selected numbers
 
@@ -939,29 +974,20 @@ function Game(props) {
           <div>No Event Found</div>
         ) : (
           <div className="container">
-            <div id="topMessage" class="top-message">
+            <div id="topMessage" className="top-message">
               <p id="messageText"></p>
               <button id="navigateButton" style={{ 'display': 'none' }}>Add Money</button>
             </div>
             <div className="timer">
-              <input type="hidden" name="active_event" value={events} />
-              <input type="hidden" name="currentTime" value={currentTime1} />
-              <input type="hidden" name="timeDifference" value={timeDifference} />
-              <input
-                type="hidden"
-                name="active_event_time"
-                value={eventsTime}
-              />
-              <input
-                type="hidden"
-                name="updated_event_time"
-                value={updatedEventsTime}
-              />
-              <input
-                type="hidden"
-                name="updated_event_time1"
-                value={updatedEventsTime1}
-              />
+              {/* <input type="hidden" name="active_event" value={events} /> */}
+              <input type="hidden" name="active_event" value={fetchedDataRef.current.eventID || ""} />
+              {/* <input type="hidden" name="currentTime" value={currentTime1} /> */}
+              <input type="hidden" name="currentTime" value={fetchedDataRef.current.currentTime || ""} />
+              <input type="hidden" name="timeDifference" value={fetchedDataRef.current.setTimeDifference || ""} />
+              {/* <input type="hidden" name="timeDifference" value={timeDifference} /> */}
+              <input type="hidden" name="active_event_time" value={fetchedDataRef.current.eventTime || ""} />
+              <input type="hidden" name="updated_event_time" value={updatedEventsTime} />
+              <input type="hidden" name="updated_event_time1" value={updatedEventsTime1} />
 
               <h3 className="mobile-hide">Last Result is:</h3>
 

@@ -262,7 +262,8 @@ function Game(props) {
                                 className="form-control"
                                 id="inputPassword2"
                                 //value={result.number || ''}
-                                value={(mainData.length > 0 || innerData.length > 0 || outerData.length > 0) && formatTime(time) >= '00:00' ? result.number || '' : ''}
+                                // value={(mainData.length > 0 || innerData.length > 0 || outerData.length > 0) && formatTime(time) >= '00:00' ? result.number || '' : ''}
+                                value={formatTime(time) >= '00:00' ? result.number || '' : ''}
                                 onChange={(e) => {
                                     setFinalNum(e.target.value); // Update the finalNum state
                                     setresult({ ...result, number: e.target.value }); // Update the result state

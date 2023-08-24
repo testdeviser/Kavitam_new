@@ -98,7 +98,125 @@ class MynumbersController extends Controller
                 'message' => 'Empty!',
             ]);
         }
+    }
 
+    public function ResultexceptLast(Request $request)
+    {
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $currentTime = Carbon::now('Asia/Kolkata')->format('H:i');
+        // $result = EventResult::where('current_date', $currentDate)->orderBy('id')->get();
+        $resultsExceptLast = EventResult::where('current_date', $currentDate)
+            ->orderBy('id')
+            ->get();
+
+        $result = $resultsExceptLast;
+
+        if ($result->count() > 0) {
+            $lastResult = $result->last();
+            $lastEventTime = $lastResult->event_time;
+            $updatedEventTime = Carbon::parse($lastEventTime)->addMinutes(59)->format('H:i');
+            if ($updatedEventTime === $currentTime) {
+                if (!empty($result)) {
+                    foreach ($result as $key => $value) {
+                        $resVal = $value->result;
+                        if ($resVal < 10) {
+                            $num_padded = sprintf("%02d", $resVal);
+                            $numberkey = (string) $num_padded;
+                            $value->result = $numberkey;
+                        } else {
+                            $value->result = $value->result;
+                        }
+                    }
+                }
+
+                if ($result) {
+                    return response()->json([
+                        'status' => 200,
+                        'event' => $result,
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Empty!',
+                    ]);
+                }
+            } else {
+                $result = $resultsExceptLast->slice(0, -1);
+                if (!empty($result)) {
+                    foreach ($result as $key => $value) {
+                        $resVal = $value->result;
+                        if ($resVal < 10) {
+                            $num_padded = sprintf("%02d", $resVal);
+                            $numberkey = (string) $num_padded;
+                            $value->result = $numberkey;
+                        } else {
+                            $value->result = $value->result;
+                        }
+
+                    }
+                }
+
+                if ($result) {
+                    return response()->json([
+                        'status' => 200,
+                        'event' => $result,
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Empty!',
+                    ]);
+                }
+            }
+
+        } else {
+            return response()->json([
+                'status' => 200,
+                'message' => 'No result found',
+            ]);
+        }
+
+
+        // echo "<pre>";
+        // print_r($updatedEventTime);
+        // print_r($currentTime);
+
+
+        // if ($resultsExceptLast->count() > 0) {
+        //     $result = $resultsExceptLast->slice(0, -1); // Slice all except the last result
+        // } else {
+        //     $result = collect(); // Empty collection if no results
+        // }
+
+        // if (!empty($result)) {
+        //     foreach ($result as $key => $value) {
+        //         $resVal = $value->result;
+        //         if ($resVal < 10) {
+        //             $num_padded = sprintf("%02d", $resVal);
+        //             $numberkey = (string) $num_padded;
+        //             $value->result = $numberkey;
+        //         } else {
+        //             $value->result = $value->result;
+        //         }
+        //     }
+        // }
+
+        // if ($result) {
+        //     return response()->json([
+        //         'status' => 200,
+        //         'currentTime' => $currentTime,
+        //         'event' => $result,
+        //     ]);
+        // } else {
+        //     return response()->json([
+        //         'status' => 200,
+        //         'message' => 'Empty!',
+        //     ]);
+        // }
+
+
+        // echo "<pre>";
+        // print_r($resultsExceptLast);
     }
 
     public function Result_by_date(Request $request)
