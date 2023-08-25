@@ -73,7 +73,7 @@ class MynumbersController extends Controller
         //$result = events::where('result', '!=', null)->orderByDesc('id')->get();
         //$result = EventResult::orderByDesc('id')->get();
         $currentDate = Carbon::now()->format('Y-m-d');
-        $result = EventResult::where('current_date', $currentDate)->orderBy('id')->get();
+        $result = EventResult::where('current_date', $currentDate)->where('status', 1)->orderBy('id')->get();
         if (!empty($result)) {
             foreach ($result as $key => $value) {
                 $resVal = $value->result;
@@ -96,6 +96,25 @@ class MynumbersController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Empty!',
+            ]);
+        }
+    }
+
+    public function update_Result_today(Request $request)
+    {
+        $event = $request->event;
+        $eventsTime = $request->eventsTime;
+        $eventsTimeFormat = Carbon::createFromFormat('H:i', $eventsTime)->format('H:i:s');
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $updateStatus = EventResult::where('event_id', $event)->where('event_time', $eventsTimeFormat)->where('current_date', $currentDate)->where('status', 0)->first();
+
+        if ($updateStatus) {
+            // Update the status to 1
+            $updateStatus->status = 1;
+            $updateStatus->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Result status updated successfully',
             ]);
         }
     }

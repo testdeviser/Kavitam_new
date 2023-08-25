@@ -48,10 +48,6 @@ function Profile(props) {
             phone: data.phone,
         }
 
-        console.log("profile update");
-        console.log(mydata);
-
-
         try {
             axios.post(`/api/update/user`, mydata).then(res => {
                 if (res.data.status == 200) {
@@ -90,14 +86,14 @@ function Profile(props) {
                             {data.name}
                         </div>
                     </div>
-                    <div className='social-icon'>
+                    {/* <div className='social-icon'>
                         <ul>
                             <li><Link to="/"><GrMail /></Link></li>
                             <li><Link to="/"><FaFacebook /></Link></li>
                             <li><Link to="/"><FaTwitter /></Link></li>
                             <li><Link to="/"><FaLinkedin /></Link></li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="user-form profile_form-page define_float">

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('event_time');
             $table->string('current_date');
             $table->integer('result');
+            $table->integer('status')->default('0');
             $table->timestamps();
         });
     }
