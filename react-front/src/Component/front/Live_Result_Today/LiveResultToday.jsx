@@ -84,47 +84,36 @@ function LiveResultToday(props) {
                             // var formatted_event_time = `${event_time_parts[0]}:${event_time_parts[1]}`; // Combining hours and minutes
 
                             var event_time = e.event_time;
-                            var event_time_parts = event_time.split(":"); // Splitting the time string into hours, minutes, and seconds
+                            var event_time_parts = event_time.split(":");
                             var hours = parseInt(event_time_parts[0]);
                             var minutes = parseInt(event_time_parts[1]);
-                            // Determine AM or PM
+
                             var period = hours >= 12 ? "PM" : "AM";
 
-                            // Convert to 12-hour format
                             if (hours > 12) {
                                 hours -= 12;
                             } else if (hours === 0) {
                                 hours = 12;
                             }
 
-                            var formatted_event_time = `${hours}:${event_time_parts[1]} ${period}`; // Combining hours, minutes, and period
-                            // console.log("fomatted time");
-                            // console.log(formatted_event_time);
+                            var formatted_event_time = `${hours}:${event_time_parts[1]} ${period}`;
 
-                            //var formatted_event_time = `${hours}:${event_time_parts[1]} ${period}`;
+                            var hours1 = hours + 1;
+                            var period1 = period;
 
-                            // Parse the formatted_event_time to get hours and period
-                            var hours1 = parseInt(formatted_event_time.split(':')[0]);
-                            var period1 = formatted_event_time.split(' ')[1];
-
-                            // Adding one hour
-                            hours1 += 1;
-
-                            // Handling the case where adding an hour results in 12 (noon)
                             if (hours1 === 12) {
-                                if (period1 === 'AM') {
-                                    period1 = 'PM'; // Change period from AM to PM
+                                if (period1 === "AM") {
+                                    period1 = "PM";
                                 } else {
-                                    period1 = 'AM'; // Change period from PM to AM
+                                    period1 = "AM";
                                 }
                             }
 
-                            // Formatting the hours back into the "hh:mm AM/PM" format
-                            if (hours1 === 12 || hours1 === 0) {
-                                hours1 = 12; // Display 12 instead of 0 or 12 for noon/midnight
+                            if (hours1 === 13) {
+                                hours1 = 1;
                             }
 
-                            var formatted_new_event_time = `${hours1.toString().padStart(2, '0')}:${event_time_parts[1]} ${period1}`;
+                            var formatted_new_event_time = `${hours1.toString().padStart(2, "0")}:${event_time_parts[1]} ${period1}`;
 
                             var event_date = new Date(e.current_date);
                             const options = {

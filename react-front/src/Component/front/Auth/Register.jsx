@@ -418,7 +418,7 @@ function Register(props) {
                 <div className="input-container login_input">
                   <label htmlFor="name" className='login-label'>Referral Code</label>
                   {/* <input type="text" className='register-input' name="referredby_user_link" value={referralCode} /> */}
-                  <input type="text" className='register-input' name="referredby_user_link" value={inputs.referredby_user_link || ''}
+                  <input type="text" className='register-input' name="referredby_user_link" value={inputs.referredby_user_link || referralCode || ''}
                     onChange={(e) => setinputs({ ...inputs, referredby_user_link: e.target.value })} />
                   <span className='text-danger'>{err.error.referredby_user_link ? err.error.referredby_user_link : ''}</span>
                 </div>

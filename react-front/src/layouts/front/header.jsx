@@ -183,7 +183,8 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                         </li> */}
 
                         <li >
-                            <Link to="#" onClick={logout}>Logout</Link>
+                            {/* <Link to="#" onClick={logout}>Logout</Link> */}
+                            <Link to="#" onClick={(e) => { handleLinkClick(); logout(); }}>Logout</Link>
                         </li>
                     </ul>
                 </li>
@@ -245,7 +246,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                     <Link to="/faq">FAQ</Link>
                 </li> */}
                 <div className={`navigation-links oo0o0 ${showNavigationLinks ? 'showNav' : ''}`}>
-                    <Link to='/login' className='figmabtn wallet-btn'>
+                    <Link to='/login' className='figmabtn wallet-btn' onClick={handleLinkClick}>
                         <img src={process.env.PUBLIC_URL + '/image/user-icon.svg'} alt="" />
                         Login
                     </Link>

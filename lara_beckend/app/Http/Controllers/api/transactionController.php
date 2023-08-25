@@ -917,6 +917,7 @@ class transactionController extends Controller
                 'event_time' => $eventsTime,
                 'current_date' => $currentDate,
                 'result' => $number,
+                'status' => 0,
             ]);
 
             if ($user) {
@@ -1050,6 +1051,7 @@ class transactionController extends Controller
                 'event_time' => $formattedTime,
                 'current_date' => $currentDate,
                 'result' => $number,
+                'status' => 1,
             ]);
 
             $numb = $req->number;
