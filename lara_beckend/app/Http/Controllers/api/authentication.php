@@ -502,6 +502,7 @@ class authentication extends Controller
 
         return response()->json([
             'status' => 200,
+            'data' => $user,
             'message' => 'Password changed successfully!',
         ]);
     }

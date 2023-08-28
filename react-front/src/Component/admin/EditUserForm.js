@@ -12,41 +12,68 @@ function EditUserForm({ user, onClose, onSave }) {
         }));
     };
 
-    const handleSave = () => {
-        onSave(editedUser);
-    };
+    // const handleSave = () => {
+    //     onSave(editedUser);
+    // };
 
-    const handleAmountKeyPress = (e) => {
-        const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
-        if (!allowedCharacters.test(e.key)) {
-            e.preventDefault();
+    // const handleSave = async () => {
+    //     try {
+    //         // Send editedUser data to the server
+    //         await onSave(editedUser);
+    //     } catch (error) {
+    //         if (error.response && error.response.data && error.response.data.errors) {
+    //             // Handle specific error messages from the server
+    //             setError(error.response.data.errors);
+    //         } else {
+    //             // Handle general error
+    //             console.error("Error saving user:", error);
+    //         }
+    //     }
+    // };
+
+    const handleSave = async () => {
+        try {
+            // Send editedUser data to the server
+            await onSave(editedUser);
+            // Clear any previous errors
+            setError({});
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.errors) {
+                // Handle specific error messages from the server
+                setError(error.response.data.errors);
+            } else {
+                // Handle general error
+                console.error("Error saving user:", error);
+            }
         }
     };
 
-    const handleInputValidation = (e) => {
-        const minValue = 0; // Define your desired minimum value
-        const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
-        const currentValue = parseFloat(e.target.value);
-
-        //if (currentValue < minValue || currentValue > maxValue) {
-        if (currentValue < minValue) {
-            e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
-        }
-    };
 
     return (
         <div className="edit-user-form">
             <h2>Edit User</h2>
             <div className='login_input col-lg-6 col-md-6 col-sm-12'>
                 <label htmlFor="name" className='login-label'>Name</label>
-                <input type="text" name="name" autoComplete='off' id="name" className='form-control' value={editedUser.name} onChange={handleInputChange} />
-                <span className='text-danger'>{erros.name ? erros.name : ''}</span>
+                <input type="text" name="name" autoComplete='off' id="name" className='form-control' value={editedUser.name} onChange={handleInputChange} required />
+                {/* <span className='text-danger'>{erros.name ? erros.name : ''}</span> */}
+                <span className="text-danger">
+                    {erros.name ? erros.name : editedUser.name ? "" : "Name is required"}
+                </span>
             </div>
             <div className='login_input col-lg-6 col-md-6 col-sm-12'>
                 <label htmlFor="username" className='login-label'>Username</label>
                 <input type="text" name="username" autoComplete='off' id="username" className='form-control' value={editedUser.username} onChange={handleInputChange} />
-                <span className='text-danger'>{erros.username ? erros.username : ''}</span>
+                <span className="text-danger">
+                    {erros.username ? erros.username : editedUser.username ? "" : "Username is required"}
+                </span>
             </div>
+
+            <div className="login_input col-lg-6 col-md-6 col-sm-12">
+                <label htmlFor="password" className='login-label'>Password</label>
+                <input type="password" className="register-input" name="password" onChange={handleInputChange} />
+                <span className='text-danger'>{erros.password ? erros.password : ''}</span>
+            </div>
+
 
             {/* <div className='login_input col-lg-6 col-md-6 col-sm-12'>
                 <label htmlFor="number" className='login-label'>Phone Number</label>

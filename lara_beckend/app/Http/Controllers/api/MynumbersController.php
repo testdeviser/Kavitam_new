@@ -700,9 +700,10 @@ class MynumbersController extends Controller
             $fullHrsTime = $event_date->format('h:i:s'); // Output: '10:00:00'
             $time24hours = $event_date->toTimeString(); // Output: '16:00:00'
 
-            $eventDataMain = MainNumbers::where('event_id', $eventId)->get();
-            $eventDataInner = inner::where('event_id', $eventId)->get();
-            $eventDataOuter = outer::where('event_id', $eventId)->get();
+            // $eventDataMain = MainNumbers::where('event_id', $eventId)->get();
+            $eventDataMain = MainNumbers::where('event_id', $eventId)->whereDate('created_at', $currentDate)->get();
+            $eventDataInner = inner::where('event_id', $eventId)->whereDate('created_at', $currentDate)->get();
+            $eventDataOuter = outer::where('event_id', $eventId)->whereDate('created_at', $currentDate)->get();
 
             $eventData = $eventDataMain->concat($eventDataInner)->concat($eventDataOuter);
 
@@ -773,9 +774,9 @@ class MynumbersController extends Controller
 
             $time24hoursWeekly = $event_dateWeekly->toTimeString(); // Output: '16:00:00'
 
-            $eventDataMainWeekly = MainNumbers::where('event_id', $eventIdWeekly)->get();
-            $eventDataInnerWeekly = inner::where('event_id', $eventIdWeekly)->get();
-            $eventDataOuterWeekly = outer::where('event_id', $eventIdWeekly)->get();
+            $eventDataMainWeekly = MainNumbers::where('event_id', $eventIdWeekly)->whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
+            $eventDataInnerWeekly = inner::where('event_id', $eventIdWeekly)->whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
+            $eventDataOuterWeekly = outer::where('event_id', $eventIdWeekly)->whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
 
             $eventDataWeekly = $eventDataMainWeekly->concat($eventDataInnerWeekly)->concat($eventDataOuterWeekly);
 
@@ -845,9 +846,9 @@ class MynumbersController extends Controller
 
             $time24hoursMonthly = $event_dateMonthly->toTimeString(); // Output: '16:00:00'
 
-            $eventDataMainMonthly = MainNumbers::where('event_id', $eventIdMonthly)->get();
-            $eventDataInnerMonthly = inner::where('event_id', $eventIdMonthly)->get();
-            $eventDataOuterMonthly = outer::where('event_id', $eventIdMonthly)->get();
+            $eventDataMainMonthly = MainNumbers::where('event_id', $eventIdMonthly)->whereMonth('created_at', Carbon::now()->month)->get();
+            $eventDataInnerMonthly = inner::where('event_id', $eventIdMonthly)->whereMonth('created_at', Carbon::now()->month)->get();
+            $eventDataOuterMonthly = outer::where('event_id', $eventIdMonthly)->whereMonth('created_at', Carbon::now()->month)->get();
 
             $eventDataMonthly = $eventDataMainMonthly->concat($eventDataInnerMonthly)->concat($eventDataOuterMonthly);
 
@@ -962,7 +963,6 @@ class MynumbersController extends Controller
                 $value->number = $value->number;
             }
         }
-
 
         $innerToday = inner::whereDate('created_at', $currentDate)
             ->where('userId', $userId)

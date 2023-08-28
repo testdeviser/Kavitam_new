@@ -69,14 +69,20 @@ class UserController extends Controller
         // Validate the incoming request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            //'phone' => 'string|max:20',
-            // Add other validation rules as needed
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'password' => 'nullable|min:6', // Allow nullable password
+        ], [
+            'username.unique' => 'The username has already been taken.',
         ]);
+        // Hash the password if provided
+        if (isset($validatedData['password'])) {
+            $validatedData['password'] = bcrypt($validatedData['password']);
+        }
 
         // Update the user's information
         $user->update($validatedData);
 
         return response()->json(['message' => 'User updated successfully']);
     }
+
 }

@@ -10,17 +10,27 @@ use App\Models\events;
 
 class inner extends Model
 {
-    use HasFactory;
-    protected $with=['user','event'];
-    
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'userId', 'id');
-    }
+  use HasFactory;
 
-    public function event(): BelongsTo
-    {
-      return $this->belongsTo(events::class,'event_id','id');
-    }
+  protected $fillable = [
+    'userId',
+    'number',
+    'price',
+    'event_id',
+    'payment_status',
+    'current_date',
+  ];
+
+  protected $with = ['user', 'event'];
+
+  public function user(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'userId', 'id');
+  }
+
+  public function event(): BelongsTo
+  {
+    return $this->belongsTo(events::class, 'event_id', 'id');
+  }
 
 }

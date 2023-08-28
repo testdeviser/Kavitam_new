@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('outers', function (Blueprint $table) {
             $table->id();
             $table->integer('userId')->nullable()->default(1);
-            $table->integer('number')->nullable();
+            $table->string('number')->nullable();
             $table->integer('price')->nullable();
             $table->integer('event_id')->nullable();
             $table->boolean('payment_status')->default('0');
