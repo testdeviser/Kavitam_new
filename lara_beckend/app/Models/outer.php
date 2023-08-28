@@ -11,7 +11,16 @@ use App\Models\events;
 class outer extends Model
 {
     use HasFactory;
-    protected $with=['user','event'];
+
+    protected $fillable = [
+        'userId',
+        'number',
+        'price',
+        'event_id',
+        'payment_status',
+        'current_date',
+    ];
+    protected $with = ['user', 'event'];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
@@ -19,6 +28,6 @@ class outer extends Model
 
     public function event(): BelongsTo
     {
-        return $this->belongsTo(events::class,'event_id', 'id');
+        return $this->belongsTo(events::class, 'event_id', 'id');
     }
 }

@@ -94,6 +94,13 @@ function Sidebar(props) {
 
                         </li>
 
+                        <li>
+                            <Link className={`nav-link ${isLinkActive("/admin/ChangePassword")}`} to="/admin/ChangePassword" onClick={() => handleLinkClick("/admin/ChangePassword")}>
+                                <div className="sb-nav-link-icon"><FaQrcode size={25} /></div>
+                                Change Password
+                            </Link>
+                        </li>
+
                     </ul>
                 </div>
             </nav>

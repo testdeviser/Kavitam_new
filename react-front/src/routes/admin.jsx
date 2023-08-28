@@ -17,6 +17,7 @@ import User from '../Component/admin/User';
 import Withdrawal from '../Component/admin/Withdrawal';
 import WithdrawalHistory from '../Component/admin/WithdrawalHistory';
 import PendingWithdrawal from '../Component/admin/PendingWithdrawal';
+import ChangePassword from '../Component/admin/ChangePassword';
 
 const AdminRoutes = [
     { path: '/admin', exact: true, name: 'Admin' },
@@ -36,8 +37,10 @@ const AdminRoutes = [
     { path: '/admin/PriceMultiplyBy', exact: true, name: PriceMultiplyBy, component: PriceMultiplyBy },
     { path: '/admin/UpiQR', exact: true, name: UpiQR, component: UpiQR },
     { path: '/admin/User', exact: true, name: User, component: User },
+    { path: '/admin/ChangePassword', exact: true, name: ChangePassword, component: ChangePassword },
     { path: '/admin/Withdrawal', exact: true, name: Withdrawal, component: Withdrawal },
     { path: '/admin/WithdrawalHistory', exact: true, name: WithdrawalHistory, component: WithdrawalHistory },
     { path: '/admin/PendingWithdrawal', exact: true, name: PendingWithdrawal, component: PendingWithdrawal },
+
 ];
 export default AdminRoutes;
