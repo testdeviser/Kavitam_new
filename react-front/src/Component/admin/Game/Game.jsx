@@ -224,6 +224,9 @@ function Game(props) {
     };
 
     const handleInputValidation = (e) => {
+        const sanitizedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        e.target.value = sanitizedValue;
+
         const minValue = 0; // Define your desired minimum value
         const maxValue = 99; // Define your desired maximum value
         const currentValue = parseFloat(e.target.value);
@@ -233,6 +236,18 @@ function Game(props) {
             e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
         }
     };
+
+
+    // const handleInputValidation = (e) => {
+    //     const minValue = 0; // Define your desired minimum value
+    //     const maxValue = 99; // Define your desired maximum value
+    //     const currentValue = parseFloat(e.target.value);
+
+    //     //if (currentValue < minValue || currentValue > maxValue) {
+    //     if (currentValue < minValue && currentValue > maxValue) {
+    //         e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+    //     }
+    // };
 
 
     const lastIndex = currentPage * DataPerPage.current;
@@ -258,7 +273,7 @@ function Game(props) {
                         <div className="col-auto backend_number-filed">
 
                             <input
-                                type="number"
+                                type="tel"
                                 className="form-control"
                                 id="inputPassword2"
                                 //value={result.number || ''}

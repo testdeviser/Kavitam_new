@@ -15,7 +15,8 @@ return new class extends Migration {
             $table->integer('userId');
             $table->string('username');
             $table->integer('amount');
-            $table->string('refNo');
+            // $table->string('refNo');
+            $table->integer('refNo');
             $table->integer('status')->default('0');
             $table->timestamps();
         });

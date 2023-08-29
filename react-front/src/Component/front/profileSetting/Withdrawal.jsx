@@ -253,13 +253,53 @@ function Withdrawal(props) {
     //     }
     // };
 
+    const handleAmountKeyPress = (e) => {
+        const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    };
+
+    const handleInputValidation = (e) => {
+        const sanitizedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        e.target.value = sanitizedValue;
+
+        const minValue = 0; // Define your desired minimum value
+        const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+        const currentValue = parseFloat(sanitizedValue);
+
+        if (currentValue < minValue || currentValue > maxValue) {
+            e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+        }
+    };
+
+    // const handleEditInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setEditData((prevState) => ({
+    //         ...prevState,
+    //         [name]: value,
+    //     }));
+    // };
+
     const handleEditInputChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === "ifsc_code") {
+            // Use a regular expression to allow only alphabets and numbers
+            const alphanumericRegex = /^[a-zA-Z0-9]*$/;
+
+            if (!alphanumericRegex.test(value)) {
+                return; // Don't update the state if input is invalid
+            }
+        }
+
         setEditData((prevState) => ({
             ...prevState,
             [name]: value,
         }));
     };
+
+
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
@@ -324,11 +364,13 @@ function Withdrawal(props) {
                                                     Account No.
                                                 </label>
                                                 <input
-                                                    type="number"
+                                                    type="tel"
                                                     className="register-input form-control"
                                                     name="account_no"
                                                     value={editData.account_no}
                                                     onChange={handleEditInputChange}
+                                                    onKeyPress={(e) => handleAmountKeyPress(e)}
+                                                    onInput={(e) => handleInputValidation(e)}
                                                 />
                                                 <span className='text-danger'>{errors.account_no ? errors.account_no : ''}</span>
                                             </div>
@@ -338,11 +380,13 @@ function Withdrawal(props) {
                                                     Confirm Account No.
                                                 </label>
                                                 <input
-                                                    type="number"
+                                                    type="tel"
                                                     className="register-input form-control"
                                                     name="confirm_account_no"
                                                     value={editData.confirm_account_no}
                                                     onChange={handleEditInputChange}
+                                                    onKeyPress={(e) => handleAmountKeyPress(e)}
+                                                    onInput={(e) => handleInputValidation(e)}
                                                 />
                                                 <span className='text-danger'>{errors.confirm_account_no ? errors.confirm_account_no : ''}</span>
                                             </div>
@@ -445,13 +489,15 @@ function Withdrawal(props) {
                                                     Withdrawal Amount
                                                 </label>
                                                 <input
-                                                    type="number"
+                                                    type="tel"
                                                     name="withdrawal_amount"
                                                     autoComplete="off"
                                                     id="withdrawal_amount"
                                                     className="form-control"
                                                     onChange={handleInputChange}
                                                     value={inputs.withdrawal_amount}
+                                                    onKeyPress={(e) => handleAmountKeyPress(e)}
+                                                    onInput={(e) => handleInputValidation(e)}
                                                 />
                                                 <span className="text-danger">
                                                     {errors.withdrawal_amount ? errors.withdrawal_amount : ''}
@@ -502,13 +548,15 @@ function Withdrawal(props) {
                                             Account No.
                                         </label>
                                         <input
-                                            type="number"
+                                            type="tel"
                                             className="register-input form-control"
                                             name="account_no"
                                             value={inputs.account_no}
                                             onChange={(e) =>
                                                 setInputs({ ...inputs, account_no: e.target.value })
                                             }
+                                            onKeyPress={(e) => handleAmountKeyPress(e)}
+                                            onInput={(e) => handleInputValidation(e)}
                                         />
                                         <span className='text-danger'>{errors.account_no ? errors.account_no : ''}</span>
                                     </div>
@@ -518,13 +566,15 @@ function Withdrawal(props) {
                                             Confirm Account No.
                                         </label>
                                         <input
-                                            type="number"
+                                            type="tel"
                                             className="register-input form-control"
                                             name="confirm_account_no"
                                             value={inputs.confirm_account_no}
                                             onChange={(e) =>
                                                 setInputs({ ...inputs, confirm_account_no: e.target.value })
                                             }
+                                            onKeyPress={(e) => handleAmountKeyPress(e)}
+                                            onInput={(e) => handleInputValidation(e)}
                                         />
                                         <span className='text-danger'>{errors.confirm_account_no ? errors.confirm_account_no : ''}</span>
                                     </div>
@@ -572,10 +622,20 @@ function Withdrawal(props) {
                                             className="register-input form-control"
                                             name="ifsc_code"
                                             value={inputs.ifsc_code}
+                                            onChange={(e) => {
+                                                const value = e.target.value.replace(/[^a-zA-Z0-9]/g, ''); // Remove non-alphanumeric characters
+                                                setInputs({ ...inputs, ifsc_code: value });
+                                            }}
+                                        />
+                                        {/* <input
+                                            type="text"
+                                            className="register-input form-control"
+                                            name="ifsc_code"
+                                            value={inputs.ifsc_code}
                                             onChange={(e) =>
                                                 setInputs({ ...inputs, ifsc_code: e.target.value })
                                             }
-                                        />
+                                        /> */}
                                         <span className='text-danger'>{errors.ifsc_code ? errors.ifsc_code : ''}</span>
                                     </div>
 
