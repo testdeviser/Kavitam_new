@@ -107,15 +107,29 @@ function Payment(props) {
     };
 
     const handleInputValidation = (e) => {
+        const sanitizedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        e.target.value = sanitizedValue;
+
         const minValue = 0; // Define your desired minimum value
         const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
-        const currentValue = parseFloat(e.target.value);
+        const currentValue = parseFloat(sanitizedValue);
 
-        //if (currentValue < minValue || currentValue > maxValue) {
-        if (currentValue < minValue) {
+        if (currentValue < minValue || currentValue > maxValue) {
             e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
         }
     };
+
+
+    // const handleInputValidation = (e) => {
+    //     const minValue = 0; // Define your desired minimum value
+    //     const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+    //     const currentValue = parseFloat(e.target.value);
+
+    //     //if (currentValue < minValue || currentValue > maxValue) {
+    //     if (currentValue < minValue) {
+    //         e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+    //     }
+    // };
 
     const SubmitHandler = (e) => {
         e.preventDefault();
@@ -189,7 +203,7 @@ function Payment(props) {
                                                         <div className='amount_inner-left'>
                                                             <label>Amount:</label>
                                                             <div className="amount-input">
-                                                                <input type='number' name='amount' value={inputs.amount || ''} onChange={(e) => { setinputs({ ...inputs, amount: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} onInput={(e) => handleInputValidation(e)} />
+                                                                <input type='tel' name='amount' value={inputs.amount || ''} onChange={(e) => { setinputs({ ...inputs, amount: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} onInput={(e) => handleInputValidation(e)} />
                                                                 <span className='text-danger'>{err.error.amount ? err.error.amount : ''}</span>
                                                             </div>
                                                         </div>
@@ -258,7 +272,7 @@ function Payment(props) {
                                                     <p>Be sure to return this page to fill in the UTR numbers after you have completed your payment</p>
                                                 </div>
                                                 <div className='UTR-field'>
-                                                    <input type='text' className='register-input' name='refNo' placeholder='UTR (UPI Ref.ID) must be 12 digits' value={inputs.refNo || ''} onChange={(e) => { setinputs({ ...inputs, refNo: e.target.value }) }} />
+                                                    <input type='tel' className='register-input' name='refNo' placeholder='UTR (UPI Ref.ID) must be 12 digits' value={inputs.refNo || ''} onChange={(e) => { setinputs({ ...inputs, refNo: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} onInput={(e) => handleInputValidation(e)} />
                                                     <span className='text-danger'>{err.error.refNo ? err.error.refNo : ''}</span>
                                                 </div>
                                             </div>

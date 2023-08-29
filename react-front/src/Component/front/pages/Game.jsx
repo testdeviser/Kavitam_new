@@ -389,15 +389,30 @@ function Game(props) {
   };
 
   const handleInputValidation = (e) => {
+    const sanitizedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+    e.target.value = sanitizedValue;
+
     const minValue = 0; // Define your desired minimum value
     const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
-    const currentValue = parseFloat(e.target.value);
+    const currentValue = parseFloat(sanitizedValue);
 
-    //if (currentValue < minValue || currentValue > maxValue) {
-    if (currentValue < minValue) {
+    if (currentValue < minValue || currentValue > maxValue) {
       e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
     }
   };
+
+
+
+  // const handleInputValidation = (e) => {
+  //   const minValue = 0; // Define your desired minimum value
+  //   const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+  //   const currentValue = parseFloat(e.target.value);
+
+  //   //if (currentValue < minValue || currentValue > maxValue) {
+  //   if (currentValue < minValue) {
+  //     e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+  //   }
+  // };
 
   useEffect(() => {
     // fetch_all_data();
@@ -1370,7 +1385,7 @@ function Game(props) {
                                     Rs.
                                     <input
                                       type="tel"
-                                      pattern="[0-9]*"
+                                      // pattern="[0-9]*"
                                       name={`main-amount-${number}`}
                                       id={`main-amount-${number}`}
                                       value={
@@ -1421,7 +1436,8 @@ function Game(props) {
                                   <span>
                                     Rs.
                                     <input
-                                      type="number"
+                                      type="tel"
+                                      // type="number"
                                       name={`inner-amount-${number}`}
                                       id={`inner-amount-${number}`}
                                       value={
@@ -1466,7 +1482,8 @@ function Game(props) {
                                   <span>
                                     Rs.
                                     <input
-                                      type="number"
+                                      type="tel"
+                                      // type="number"
                                       name={`outer-amount-${number}`}
                                       id={`outer-amount-${number}`}
                                       value={
