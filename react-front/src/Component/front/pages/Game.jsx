@@ -1369,7 +1369,8 @@ function Game(props) {
                                   <span>
                                     Rs.
                                     <input
-                                      type="number"
+                                      type="tel"
+                                      pattern="[0-9]*"
                                       name={`main-amount-${number}`}
                                       id={`main-amount-${number}`}
                                       value={

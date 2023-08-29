@@ -33,9 +33,19 @@ function Wallet(props) {
   }
 
   const columns = [
+    // {
+    //   name: "Username",
+    //   selector: (row) => row.user.name,
+    // },
     {
       name: "Username",
-      selector: (row) => row.user.name,
+      selector: (row) => {
+        if (row.user && row.user.name) {
+          return row.user.name;
+        } else {
+          return "N/A"; // Handle the case where user or user.name is undefined
+        }
+      },
     },
     {
       name: "Amount",
