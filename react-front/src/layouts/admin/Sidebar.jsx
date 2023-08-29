@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaSave, FaWallet } from "react-icons/fa";
 import { FaGamepad, FaTag, FaCreditCard, FaAngleDown, FaQrcode, FaMoneyBillAlt, FaCalendarAlt } from "react-icons/fa";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
-import { AiOutlineBarChart, AiFillBuild } from "react-icons/ai";
+import { AiTwotoneLock } from "react-icons/ai";
 import { MdEmojiEvents } from "react-icons/md";
 
 function Sidebar(props) {
@@ -96,7 +96,7 @@ function Sidebar(props) {
 
                         <li>
                             <Link className={`nav-link ${isLinkActive("/admin/ChangePassword")}`} to="/admin/ChangePassword" onClick={() => handleLinkClick("/admin/ChangePassword")}>
-                                <div className="sb-nav-link-icon"><FaQrcode size={25} /></div>
+                                <div className="sb-nav-link-icon"><AiTwotoneLock size={25} /></div>
                                 Change Password
                             </Link>
                         </li>

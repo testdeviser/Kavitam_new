@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +23,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Route::get('send-mail', [MailController::class, 'index']);
+
+Route::get('/{any}', function () {
+    return view('404'); // Create a blade view named '404.blade.php'
+})->where('any', '.*');

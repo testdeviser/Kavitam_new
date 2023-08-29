@@ -76,7 +76,6 @@ Route::group(['middleware' => ['auth:sanctum', 'isAdmin']], function () {
   }, []);
 });
 
-
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
 
   //main

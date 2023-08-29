@@ -34,6 +34,7 @@ import ChangePassword from "./Component/front/profileSetting/ChangePassword";
 import AddBankAccount from "./Component/front/profileSetting/AddBankAccount";
 import Withdrawal from "./Component/front/profileSetting/Withdrawal";
 import GoogleTranslator from "./Component/front/GoogleTranslator";
+import NotFound from "./NotFound";
 // import 'datatables.net-dt/css/jquery.dataTables.css';
 // import 'datatables.net-dt/js/dataTables.dataTables';
 
@@ -52,6 +53,7 @@ axios.interceptors.request.use(function (config) {
 
 function App() {
   const isLoggedIn = !!localStorage.getItem('auth_token');
+  const isAdmin = localStorage.getItem('user_name') == 'admin'; // Assuming you store user role in local storage
 
   // const googleTranslateElementInit = () => {
   //   new window.google.translate.TranslateElement(
@@ -87,9 +89,11 @@ function App() {
 
   }, [location]);
 
+  if (isAdmin && isLoggedIn && location.pathname === '/') {
+    return <Navigate to="/admin/dashboard" />;
+  }
+
   return (
-
-
     // <Routes>
     // </Routes>
     <WalletProvider>
@@ -165,6 +169,9 @@ function App() {
             ))}
           <Route index element={<Navigate to="/admin/dashboard" />} />
         </Route>
+
+        <Route path="*" element={<NotFound />} />
+
       </Routes>
     </WalletProvider>
   );
