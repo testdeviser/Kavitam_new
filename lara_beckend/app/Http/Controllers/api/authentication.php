@@ -79,7 +79,8 @@ class authentication extends Controller
             'username' => 'required|min:3|max:191|unique:users,username',
             'user_password' => 'required|min:6',
             'user_confirmpassword' => 'required|same:user_password',
-            'phone' => 'numeric|digits_between:10,15',
+            // 'phone' => 'numeric|digits_between:10,15',
+            'phone' => 'regex:/^[0-9+]+$/|between:10,15',
             'referredby_user_link' => 'exists:users,user_referral_link|nullable',
         ], [
             'name.required' => 'Please enter Name',
@@ -88,8 +89,10 @@ class authentication extends Controller
             'user_password.min' => 'Password must be at least of 6 digits',
             'user_confirmpassword.required' => 'Please enter Confirm Password',
             'user_confirmpassword.same' => 'Confirm Password must match Password',
-            'phone.numeric' => 'Phone number must be numeric and ',
-            'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+            // 'phone.numeric' => 'Phone number must be numeric and ',
+            'phone.regex' => 'Phone number must contain only digits or the "+" sign and ',
+            // 'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+            'phone.between' => 'Phone No. must be between 10 and 15 characters',
             'referredby_user_link.exists' => 'Referral code does not exist',
         ]);
 
@@ -539,13 +542,16 @@ class authentication extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'phone' => 'numeric|digits_between:10,15',
+            // 'phone' => 'numeric|digits_between:10,15',
+            'phone' => 'regex:/^[0-9+]+$/|between:10,15',
             'message' => 'required',
         ], [
             'email.required' => 'Please enter Email',
             'email.email' => 'Please enter a valid Email',
-            'phone.numeric' => 'Phone number must be numeric and ',
-            'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+            'phone.regex' => 'Phone number must contain only digits or the "+" sign and ',
+            'phone.between' => 'Phone No. must be between 10 and 15 characters',
+            // 'phone.numeric' => 'Phone number must be numeric and ',
+            // 'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
             'message.required' => 'Please enter Message',
         ]);
 

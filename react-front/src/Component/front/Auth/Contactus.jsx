@@ -27,22 +27,85 @@ function Contactus(props) {
     const [erros, setError] = useState({});
 
     const handleAmountKeyPress = (e) => {
-        const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
-        if (!allowedCharacters.test(e.key)) {
+        // Allow Ctrl+A (Select All), Ctrl+C (Copy), Ctrl+V (Paste), Ctrl+Y (Redo), and Ctrl+Z (Undo) shortcuts
+        if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'y', 'z'].includes(e.key)) {
+            return;
+        }
+
+        // Allow the backspace key
+        if (e.key === 'Backspace') {
+            return;
+        }
+
+        // If there's a '+' at the beginning, allow digits
+        if (e.target.value.startsWith('+') && /^[0-9]$/.test(e.key)) {
+            return;
+        }
+
+        // Allow the '+' character at the beginning
+        if (e.target.value === '' && e.key === '+') {
+            return;
+        }
+
+        // Prevent input if it's not a digit
+        if (!/^[0-9]$/.test(e.key)) {
             e.preventDefault();
         }
     };
 
+
+    // const handleAmountKeyPress = (e) => {
+    //     // Allow the backspace key
+    //     if (e.key === 'Backspace') {
+    //         return;
+    //     }
+
+    //     // Check if the pressed key is not a digit or the '+' character
+    //     if (!/^[0-9+]$/.test(e.key)) {
+    //         e.preventDefault();
+    //     }
+
+    //     // Allow only one '+' character at the beginning
+    //     if (e.target.value === '+' && e.key === '+') {
+    //         e.preventDefault();
+    //     }
+
+    //     // Allow only digits after the '+' character
+    //     if (e.target.value === '+' && /^[0-9]$/.test(e.key)) {
+    //         return;
+    //     }
+    // };
+
+    // const handleAmountKeyPress = (e) => {
+    //     const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
+    //     if (!allowedCharacters.test(e.key)) {
+    //         e.preventDefault();
+    //     }
+    // };
+
     const handleInputValidation = (e) => {
+        const sanitizedValue = e.target.value.replace(/[^0-9+]/g, ''); // Allow only numbers and '+'
+        e.target.value = sanitizedValue;
+
         const minValue = 0; // Define your desired minimum value
         const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
-        const currentValue = parseFloat(e.target.value);
+        const currentValue = parseFloat(sanitizedValue);
 
-        //if (currentValue < minValue || currentValue > maxValue) {
-        if (currentValue < minValue) {
+        if (currentValue < minValue || currentValue > maxValue) {
             e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
         }
     };
+
+    // const handleInputValidation = (e) => {
+    //     const minValue = 0; // Define your desired minimum value
+    //     const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+    //     const currentValue = parseFloat(e.target.value);
+
+    //     //if (currentValue < minValue || currentValue > maxValue) {
+    //     if (currentValue < minValue) {
+    //         e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+    //     }
+    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -112,8 +175,17 @@ function Contactus(props) {
 
                                 <div className="input-container login_input">
                                     <label htmlFor="phone" className='login-label'>Phone number</label>
-                                    <input type="number" className="register-input" name="phone" maxLength={15} minLength={10} onChange={phonehandler} onKeyPress={(e) => handleAmountKeyPress(e)}
+                                    <input
+                                        type="text"
+                                        className="register-input"
+                                        name="phone"
+                                        // maxLength={15}
+                                        // minLength={10}
+                                        onChange={phonehandler}
+                                        onKeyDown={(e) => handleAmountKeyPress(e)}
                                         onInput={(e) => handleInputValidation(e)} />
+                                    {/* <input type="number" className="register-input" name="phone" maxLength={15} minLength={10} onChange={phonehandler} onKeyPress={(e) => handleAmountKeyPress(e)}
+                                        onInput={(e) => handleInputValidation(e)} /> */}
                                     <span className='text-danger'>{erros.phone ? erros.phone : ''}</span>
                                 </div>
 
