@@ -224,15 +224,19 @@ function Game(props) {
     };
 
     const handleInputValidation = (e) => {
-        const sanitizedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-        e.target.value = sanitizedValue;
+        const sanitizedValue = e.target.value.replace(/[^0-9+]/g, ''); // Allow only numbers and '+'
+
+        if (sanitizedValue.indexOf('+') === 0) {
+            e.target.value = sanitizedValue;
+        } else {
+            e.target.value = sanitizedValue.replace('+', ''); // Remove '+' if not at the beginning
+        }
 
         const minValue = 0; // Define your desired minimum value
-        const maxValue = 99; // Define your desired maximum value
-        const currentValue = parseFloat(e.target.value);
+        const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+        const currentValue = parseFloat(sanitizedValue);
 
-        //if (currentValue < minValue || currentValue > maxValue) {
-        if (currentValue < minValue && currentValue > maxValue) {
+        if (currentValue < minValue || currentValue > maxValue) {
             e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
         }
     };

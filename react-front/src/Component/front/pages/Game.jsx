@@ -401,8 +401,6 @@ function Game(props) {
     }
   };
 
-
-
   // const handleInputValidation = (e) => {
   //   const minValue = 0; // Define your desired minimum value
   //   const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
