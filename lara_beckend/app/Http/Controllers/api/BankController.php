@@ -10,6 +10,8 @@ use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use GuzzleHttp\Client;
 
 class BankController extends Controller
 {
@@ -187,5 +189,31 @@ class BankController extends Controller
             'bankDetails' => $bankDetails,
             //'message' => 'Money withdrawal get Successful',
         ]);
+    }
+
+    public function getCurrentIndianTime(Request $request): JsonResponse
+    {
+        $apiKey = "KOBW56T368TS"; // Replace with your API key
+        $apiUrl = "http://api.timezonedb.com/v2.1/get-time-zone?key=$apiKey&format=json&by=zone&zone=Asia/Kolkata";
+
+        try {
+            $client = new Client();
+            $response = $client->get($apiUrl);
+            $data = json_decode($response->getBody(), true);
+
+            if ($data && isset($data['timestamp'])) {
+                $timestamp = $data['timestamp'];
+                $indianTime = Carbon::createFromTimestamp($timestamp)->format('h:i A');
+
+                return response()->json([
+                    'status' => 200,
+                    'current_indian_time' => $indianTime,
+                ]);
+            } else {
+                return response()->json(['error' => 'Failed to fetch Indian time'], 500);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error fetching Indian time'], 500);
+        }
     }
 }

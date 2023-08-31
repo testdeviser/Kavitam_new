@@ -1,4 +1,5 @@
 
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import Navbar from "../../../layouts/front/navbar";
 import "bootstrap/dist/css/bootstrap.css";
@@ -52,8 +53,6 @@ function Game(props) {
   //     clearInterval(intervalId); // Clean up the interval when the component unmounts
   //   };
   // }, []);
-
-
 
   const { setWalletAmount } = useContext(WalletContext);
 
@@ -341,30 +340,49 @@ function Game(props) {
     }
   }
 
+  const [indianTime, setIndianTime] = useState("");
+
+  const fetchCurrentIndianTime = () => {
+    try {
+      axios.get("api/current-indian-time").then((res) => {
+        if (res.data.status === 200) {
+          setIndianTime(res.data.current_indian_time);
+        } else {
+          console.log("time not found");
+        }
+      });
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+
   //Function to start auto-refresh
-  const startAutoRefresh = () => {
-    autoRefreshTimer.current = setInterval(fetchActiveEvents, 3000); // 5 seconds
-  }
+  // const startAutoRefresh = () => {
+  //   autoRefreshTimer.current = setInterval(fetchActiveEvents, 3000); // 5 seconds
+  // }
 
-  // Function to stop auto-refresh
-  const stopAutoRefresh = () => {
-    clearInterval(autoRefreshTimer.current);
-  }
+  // // Function to stop auto-refresh
+  // const stopAutoRefresh = () => {
+  //   clearInterval(autoRefreshTimer.current);
+  // }
 
-  useEffect(() => {
-    // Initial fetch
-    //fetchActiveEvents();
-    // Start auto-refresh when the component mounts
-    startAutoRefresh();
-    // Clean up the interval when the component unmounts
-    return () => stopAutoRefresh();
-  }, []);
+  // useEffect(() => {
+  //   // Initial fetch
+  //   //fetchActiveEvents();
+  //   // Start auto-refresh when the component mounts
+  //   startAutoRefresh();
+  //   // Clean up the interval when the component unmounts
+  //   return () => stopAutoRefresh();
+  // }, []);
 
 
 
   //Function to handle the auto-refresh
   const handleAutoRefresh = () => {
     fetchActiveEvents();
+    fetchCurrentIndianTime();
     //fetchPreviousNumbers();
   };
 
@@ -372,6 +390,7 @@ function Game(props) {
   useEffect(() => {
     // Call the fetchData function immediately when the component mounts
     fetchActiveEvents();
+    fetchCurrentIndianTime();
     // fetchPreviousNumbers();
 
     // Set up the interval for auto-refresh (e.g., every 5 seconds)
@@ -1017,8 +1036,8 @@ function Game(props) {
                 </div>
 
                 <div>
-                  <button className="figmabtn wallet-btn">
-                    {`${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`}
+                  <button className="figmabtn wallet-btn">{indianTime}
+                    {/* {`${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`} */}
                   </button>
                 </div>
 
