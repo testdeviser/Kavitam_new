@@ -121,7 +121,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                 </li> */}
 
                 <li className="hover_dropdown">
-                    <Link to="/setting"><img src={process.env.PUBLIC_URL + '/image/undraw_profile.svg'} className="rounded-circle" width="45px" height="30" />{auth_token ? user_name : 'guest'}</Link>
+                    <Link to="/Setting"><img src={process.env.PUBLIC_URL + '/image/undraw_profile.svg'} className="rounded-circle" width="45px" height="30" />{auth_token ? user_name : 'guest'}</Link>
                     <ul>
 
                         <li onClick={() => handleLinkClick("Profile")}>
@@ -133,7 +133,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                         <li onClick={() => handleLinkClick("History")}>
                             <Link to="/Setting/history">History</Link>
                         </li>
-                        <li onClick={() => handleLinkClick("Refferal")}>
+                        <li onClick={() => handleLinkClick("referral")}>
                             <Link to="/Setting/Refferral">Refferal</Link>
                         </li>
                         <li onClick={() => handleLinkClick("Change Password")}>
