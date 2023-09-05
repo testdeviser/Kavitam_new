@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import Navbar from "../../../layouts/front/navbar";
 import "bootstrap/dist/css/bootstrap.css";
@@ -8,6 +9,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
 import { WalletContext } from "../../../WalletContext";
+import { DateTime } from 'luxon';
 
 function Game(props) {
   const auth_token = localStorage.getItem('auth_token');
@@ -340,7 +342,10 @@ function Game(props) {
     }
   }
 
+  const timezone = 'Asia/Kolkata'; // Define your desired timezone
   const [indianTime, setIndianTime] = useState("");
+  const [currentIndianTime, setCurrentIndianTime] = useState("");
+  const [current24IndianTime, set24CurrentIndianTime] = useState("");
 
   const fetchCurrentIndianTime = () => {
     try {
@@ -357,6 +362,46 @@ function Game(props) {
     }
   }
 
+  const fetchTime = async () => {
+    try {
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+
+      try {
+        const response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata", requestOptions);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        const dateTime = DateTime.fromISO(result.datetime);
+        // Format the time in 12-hour format with AM/PM
+        const formattedTime = dateTime.toFormat('hh:mm a');
+        const indianFormattedTime = dateTime.toFormat('hh:mm:ss');
+        const indian24hoursFormattedTime = dateTime.toFormat('HH:mm:ss');
+        setIndianTime(formattedTime);
+        setCurrentIndianTime(indianFormattedTime);
+        set24CurrentIndianTime(indian24hoursFormattedTime);
+      } catch (error) {
+        console.error('error', error);
+      }
+      // const response = await axios.get(`http://worldtimeapi.org/api/timezone/${timezone}`, {withCredentials: false});
+    } catch (error) {
+      console.error('Error fetching time:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch the initial Indian time when the component mounts
+    fetchCurrentIndianTime();
+
+    const intervalId = setInterval(() => {
+      fetchTime();
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [timezone]);
 
   //Function to start auto-refresh
   // const startAutoRefresh = () => {
@@ -382,7 +427,7 @@ function Game(props) {
   //Function to handle the auto-refresh
   const handleAutoRefresh = () => {
     fetchActiveEvents();
-    fetchCurrentIndianTime();
+    //fetchCurrentIndianTime();
     //fetchPreviousNumbers();
   };
 
@@ -390,14 +435,14 @@ function Game(props) {
   useEffect(() => {
     // Call the fetchData function immediately when the component mounts
     fetchActiveEvents();
-    fetchCurrentIndianTime();
+    //fetchCurrentIndianTime();
     // fetchPreviousNumbers();
 
     // Set up the interval for auto-refresh (e.g., every 5 seconds)
-    const intervalId = setInterval(handleAutoRefresh, 5000);
+    // const intervalId = setInterval(handleAutoRefresh, 5000);
 
     // Clean up the interval when the component unmounts to avoid memory leaks
-    return () => clearInterval(intervalId);
+    // return () => clearInterval(intervalId);
   }, [events]);
 
   const handleAmountKeyPress = (e) => {
@@ -730,6 +775,23 @@ function Game(props) {
     };
   }, []);
 
+  useEffect(() => {
+    // Parse the time strings into Date objects
+    const current24IndianTimeDate = new Date(`1970-01-01T${current24IndianTime}Z`);
+    const eventsTimeDate = new Date(`1970-01-01T${eventsTime}Z`);
+
+    // Calculate the time difference in milliseconds
+    const timeDiff = current24IndianTimeDate - eventsTimeDate;
+
+    // Convert milliseconds to minutes and seconds
+    const minutes = Math.floor(timeDiff / 60000);
+    const seconds = ((timeDiff % 60000) / 1000).toFixed(0).padStart(2, '0'); // Ensure two digits for seconds
+
+    // Set the time difference in state
+    setTimeDifference(`${minutes}:${seconds}`);
+  }, [current24IndianTime, eventsTime]);
+
+
   const timee = new Date(currentTime);
   const hours = timee.getHours() > 12 ? timee.getHours() - 12 : timee.getHours();
   const minutes = timee.getMinutes();
@@ -977,6 +1039,8 @@ function Game(props) {
             </div>
             <div className="timer">
               <input type="hidden" name="active_event" value={events} />
+              <input type="hidden" name="currentIndianTime" value={currentIndianTime} />
+              <input type="hidden" name="current24IndianTime" value={current24IndianTime} />
               {/* <input type="hidden" name="active_event" value={fetchedDataRef.current.eventID || ""} /> */}
               <input type="hidden" name="currentTime" value={currentTime1} />
               {/* <input type="hidden" name="currentTime" value={fetchedDataRef.current.currentTime || ""} /> */}
@@ -1026,20 +1090,31 @@ function Game(props) {
                 <div className="timer_heading-time">
                   <h2>Time</h2>
 
-                  {time < 0 ? (
+                  <button className="figmabtn wallet-btn" style={{ 'display': 'none' }}>
+                    {formatTime(time)}
+                  </button>
+
+                  {/* {time < 0 ? (
                     <button className="figmabtn wallet-btn">00:00</button>
                   ) : (
                     <button className="figmabtn wallet-btn" style={{ 'display': 'none' }}>
                       {formatTime(time)}
                     </button>
-                  )}
+                  )} */}
                 </div>
 
-                <div>
-                  <button className="figmabtn wallet-btn">{indianTime}
-                    {/* {`${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`} */}
-                  </button>
-                </div>
+                {/* <div>
+                  <button className="figmabtn wallet-btn">{indianTime} */}
+                {/* {`${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`} */}
+                {/* </button>
+                </div> */}
+
+                {indianTime && (
+                  <div>
+                    <button className="figmabtn wallet-btn">{indianTime}</button>
+                  </div>
+                )}
+
 
                 {/* <div>
                   <button className="figmabtn wallet-btn">
@@ -1584,4 +1659,3 @@ function Game(props) {
   }
 }
 export default Game;
-

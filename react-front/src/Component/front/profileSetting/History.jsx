@@ -234,15 +234,15 @@ function History(props) {
                                                         ))}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.result && ( */}
-                                                <div className="won-loss">
-                                                    {userMainNumToday?.some(userMainNumToday => userMainNumToday.number === event.result) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.result && (
+                                                    <div className="won-loss">
+                                                        {userMainNumToday?.some(userMainNumToday => userMainNumToday.number === event.result) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
 
                                             </div>
                                         </div>
@@ -270,15 +270,15 @@ function History(props) {
                                                         })}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.result && ( */}
-                                                <div className="won-loss">
-                                                    {userInnerNumToday?.some(userInnerNumToday => userInnerNumToday.number === event.firstDigit) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.firstDigit && (
+                                                    <div className="won-loss">
+                                                        {userInnerNumToday?.some(userInnerNumToday => userInnerNumToday.number === event.firstDigit) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
 
@@ -305,15 +305,15 @@ function History(props) {
                                                         })}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.result && ( */}
-                                                <div className="won-loss">
-                                                    {userOuterNumToday?.some(userOuterNumToday => userOuterNumToday.number === event.scndDigit) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.scndDigit && (
+                                                    <div className="won-loss">
+                                                        {userOuterNumToday?.some(userOuterNumToday => userOuterNumToday.number === event.scndDigit) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
 
                                             </div>
                                         </div>
@@ -527,15 +527,15 @@ function History(props) {
                                                         ))}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.resultMonthly && ( */}
-                                                <div className="won-loss">
-                                                    {userMainNumMonthly?.some(userMainNumMonthly => userMainNumMonthly.number === event.resultMonthly) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.resultMonthly && (
+                                                    <div className="won-loss">
+                                                        {userMainNumMonthly?.some(userMainNumMonthly => userMainNumMonthly.number === event.resultMonthly) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
 
                                             </div>
                                         </div>
@@ -563,15 +563,15 @@ function History(props) {
                                                         })}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.firstDigitMonthly && ( */}
-                                                <div className="won-loss">
-                                                    {userInnerNumMonthly?.some(userInnerNumMonthly => userInnerNumMonthly.number === event.firstDigitMonthly) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.firstDigitMonthly && (
+                                                    <div className="won-loss">
+                                                        {userInnerNumMonthly?.some(userInnerNumMonthly => userInnerNumMonthly.number === event.firstDigitMonthly) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
 
@@ -598,15 +598,15 @@ function History(props) {
                                                         })}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.scndDigitMonthly && ( */}
-                                                <div className="won-loss">
-                                                    {userOuterNumMonthly?.some(userOuterNumMonthly => userOuterNumMonthly.number === event.scndDigitMonthly) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.scndDigitMonthly && (
+                                                    <div className="won-loss">
+                                                        {userOuterNumMonthly?.some(userOuterNumMonthly => userOuterNumMonthly.number === event.scndDigitMonthly) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
 
                                             </div>
                                         </div>
@@ -684,15 +684,15 @@ function History(props) {
                                                         ))}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.resultWeekly && ( */}
-                                                <div className="won-loss">
-                                                    {userMainNumWeekly?.some(userMainNumWeekly => userMainNumWeekly.number === event.resultWeekly) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.resultWeekly && (
+                                                    <div className="won-loss">
+                                                        {userMainNumWeekly?.some(userMainNumWeekly => userMainNumWeekly.number === event.resultWeekly) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
 
                                             </div>
                                         </div>
@@ -720,15 +720,15 @@ function History(props) {
                                                         })}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.firstDigitWeekly && ( */}
-                                                <div className="won-loss">
-                                                    {userInnerNumWeekly?.some(userInnerNumWeekly => userInnerNumWeekly.number === event.firstDigitWeekly) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.firstDigitWeekly && (
+                                                    <div className="won-loss">
+                                                        {userInnerNumWeekly?.some(userInnerNumWeekly => userInnerNumWeekly.number === event.firstDigitWeekly) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
 
@@ -755,15 +755,15 @@ function History(props) {
                                                         })}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.scndDigitWeekly && ( */}
-                                                <div className="won-loss">
-                                                    {userOuterNumWeekly?.some(userOuterNumWeekly => userOuterNumWeekly.number === event.scndDigitWeekly) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.scndDigitWeekly && (
+                                                    <div className="won-loss">
+                                                        {userOuterNumWeekly?.some(userOuterNumWeekly => userOuterNumWeekly.number === event.scndDigitWeekly) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
 
                                             </div>
                                         </div>
@@ -841,15 +841,15 @@ function History(props) {
                                                         ))}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.result && ( */}
-                                                <div className="won-loss">
-                                                    {userMainNumToday?.some(userMainNumToday => userMainNumToday.number === event.result) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.result && (
+                                                    <div className="won-loss">
+                                                        {userMainNumToday?.some(userMainNumToday => userMainNumToday.number === event.result) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
 
                                             </div>
                                         </div>
@@ -877,15 +877,15 @@ function History(props) {
                                                         })}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.result && ( */}
-                                                <div className="won-loss">
-                                                    {userInnerNumToday?.some(userInnerNumToday => userInnerNumToday.number === event.firstDigit) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.firstDigit && (
+                                                    <div className="won-loss">
+                                                        {userInnerNumToday?.some(userInnerNumToday => userInnerNumToday.number === event.firstDigit) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
 
@@ -912,15 +912,15 @@ function History(props) {
                                                         })}
                                                     </tbody>
                                                 </table>
-                                                {/* {event.result && ( */}
-                                                <div className="won-loss">
-                                                    {userOuterNumToday?.some(userOuterNumToday => userOuterNumToday.number === event.scndDigit) ? (
-                                                        <p className="won-ct">Win</p>
-                                                    ) : (
-                                                        <p className="loss-ct">Loss</p>
-                                                    )}
-                                                </div>
-                                                {/* )} */}
+                                                {event.scndDigit && (
+                                                    <div className="won-loss">
+                                                        {userOuterNumToday?.some(userOuterNumToday => userOuterNumToday.number === event.scndDigit) ? (
+                                                            <p className="won-ct">Win</p>
+                                                        ) : (
+                                                            <p className="loss-ct">Loss</p>
+                                                        )}
+                                                    </div>
+                                                )}
 
                                             </div>
                                         </div>

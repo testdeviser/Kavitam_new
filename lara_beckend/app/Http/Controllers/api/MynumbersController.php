@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\EventResult;
+use App\Models\EventStatus;
 use Illuminate\Http\Request;
 use App\Models\inner;
 use App\Models\MainNumbers;
@@ -11,6 +12,7 @@ use App\Models\outer;
 use App\Models\events;
 use App\Models\user;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 
 class MynumbersController extends Controller
 {
@@ -344,14 +346,23 @@ class MynumbersController extends Controller
 
     public function todayActiveEvents(Request $request)
     {
+        $apiKey = "KOBW56T368TS"; // Replace with your API key
+        $apiUrl = "http://api.timezonedb.com/v2.1/get-time-zone?key=$apiKey&format=json&by=zone&zone=Asia/Kolkata";
+
+        $client = new Client();
+        $response = $client->get($apiUrl);
+        $data = json_decode($response->getBody(), true);
+        $timestamp = $data['timestamp'];
+        $indianTime = Carbon::createFromTimestamp($timestamp)->format('H:i:s');
+
         $currentDate = Carbon::now()->format('Y-m-d');
         $currentTime = Carbon::now()->timezone('Asia/Kolkata');
-        $currentTime1 = Carbon::now()->timezone('Asia/Kolkata')->format('H:i:s');
+        // $currentTime1 = Carbon::now()->timezone('Asia/Kolkata')->format('H:i:s');
+        $currentTime1 = $indianTime;
         $events = events::where('status', '1')->get();
         //echo "<pre>";print_r($events);die;
         //$minTimeDifference = null; // Variable to store the minimum time difference
         //$closestEvent = null; // Variable to store the closest event
-
         $closestEventId = false;
         $closestEventTime = '';
         $message = 'No active events found';
@@ -368,6 +379,11 @@ class MynumbersController extends Controller
                 $closestEventId = $closestEvent->id;
                 $closestEventTime = $closestEvent->event_date;
                 $closestEventTime = Carbon::parse($closestEventTime)->format('H:i:s');
+                // Parse the time string to create a Carbon instance
+                $carbonTime = Carbon::parse($closestEventTime);
+                // Add 59 minutes
+                $carbonTime->addMinutes(59);
+                $closestEventTimeWith59Minutes = $carbonTime->format('H:i:s');
                 $message = '';
             }
         }
@@ -375,6 +391,7 @@ class MynumbersController extends Controller
         return response()->json([
             'status' => 200,
             //'events' => $events,
+            'addOneHour' => $closestEventTimeWith59Minutes,
             'time' => $closestEventTime,
             'currentTime1' => $currentTime1,
             'event_id' => $closestEventId,
@@ -1087,6 +1104,14 @@ class MynumbersController extends Controller
         ]);
 
     }
+
+    public function updateEventStatus(Request $request)
+    {
+        $event = EventStatus::first(); // Fetch the event record from the database
+        $event->status = 1; // Update the status field to 1
+        $event->save(); // Save the changes back to the database
+    }
+
 
 
 }

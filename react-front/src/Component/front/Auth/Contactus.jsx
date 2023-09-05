@@ -26,31 +26,72 @@ function Contactus(props) {
     });
     const [erros, setError] = useState({});
 
+    // const handleAmountKeyPress = (e) => {
+    //     // Allow Ctrl+A (Select All), Ctrl+C (Copy), Ctrl+V (Paste), Ctrl+Y (Redo), and Ctrl+Z (Undo) shortcuts
+    //     if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'y', 'z'].includes(e.key)) {
+    //         return;
+    //     }
+
+    //     // Allow the backspace key
+    //     if (e.key === 'Backspace') {
+    //         return;
+    //     }
+
+    //     // If there's a '+' at the beginning, allow digits
+    //     if (e.target.value.startsWith('+') && /^[0-9]$/.test(e.key)) {
+    //         return;
+    //     }
+
+    //     // Allow the '+' character at the beginning
+    //     if (e.target.value === '' && e.key === '+') {
+    //         return;
+    //     }
+
+    //     // Allow arrow left, arrow right, arrow up, and arrow down keys
+    //     if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+    //         return;
+    //     }
+
+    //     // Prevent input if it's not a digit
+    //     if (!/^[0-9]$/.test(e.key)) {
+    //         e.preventDefault();
+    //     }
+    // };
+
     const handleAmountKeyPress = (e) => {
-        // Allow Ctrl+A (Select All), Ctrl+C (Copy), Ctrl+V (Paste), Ctrl+Y (Redo), and Ctrl+Z (Undo) shortcuts
-        if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'y', 'z'].includes(e.key)) {
-            return;
-        }
+        const currentValue = e.target.value;
 
-        // Allow the backspace key
-        if (e.key === 'Backspace') {
-            return;
-        }
+        // Remove any non-digit and non-plus characters
+        const sanitizedValue = currentValue.replace(/[^0-9+]/g, '');
 
-        // If there's a '+' at the beginning, allow digits
-        if (e.target.value.startsWith('+') && /^[0-9]$/.test(e.key)) {
-            return;
-        }
-
-        // Allow the '+' character at the beginning
-        if (e.target.value === '' && e.key === '+') {
-            return;
-        }
-
-        // Prevent input if it's not a digit
-        if (!/^[0-9]$/.test(e.key)) {
+        // Check if the input exceeds the maximum length (15 characters)
+        if (sanitizedValue.length >= 15 && !['Backspace', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
             e.preventDefault();
+            return;
         }
+
+        // Allow specific key events
+        if (
+            (e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'y', 'z'].includes(e.key) || // Ctrl key shortcuts
+            ['ArrowLeft', 'ArrowRight', 'Backspace'].includes(e.key) // Arrow keys and Backspace
+        ) {
+            return;
+        }
+
+        // Check if the '+' sign is already present
+        const plusIndex = sanitizedValue.indexOf('+');
+
+        // Allow the '+' character only at the beginning or if it follows a non-digit character
+        if (
+            (e.key === '+' && (plusIndex !== -1 || e.target.selectionStart !== 0)) ||
+            (e.target.selectionStart > 0 && sanitizedValue.charAt(e.target.selectionStart - 1) !== '+' && !/^[0-9]$/.test(e.key))
+        ) {
+            e.preventDefault();
+            return;
+        }
+
+        // Update the input value with the sanitized value
+        e.target.value = sanitizedValue;
     };
 
 
@@ -176,11 +217,12 @@ function Contactus(props) {
                                 <div className="input-container login_input">
                                     <label htmlFor="phone" className='login-label'>Phone number</label>
                                     <input
-                                        type="text"
+                                        // type="text"
+                                        type="tel"
                                         className="register-input"
                                         name="phone"
-                                        // maxLength={15}
-                                        // minLength={10}
+                                        maxLength={15}
+                                        minLength={10}
                                         onChange={phonehandler}
                                         onKeyDown={(e) => handleAmountKeyPress(e)}
                                         onInput={(e) => handleInputValidation(e)} />

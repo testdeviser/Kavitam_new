@@ -62,7 +62,8 @@ class transactionController extends Controller
     {
         Cache::flush();
         $timeDifference = $req->timeDifference;
-        if ($timeDifference >= '10:00') {
+        // if ($timeDifference >= '10:00') {
+        if ($timeDifference <= '50:00') {
             //echo "<pre>";print_r($req->all());
             $user = auth('sanctum')->user();
             $userId = auth('sanctum')->user()->id;

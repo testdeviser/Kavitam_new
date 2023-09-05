@@ -74,28 +74,57 @@ class authentication extends Controller
         //     'phone' => 'numeric|digits_between:10,15',
         // ]);
 
-        $validator = Validator::make($req->all(), [
+        // $validator = Validator::make($req->all(), [
+        //     'name' => 'required|min:3|max:191',
+        //     'username' => 'required|min:3|max:191|unique:users,username',
+        //     'user_password' => 'required|min:6',
+        //     'user_confirmpassword' => 'required|same:user_password',
+        //     // 'phone' => 'numeric|digits_between:10,15',
+        //     'phone' => 'regex:/^[0-9+]+$/|between:10,15',
+        //     'referredby_user_link' => 'exists:users,user_referral_link|nullable',
+        // ], [
+        //     'name.required' => 'Please enter Name',
+        //     'username.required' => 'Please enter Username',
+        //     'user_password.required' => 'Please enter Password',
+        //     'user_password.min' => 'Password must be at least of 6 digits',
+        //     'user_confirmpassword.required' => 'Please enter Confirm Password',
+        //     'user_confirmpassword.same' => 'Confirm Password must match Password',
+        //     // 'phone.numeric' => 'Phone number must be numeric and ',
+        //     'phone.regex' => 'Phone number must contain only digits or the "+" sign and ',
+        //     // 'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+        //     'phone.between' => 'Phone No. must be between 10 and 15 characters',
+        //     'referredby_user_link.exists' => 'Referral code does not exist',
+        // ]);
+
+        $rules = [
             'name' => 'required|min:3|max:191',
             'username' => 'required|min:3|max:191|unique:users,username',
             'user_password' => 'required|min:6',
             'user_confirmpassword' => 'required|same:user_password',
-            // 'phone' => 'numeric|digits_between:10,15',
-            'phone' => 'regex:/^[0-9+]+$/|between:10,15',
+            'phone' => [
+                'nullable',
+                // Allow the field to be nullable
+                'regex:/^[0-9+]+$/',
+                // Regex rule for digits or "+"
+                'between:10,15',
+                // Length between 10 and 15 characters
+            ],
             'referredby_user_link' => 'exists:users,user_referral_link|nullable',
-        ], [
+        ];
+
+        $messages = [
             'name.required' => 'Please enter Name',
             'username.required' => 'Please enter Username',
             'user_password.required' => 'Please enter Password',
-            'user_password.min' => 'Password must be at least of 6 digits',
+            'user_password.min' => 'Password must be at least 6 characters',
             'user_confirmpassword.required' => 'Please enter Confirm Password',
             'user_confirmpassword.same' => 'Confirm Password must match Password',
-            // 'phone.numeric' => 'Phone number must be numeric and ',
-            'phone.regex' => 'Phone number must contain only digits or the "+" sign and ',
-            // 'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+            'phone.regex' => 'Phone number must contain only digits or the "+" sign',
             'phone.between' => 'Phone No. must be between 10 and 15 characters',
             'referredby_user_link.exists' => 'Referral code does not exist',
-        ]);
+        ];
 
+        $validator = Validator::make($req->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return response()->json([
@@ -103,7 +132,6 @@ class authentication extends Controller
                 'p_suggestion' => Str::random(5) . mt_rand(10000, 99999),
             ]);
         } else {
-
             $user_password = $req->user_password;
             $user_confirmpassword = $req->confirmpassword;
             // $mail_password=$req->mail_pass;
@@ -540,12 +568,35 @@ class authentication extends Controller
 
     public function contactus(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        // $validator = Validator::make($request->all(), [
+        //     'email' => 'required|email',
+        //     // 'phone' => 'numeric|digits_between:10,15',
+        //     'phone' => 'regex:/^[0-9+]+$/|between:10,15',
+        //     'message' => 'required',
+        // ], [
+        //     'email.required' => 'Please enter Email',
+        //     'email.email' => 'Please enter a valid Email',
+        //     'phone.regex' => 'Phone number must contain only digits or the "+" sign and ',
+        //     'phone.between' => 'Phone No. must be between 10 and 15 characters',
+        //     // 'phone.numeric' => 'Phone number must be numeric and ',
+        //     // 'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+        //     'message.required' => 'Please enter Message',
+        // ]);
+
+        $rules = [
             'email' => 'required|email',
-            // 'phone' => 'numeric|digits_between:10,15',
-            'phone' => 'regex:/^[0-9+]+$/|between:10,15',
+            'phone' => [
+                'nullable',
+                // Allow the field to be nullable
+                'regex:/^[0-9+]+$/',
+                // Regex rule for digits or "+"
+                'between:10,15',
+                // Length between 10 and 15 characters
+            ],
             'message' => 'required',
-        ], [
+        ];
+
+        $messages = [
             'email.required' => 'Please enter Email',
             'email.email' => 'Please enter a valid Email',
             'phone.regex' => 'Phone number must contain only digits or the "+" sign and ',
@@ -553,7 +604,9 @@ class authentication extends Controller
             // 'phone.numeric' => 'Phone number must be numeric and ',
             // 'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
             'message.required' => 'Please enter Message',
-        ]);
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return response()->json([
