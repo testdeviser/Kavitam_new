@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import app from './firbase_config';
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+// import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import Navbar from '../../../layouts/front/navbar';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -10,7 +10,7 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import { useLocation } from 'react-router-dom';
 
-const auth = getAuth(app);
+// const auth = getAuth(app);
 
 function Register(props) {
 
@@ -40,56 +40,56 @@ function Register(props) {
     //refferalCode: '',
   });
 
-  const oncaptchaVerifier = () => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-        'size': 'invisible',
-        'callback': (response) => {
-          onSingInSubmit();
+  // const oncaptchaVerifier = () => {
+  //   if (!window.recaptchaVerifier) {
+  //     window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+  //       'size': 'invisible',
+  //       'callback': (response) => {
+  //         onSingInSubmit();
 
-        }
-      }, auth);
+  //       }
+  //     }, auth);
 
-    }
-  }
+  //   }
+  // }
 
 
-  const onSingInSubmit = (e) => {
-    e.preventDefault();
-    oncaptchaVerifier();
+  // const onSingInSubmit = (e) => {
+  //   e.preventDefault();
+  //   oncaptchaVerifier();
 
-    var data = {
-      phone: phone.current,
-    }
+  //   var data = {
+  //     phone: phone.current,
+  //   }
 
-    axios.post('/api/checkPhone', data).then(res => {
-      if (res.data.status == 200) {
-        const phoneNumber = "+91" + phone.current;
-        const appVerifier = window.recaptchaVerifier;
+  //   axios.post('/api/checkPhone', data).then(res => {
+  //     if (res.data.status == 200) {
+  //       const phoneNumber = "+91" + phone.current;
+  //       const appVerifier = window.recaptchaVerifier;
 
-        signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-          .then((confirmationResult) => {
-            window.confirmationResult = confirmationResult;
+  //       signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+  //         .then((confirmationResult) => {
+  //           window.confirmationResult = confirmationResult;
 
-            setinputs({ ...inputs, otp_varification: true });
-            seterr({ error: '' });
-            // ...
-          }).catch((error) => {
-            console.log(error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Verification failed, Please try again...',
-            })
-            // alert('verification failed');
-          });
+  //           setinputs({ ...inputs, otp_varification: true });
+  //           seterr({ error: '' });
+  //           // ...
+  //         }).catch((error) => {
+  //           console.log(error);
+  //           Swal.fire({
+  //             icon: 'error',
+  //             title: 'Oops...',
+  //             text: 'Verification failed, Please try again...',
+  //           })
+  //           // alert('verification failed');
+  //         });
 
-      }
-      else {
-        seterr({ error: res.data.error });
-      }
-    });
-  }
+  //     }
+  //     else {
+  //       seterr({ error: res.data.error });
+  //     }
+  //   });
+  // }
 
 
   const verifyOtp = (e) => {
@@ -233,71 +233,55 @@ function Register(props) {
     }
   }
 
-  var verifybtn = ''
-  if (inputs.verifyBtn) {
+  // var verifybtn = ''
+  // if (inputs.verifyBtn) {
 
-    if (!inputs.verify_phone) {
-      verifybtn = (
-        <>
-          <button className='btn btn-primary w-100' onClick={onSingInSubmit}>Verify</button>
-          {inputs.otp_varification ? <><span className="text-success">Otp sent successfully</span></> : <></>}
-        </>
-      )
-    }
+  //   if (!inputs.verify_phone) {
+  //     verifybtn = (
+  //       <>
+  //         <button className='btn btn-primary w-100' onClick={onSingInSubmit}>Verify</button>
+  //         {inputs.otp_varification ? <><span className="text-success">Otp sent successfully</span></> : <></>}
+  //       </>
+  //     )
+  //   }
 
-  }
+  // }
 
   const handleAmountKeyPress = (e) => {
-    // Allow Ctrl+A (Select All), Ctrl+C (Copy), Ctrl+V (Paste), Ctrl+Y (Redo), and Ctrl+Z (Undo) shortcuts
-    if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'y', 'z'].includes(e.key)) {
-      return;
-    }
+    const currentValue = e.target.value;
 
-    // Allow the backspace key
-    if (e.key === 'Backspace') {
-      return;
-    }
+    // Remove any non-digit and non-plus characters
+    const sanitizedValue = currentValue.replace(/[^0-9+]/g, '');
 
-    // If there's a '+' at the beginning, allow digits
-    if (e.target.value.startsWith('+') && /^[0-9]$/.test(e.key)) {
-      return;
-    }
-
-    // Allow the '+' character at the beginning
-    if (e.target.value === '' && e.key === '+') {
-      return;
-    }
-
-    // Prevent input if it's not a digit
-    if (!/^[0-9]$/.test(e.key)) {
+    // Check if the input exceeds the maximum length (15 characters)
+    if (sanitizedValue.length >= 15 && !['Backspace', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
       e.preventDefault();
+      return;
     }
+
+    // Allow specific key events
+    if (
+      (e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'y', 'z'].includes(e.key) || // Ctrl key shortcuts
+      ['ArrowLeft', 'ArrowRight', 'Backspace'].includes(e.key) // Arrow keys and Backspace
+    ) {
+      return;
+    }
+
+    // Check if the '+' sign is already present
+    const plusIndex = sanitizedValue.indexOf('+');
+
+    // Allow the '+' character only at the beginning or if it follows a non-digit character
+    if (
+      (e.key === '+' && (plusIndex !== -1 || e.target.selectionStart !== 0)) ||
+      (e.target.selectionStart > 0 && sanitizedValue.charAt(e.target.selectionStart - 1) !== '+' && !/^[0-9]$/.test(e.key))
+    ) {
+      e.preventDefault();
+      return;
+    }
+
+    // Update the input value with the sanitized value
+    e.target.value = sanitizedValue;
   };
-
-
-
-
-  // const handleAmountKeyPress = (e) => {
-  //   // Allow the backspace key
-  //   if (e.key === 'Backspace') {
-  //     return;
-  //   }
-
-  //   // Allow only one '+' character at the beginning
-  //   if (e.target.value === '' && e.key === '+') {
-  //     return;
-  //   }
-
-  //   // If there's a '+' at the beginning, allow digits
-  //   if (e.target.value.startsWith('+') && /^[0-9]$/.test(e.key)) {
-  //     return;
-  //   }
-
-  //   // Prevent input if it's not a digit
-  //   if (!/^[0-9]$/.test(e.key)) {
-  //     e.preventDefault();
-  //   }
-  // };
 
 
   // const handleAmountKeyPress = (e) => {
@@ -482,11 +466,12 @@ function Register(props) {
                 <div className="input-container login_input">
                   <label htmlFor="email" className='login-label'>Phone number</label>
                   <input
-                    type="text"
+                    // type="text"
+                    type="tel"
                     className="register-input"
                     name="phone"
-                    // maxLength={15}
-                    // minLength={10}
+                    maxLength={15}
+                    minLength={10}
                     onChange={phonehandler}
                     onKeyDown={handleAmountKeyPress} // Change from onKeyPress to onKeyDown
                     onInput={(e) => handleInputValidation(e)}

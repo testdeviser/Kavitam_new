@@ -237,3 +237,5 @@ Route::get('/fetchBankData', [BankController::class, 'fetchBankData']);
 Route::get('/showUPIQRcode', [transactionController::class, 'showUPIQRcode']);
 
 Route::get('/current-indian-time', [BankController::class, 'getCurrentIndianTime']);
+
+// Route::post('/updateEventStatus', [MynumbersController::class, 'updateEventStatus']);

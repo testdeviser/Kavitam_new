@@ -17,7 +17,6 @@ function Payments(props) {
     const fetchPayments = () => {
         try {
             axios.get(`/api/admin/payments/fetch`).then(res => {
-                console.log(res.data.payments);
                 setdata(res.data.payments);
                 setApprovedData(res.data.approved);
                 setRejectedData(res.data.rejected);

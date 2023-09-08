@@ -365,6 +365,7 @@ function Withdrawal(props) {
                                                 </label>
                                                 <input
                                                     type="tel"
+                                                    maxLength={14}
                                                     className="register-input form-control"
                                                     name="account_no"
                                                     value={editData.account_no}
@@ -381,6 +382,7 @@ function Withdrawal(props) {
                                                 </label>
                                                 <input
                                                     type="tel"
+                                                    maxLength={14}
                                                     className="register-input form-control"
                                                     name="confirm_account_no"
                                                     value={editData.confirm_account_no}
@@ -549,6 +551,7 @@ function Withdrawal(props) {
                                         </label>
                                         <input
                                             type="tel"
+                                            maxLength={14}
                                             className="register-input form-control"
                                             name="account_no"
                                             value={inputs.account_no}
@@ -567,6 +570,7 @@ function Withdrawal(props) {
                                         </label>
                                         <input
                                             type="tel"
+                                            maxLength={14}
                                             className="register-input form-control"
                                             name="confirm_account_no"
                                             value={inputs.confirm_account_no}

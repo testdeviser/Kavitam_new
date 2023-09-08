@@ -9,7 +9,7 @@ function LiveResultToday(props) {
 
     const [data, setdata] = useState({
         event: [],
-        no_of_result: 17,
+        no_of_result: 24,
         showAllButton: true,
         showLessButton: false
     });
@@ -58,7 +58,7 @@ function LiveResultToday(props) {
     };
 
     const viewLessbtn = () => {
-        setdata({ ...data, no_of_result: 17, showAllButton: true, showLessButton: false });
+        setdata({ ...data, no_of_result: 24, showAllButton: true, showLessButton: false });
     };
 
     const data1 = data.event.slice(0, data.no_of_result);

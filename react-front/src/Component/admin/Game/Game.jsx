@@ -278,6 +278,8 @@ function Game(props) {
 
                             <input
                                 type="tel"
+                                maxLength={2}
+                                minLength={1}
                                 className="form-control"
                                 id="inputPassword2"
                                 //value={result.number || ''}
@@ -305,13 +307,17 @@ function Game(props) {
                 <div className="timer_heading-time">
                     <h2>Timer</h2>
 
-                    {time < 0 ? (
+                    <button className="figmabtn wallet-btn">
+                        {formatTime(time)}
+                    </button>
+
+                    {/* {time < 0 ? (
                         <button className="figmabtn wallet-btn">00:00</button>
                     ) : (
                         <button className="figmabtn wallet-btn">
                             {formatTime(time)}
                         </button>
-                    )}
+                    )} */}
                 </div>
             </div>
 
