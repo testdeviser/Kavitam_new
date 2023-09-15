@@ -141,6 +141,7 @@ class BankController extends Controller
         $userWallet = Wallet::where('user_id', $userId)->first();
         $userWalletId = $userWallet->id;
         $minusUserWallet = $userWallet->decrement('ammount', $withdrawal_amount);
+        $userWalletAmount = Wallet::where('user_id', $userId)->first();
 
         $withdrawal = new Withdrawal();
         $withdrawal->userId = $userId;
@@ -163,6 +164,7 @@ class BankController extends Controller
 
         return response()->json([
             'status' => 200,
+            'ammount' => $userWalletAmount->ammount,
             'message' => 'Money withdrawal get Successful',
         ]);
     }

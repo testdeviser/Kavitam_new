@@ -9,12 +9,14 @@ import { useNavigate, createSearchParams, Link } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import { useLocation } from 'react-router-dom';
+import firebaseApp from '../../../firebase';
 
 // const auth = getAuth(app);
 
 function Register(props) {
 
   const navigate = useNavigate();
+  const database = firebaseApp.database(); // Define 'database' using the imported Firebase app
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -30,6 +32,7 @@ function Register(props) {
     email: '',
     user_password: '',
     user_confirmpassword: '',
+    firebase_node: '',
     gmail_password: '',
     verify_phone: false,
     otp: '',
@@ -165,6 +168,23 @@ function Register(props) {
   const SubmitHandler = (e) => {
     e.preventDefault();
     var target = e.currentTarget;
+
+    // add data in firebas real time database   
+    const withdrawalData = {
+      walletBalance: 0,
+    };
+
+    // Replace 'withdrawals' with the name of the Firebase Realtime Database node where you want to store the data
+    const newWithdrawalRef = database.ref('ammount').push();
+    const newWithdrawalKey = newWithdrawalRef.key; // Get the unique key
+    newWithdrawalRef.set(withdrawalData);
+
+    // Set the value of a hidden input field
+    const hiddenInput = document.getElementById('firebase_node'); // Replace 'hiddenInput' with the ID of your hidden input field
+    hiddenInput.value = newWithdrawalKey;
+
+    //end
+
     const data = {
       name: inputs.name,
       // email:inputs.email,
@@ -176,10 +196,10 @@ function Register(props) {
       phone: phone.current,
       verify_phone: inputs.verify_phone,
       username: inputs.username,
+      firebase_node: newWithdrawalKey
       //lname: inputs.lastName,
       //refferalCode: inputs.refferalCode,
     };
-    console.log(data);
 
     axios.post(`api/user/Register`, data).then(res => {
       // console.log(res);
@@ -194,8 +214,17 @@ function Register(props) {
           timer: 1500
         });
         localStorage.setItem('auth_token', res.data.token);
+        localStorage.setItem('firebase_node', res.data.firebase_node);
         localStorage.setItem('user_name', res.data.username);
         localStorage.setItem('user_id', res.data.userid);
+
+        localStorage.setItem("selectedMainNumbers", []);
+        localStorage.setItem("selectedMainNumbersAmounts", []);
+        localStorage.setItem("selectedInnerNumbers", []);
+        localStorage.setItem("selectedInnerNumbersAmounts", []);
+        localStorage.setItem("selectedOuterNumbers", []);
+        localStorage.setItem("selectedOuterNumbersAmounts", []);
+
 
         //localStorage.setItem("user_name", res.data.name);
         //localStorage.setItem("auth_token", res.data.token);
@@ -450,6 +479,7 @@ function Register(props) {
               <form onSubmit={SubmitHandler}>
 
                 {/* <input type="hidden" name="referredby_user_link" value={referralCode} /> */}
+                <input type="hidden" id='firebase_node' name="firebase_node" value="" />
 
                 <div className="input-container login_input">
                   <label htmlFor="name" className='login-label'>Name </label>

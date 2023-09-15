@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('referredby_user_link');
             $table->string('user_referral_link');
+            $table->string('firebase_node')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Datatable from 'react-data-table-component';
+import firebaseApp from '../../../firebase';
 
 function Payments(props) {
-
+    const database = firebaseApp.database(); // Define 'database' using the imported Firebase app
     const [data, setdata] = useState();
     const [approved, setApprovedData] = useState();
     const [rejected, setRejectedData] = useState();
@@ -108,14 +109,28 @@ function Payments(props) {
     const data2 = approved ? approved.slice(firstIndex, lastIndex) : [];
     const data3 = rejected ? rejected.slice(firstIndex, lastIndex) : [];
 
+    const [walletAmount, setWalletAmount] = useState(0);
+    const [firebaseNode, setFirebaseNode] = useState([]);
+
     const handleStatusUpdate = (paymentId, newStatus) => {
         try {
             //axios.put(`/api/admin/payments/${paymentId}`, { status: newStatus }).then(res => {
             axios.post(`/api/admin/payments/update_payments/${paymentId}`, { status: newStatus }).then(res => {
                 // Handle successful update, such as showing a success message
                 Swal.fire('Payment status updated', '', 'success');
+
                 // Call fetchPayments again to update the data
                 fetchPayments();
+
+                //update data in firebase
+                const updatedAmount = parseFloat(res.data.ammount);
+                setWalletAmount(updatedAmount); // Update the wallet amount in React state
+                const firebaseNode = res.data.userData.firebase_node;
+
+                const uniqueValue = firebaseNode; // Replace with your actual unique value
+                const withdrawalAmountRef = database.ref(`ammount/${uniqueValue}/walletBalance`);
+                withdrawalAmountRef.set(updatedAmount.toString());
+                //end update data in firebase
             });
         } catch (err) {
             console.log(err);

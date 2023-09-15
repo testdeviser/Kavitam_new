@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\adminApi;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use App\Models\Payment;
@@ -188,10 +189,8 @@ class PaymentController extends Controller
         if ($data) {
             $data->status = $req->status;
             $res = $data->save();
-
+            $wallet = Wallet::where('user_id', $userId)->first();
             if ($data->status == 1) {
-                $wallet = Wallet::where('user_id', $userId)->first();
-
                 if ($wallet) {
                     // If the wallet exists, update the amount
                     $wallet->ammount += $data->amount;
@@ -207,7 +206,6 @@ class PaymentController extends Controller
                 $userTransHistory = TransactionHistory::where('userId', $data->userId)->where('UpiId', $id)->first();
                 $userTransHistory->status = 'Cr';
                 $userTransHistory->update();
-
                 // Add transaction history
                 // $transaction_history = new TransactionHistory();
                 // $transaction_history->userId = $userId;
@@ -222,9 +220,13 @@ class PaymentController extends Controller
                 // $transaction_history->save();
             }
 
+            $userData = User::where('id', $data->userId)->first();
+
             if ($res) {
                 return response()->json([
                     'status' => 200,
+                    'userData' => $userData,
+                    'ammount' => $wallet->ammount,
                     'message' => 'Payment updated successfully!',
                 ]);
             } else {
@@ -254,10 +256,14 @@ class PaymentController extends Controller
             $data->status = $status;
             $data->save();
 
+            $wallet = null; // Initialize $wallet variable
+
             if ($status == 2) {
                 $amount = $data->amount;
                 $wallet = Wallet::where('user_id', $data->userId)->increment('ammount', $amount);
+                $userWallet = Wallet::where('user_id', $data->userId)->first();
             } else if ($status == 1) {
+                $userWallet = Wallet::where('user_id', $data->userId)->first();
                 $userTransHistory = TransactionHistory::where('userId', $data->userId)->where('withdrawalId', $id)->first();
                 $userTransHistory->status = 'Dr';
                 $userTransHistory->update();
@@ -265,8 +271,12 @@ class PaymentController extends Controller
 
             }
 
+            $userData = User::where('id', $data->userId)->first();
+
             return response()->json([
                 'status' => 200,
+                'userData' => $userData,
+                'ammount' => $userWallet->ammount,
                 'message' => 'Withdrawal status updated successfully',
             ]);
         }

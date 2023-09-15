@@ -63,7 +63,7 @@ class transactionController extends Controller
         Cache::flush();
         $timeDifference = $req->timeDifference;
         // if ($timeDifference >= '10:00') {
-        if ($timeDifference <= '50:00') {
+        if ($timeDifference <= '50:00') { 
             //echo "<pre>";print_r($req->all());
             $user = auth('sanctum')->user();
             $userId = auth('sanctum')->user()->id;
@@ -182,9 +182,17 @@ class transactionController extends Controller
                                     $outerNumSave->save();
                                 }
 
+
+                                $walletData = Wallet::where('user_id', $userId)->first();
+                                $referredByUserWalletId = Wallet::where('user_id', $referredByUser->id)->first();
+                                $referredByUserNode = User::where('id', $referredByUser->id)->first();
+
                                 return response()->json([
                                     'status' => 200,
                                     'payment' => 1,
+                                    'ammount' => $walletData->ammount,
+                                    'referredByUserAmmount' => $referredByUserWalletId->ammount,
+                                    'referredByUserNode' => $referredByUserNode->firebase_node,
                                     'message' => 'Payment done successfully',
                                 ]);
                             } else {
@@ -206,6 +214,7 @@ class transactionController extends Controller
                         }
                         //$message = 'congratulations you got 2% discount !!';
                     } else {
+                        $referredByUser = User::where('user_referral_link', $userReferredByLink)->first();
                         $minusWalletAmount = $wallet->decrement('ammount', $grandTotal);
 
                         $wallet = Wallet::where('user_id', $userId)->first();
@@ -273,9 +282,17 @@ class transactionController extends Controller
                             }
                             $outerNumSave->save();
                         }
+
+                        $walletData = Wallet::where('user_id', $userId)->first();
+                        //$referredByUserWalletId = Wallet::where('user_id', $referredByUser->id)->first();
+                        //$referredByUserNode = User::where('id', $referredByUser->id)->first();
+
                         return response()->json([
                             'status' => 200,
                             'payment' => 1,
+                            'ammount' => $walletData->ammount,
+                            //'referredByUserAmmount' => $referredByUserWalletId->ammount,
+                            //'referredByUserNode' => $referredByUserNode->firebase_node,
                             'message' => 'Payment done successfully',
                         ]);
                     }

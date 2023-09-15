@@ -134,6 +134,7 @@ class authentication extends Controller
         } else {
             $user_password = $req->user_password;
             $user_confirmpassword = $req->confirmpassword;
+            $firebase_node = $req->firebase_node;
             // $mail_password=$req->mail_pass;
 
             // $refferalPhone_no=0;
@@ -194,6 +195,7 @@ class authentication extends Controller
                 'confirm_password' => Hash::make($user_confirmpassword),
                 'referredby_user_link' => $req->referredby_user_link ? $req->referredby_user_link : null,
                 'user_referral_link' => $uniqueReferralLink,
+                'firebase_node' => $firebase_node,
                 // 'Refer_code' => $random,
                 // 'referredBy' => $req->refferalCode ? $req->refferalCode : null,
             ]);
@@ -213,6 +215,7 @@ class authentication extends Controller
                 'userid' => $user->id,
                 'name' => $user->name,
                 'username' => $user->username,
+                'firebase_node' => $user->firebase_node,
                 // 'email'=>$user->email,
                 'token' => $token,
                 'message' => 'Register Successfull!!',
@@ -299,6 +302,7 @@ class authentication extends Controller
                     'userid' => $user->id,
                     'username' => $user->username,
                     'token' => $token,
+                    'firebase_node' => $user->firebase_node,
                     'message' => 'Loggedin Successfully',
                     'user' => $user_is,
                 ]);

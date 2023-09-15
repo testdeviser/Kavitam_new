@@ -28,6 +28,7 @@ class User extends Authenticatable
         'phone',
         'referredby_user_link',
         'user_referral_link',
+        'firebase_node'
     ];
 
     /**
