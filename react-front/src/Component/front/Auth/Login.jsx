@@ -124,7 +124,7 @@ function Login(props) {
                                     </div>
                                     <div className="login_btn-global">
                                         <button type="submit" className='SubmitBtn' value='Submit'>Submit</button>
-                                        <p className='signUP-here'>No account yet in Website? <Link to='/register' style={{ 'color': '#FC8019' }}>Register</Link> here to signup</p>
+                                        <p className='signUP-here'>No account yet on Kavitam? <Link to='/register' style={{ 'color': '#FC8019' }}>Register</Link> here to win</p>
                                     </div>
                                 </form>
                             </div>

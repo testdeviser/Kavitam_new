@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSave, FaWallet } from "react-icons/fa";
-import { FaGamepad, FaTag, FaCreditCard, FaCalendarAlt } from "react-icons/fa";
+import { FaGamepad, FaTag, FaCreditCard, FaAngleDown, FaQrcode, FaMoneyBillAlt, FaCalendarAlt } from "react-icons/fa";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
-import { AiOutlineBarChart, AiFillBuild } from "react-icons/ai";
+import { AiTwotoneLock } from "react-icons/ai";
 import { MdEmojiEvents } from "react-icons/md";
 
 function Sidebar(props) {
@@ -26,6 +26,12 @@ function Sidebar(props) {
                             <Link className={`nav-link  ${isLinkActive("/admin/dashboard")}`} to="/admin/dashboard" onClick={() => handleLinkClick("/admin/dashboard")}>
                                 <div className="sb-nav-link-icon"><MdOutlineDashboardCustomize size={25} /></div>
                                 Dashboard
+                            </Link>
+                        </li>
+                        <li>
+                            <Link className={`nav-link ${isLinkActive("/admin/user")}`} to="/admin/user" onClick={() => handleLinkClick("/admin/user")}>
+                                <div className="sb-nav-link-icon"><FaGamepad size={25} /></div>
+                                Users
                             </Link>
                         </li>
                         <li>
@@ -61,18 +67,19 @@ function Sidebar(props) {
 
                         <li>
                             <Link className={`nav-link ${isLinkActive("/admin/UpiQR")}`} to="/admin/UpiQR" onClick={() => handleLinkClick("/admin/UpiQR")}>
-                                <div className="sb-nav-link-icon"><FaTag size={25} /></div>
+                                <div className="sb-nav-link-icon"><FaQrcode size={25} /></div>
                                 UPI & QR Code
                             </Link>
                         </li>
 
                         <li>
                             <Link className={`nav-link ${isLinkActive("/admin/Withdrawal")}`} to="/admin/Withdrawal" onClick={() => handleLinkClick("/admin/Withdrawal")}>
-                                <div className="sb-nav-link-icon"><FaTag size={25} /></div>
+                                <div className="sb-nav-link-icon"><FaMoneyBillAlt size={25} /></div>
                                 Withdrawal
+                                <div className="submenu-icon"><FaAngleDown /></div>
                             </Link>
 
-                            <ul className="submenu"> {/* Submenu starts here */}
+                            <ul className="submenu_bkend"> {/* Submenu starts here */}
                                 <li>
                                     <Link className={`nav-link ${isLinkActive("/admin/WithdrawalHistory")}`} to="/admin/WithdrawalHistory" onClick={() => handleLinkClick("/admin/WithdrawalHistory")}>
                                         Withdrawal History
@@ -85,6 +92,13 @@ function Sidebar(props) {
                                 </li>
                             </ul>
 
+                        </li>
+
+                        <li>
+                            <Link className={`nav-link ${isLinkActive("/admin/ChangePassword")}`} to="/admin/ChangePassword" onClick={() => handleLinkClick("/admin/ChangePassword")}>
+                                <div className="sb-nav-link-icon"><AiTwotoneLock size={25} /></div>
+                                Change Password
+                            </Link>
                         </li>
 
                     </ul>

@@ -299,6 +299,7 @@ section.register-section {
     box-shadow: 0px 0px 34px 0px #ECECEC;
     border-radius: 0px 0px 20px 20px;
 }
+
 .contact_info {
     float: left;
     width: calc(100% - 570px) !important;
@@ -414,7 +415,7 @@ section.register-section {
 
 section.Easiest_way_section {
     background: #FAF9F1;
-    padding: 90px 0;
+    padding: 50px 0;
     position: relative;
 }
 
@@ -471,11 +472,10 @@ section.Easiest_way_section .container {
 
 .querysection {
     width: 100%;
-    height: 140px;
     background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
     float: left;
+    padding: 25px 0px;
 }
-
 section.Easiest_way_section .login-right-bttom {
     position: absolute;
     z-index: 1;
@@ -488,11 +488,11 @@ section.Easiest_way_section .login-right-bttom {
 .querysection section {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
 .querysection section .content p {
-    width: 330px;
-    height: 24px;
     font-family: 'Barlow';
     font-style: normal;
     font-weight: 700;
@@ -500,12 +500,7 @@ section.Easiest_way_section .login-right-bttom {
     line-height: 20px;
     color: #FFFFFF;
     align-content: center;
-    margin: 58px 20px;
-}
-
-.querysection section .contactBtn {
-    align-content: center;
-    margin: 49px 20px;
+    margin: 0;
 }
 
 .querybtn {
@@ -746,6 +741,7 @@ img.right-quote {
     align-items: center;
     justify-content: space-between;
     position: relative;
+    z-index: 0;
 }
 
 .timer h3 {
@@ -841,7 +837,7 @@ img.right-quote {
     box-shadow: 0px 0px 34px #ECECEC;
     border-radius: 20px;
     padding: 23px;
-    margin-top: 45px;
+    margin-top: 20px;
     position: relative;
 }
 
@@ -857,13 +853,7 @@ img.right-quote {
 }
 
 .game-right-sec-inner {
-    /* background: linear-gradient(180deg, #F44E34 0%, #E8AA3D 100%); */
-    /* box-shadow: 0px 4px 34px #ECECEC; */
-    /* border-radius: 20px; */
-    /* max-width: 100%; */
-    /* padding: 0; */
-    /* padding: 36px 0px 0px 0px; */
-    margin-top: 45px;
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
@@ -922,7 +912,7 @@ tr {
     font-family: 'Barlow';
     font-style: normal;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     color: #6D6D6D;
     margin-top: 25px;
     margin-bottom: 0;
@@ -975,7 +965,8 @@ tr {
     position: absolute;
     top: 0;
     left: 0;
-    background: url('http://localhost:3000/image/left-bg-main.png');
+    /* background: url('http://localhost:3000/image/left-bg-main.png'); */
+    background: url('https://kavitam.com/image/left-bg-main.png');
     width: 381px;
     height: 250px;
     z-index: 1;
@@ -989,7 +980,8 @@ tr {
     position: absolute;
     top: 0;
     right: 0;
-    background: url('http://localhost:3000/image/right-bg-main.png');
+    /* background: url('http://localhost:3000/image/right-bg-main.png'); */
+    background: url('https://kavitam.com/image/right-bg-main.png');
     width: 381px;
     height: 250px;
     z-index: 99;
@@ -1171,6 +1163,7 @@ table.total-prize-table tr td {
     font-size: 26px;
     margin: 14px 0 10px 0;
 }
+
 .quickChoose.hindi_text span.heding.hindi_text {
     font-size: 26px;
     line-height: 43px;
@@ -1225,6 +1218,7 @@ table.total-prize-table tr td {
         margin: 0 0 15px;
         padding: 0;
     }
+
     nav .navigation-links ul li:last-child {
         margin: 0;
     }
@@ -1358,12 +1352,12 @@ table.total-prize-table tr td {
         height: auto;
         line-height: normal;
         text-align: center;
-        margin: 30px 0 0px;
+        margin: 0px 0 0px;
         font-size: 28px;
     }
 
     .querysection section .contactBtn {
-        margin: 20px 0 30px;
+        margin: 20px 0 0px;
         text-align: center;
     }
 
@@ -1381,11 +1375,6 @@ table.total-prize-table tr td {
         margin: 0 15px 10px;
     }
 
-    .front-footer .links {
-        display: block;
-        text-align: center;
-    }
-
 
     .front-footer .links .footer-Social ul,
     .front-footer .footer-logo {
@@ -1393,7 +1382,7 @@ table.total-prize-table tr td {
     }
 
     .front-footer {
-        padding: 24px 0 10px;
+        padding: 15px 0 15px;
     }
 
     .register-wrapper .left-side,
@@ -1429,7 +1418,7 @@ table.total-prize-table tr td {
         width: 100%;
         font-size: 24px;
         line-height: 28px;
-        margin: 0 0 10px 0;
+        margin: 0 0 0px 0;
     }
 
     .timer {
@@ -1465,6 +1454,7 @@ table.total-prize-table tr td {
     .timer-sec.game-timer-sec {
         margin: 50px 0 50px 0;
     }
+
     .quickChoose.hindi_text span.heding.hindi_text {
         font-size: 20px;
         line-height: 36px;
@@ -1547,7 +1537,7 @@ nav .navigation-links ul li.hover_dropdown {
 
 .scroll-container {
     display: flex;
-    animation: scroll-left 10s linear infinite;
+    animation: scroll-left 18s linear infinite;
 }
 
 @keyframes scroll-left {
@@ -1558,6 +1548,50 @@ nav .navigation-links ul li.hover_dropdown {
     100% {
         transform: translateX(-100%);
     }
+}
+
+.row.show_result_seclive {
+    overflow: hidden;
+}
+
+.top-message {
+    background-color: #ffff;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    display: none;
+    box-shadow: 0px 0px 34px #ECECEC;
+    border-radius: 20px;
+    margin: 0 0 20px;
+}
+#navigateButton {
+    padding: 15px 25px;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #E9A23C 0%, #F16135 100%);
+    border: none;
+    color: #FFF;
+    font-size: 18px;
+    font-family: Barlow;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    cursor: pointer;
+    opacity: 1;
+    margin: 0 auto;
+    display: inline-block;
+}
+#navigateButton:hover {
+    background: linear-gradient(90deg, #F16135 0%, #E9A23C 100%);
+}
+#messageText {
+    margin: 0 0 20px;
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #777996;
 }
 
 /* jaspreet */

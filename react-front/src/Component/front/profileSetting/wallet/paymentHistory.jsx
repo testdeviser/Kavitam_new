@@ -39,7 +39,10 @@ function PaymentHistory(props) {
           return 'Debits';
         } else if (row.status === 'Dr-Pending') {
           return 'Debits-Pending';
-        } else {
+        } else if (row.status === 'Pending') {
+          return 'Pending';
+        }
+        else {
           return 'Unknown Status';
         }
       },

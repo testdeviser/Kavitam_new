@@ -38,6 +38,27 @@ function PriceMultiplyBy() {
         fetchPriceMultiplyBy();
     }, []);
 
+    const handleAmountKeyPress = (e) => {
+        const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    };
+
+    const handleInputValidation = (e) => {
+        const sanitizedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        e.target.value = sanitizedValue;
+
+        const minValue = 0; // Define your desired minimum value
+        const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+        const currentValue = parseFloat(sanitizedValue);
+
+        if (currentValue < minValue || currentValue > maxValue) {
+            e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+        }
+    };
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -70,69 +91,75 @@ function PriceMultiplyBy() {
     };
 
     return (
-                <div className="col-md-12 price_backend-title">
-                     <h2>Price Calculator</h2>
-                    <div className="card backend_price-form">
-                       
-                        <div className="card-body">
-                            <form action="" onSubmit={handleSubmit}>
-                                <div className="input-container login_input">
-                                    <label htmlFor="main_no" className="login-label">
-                                        Main
-                                    </label>
-                                    <input
-                                        type="number"
-                                        name="main"
-                                        className="form-control"
-                                        value={inputs.main || ''}
-                                        onChange={(e) => {
-                                            setInputs({ ...inputs, main: e.target.value });
-                                        }}
-                                    />
-                                    <span className="text-danger">{inputs.error.main}</span>
-                                </div>
+        <div className="col-md-12 price_backend-title">
+            <h2>Price Calculator</h2>
+            <div className="card backend_price-form">
 
-                                <div className="input-container login_input">
-                                    <label htmlFor="ander_no" className="login-label">
-                                        Ander
-                                    </label>
-                                    <input
-                                        type="number"
-                                        name="ander"
-                                        className="form-control"
-                                        value={inputs.ander || ''}
-                                        onChange={(e) => {
-                                            setInputs({ ...inputs, ander: e.target.value });
-                                        }}
-                                    />
-                                    <span className="text-danger">{inputs.error.ander}</span>
-                                </div>
-
-                                <div className="input-container login_input">
-                                    <label htmlFor="bahar_no" className="login-label">
-                                        Bahar
-                                    </label>
-                                    <input
-                                        type="number"
-                                        name="bahar"
-                                        className="form-control"
-                                        value={inputs.bahar || ''}
-                                        onChange={(e) => {
-                                            setInputs({ ...inputs, bahar: e.target.value });
-                                        }}
-                                    />
-                                    <span className="text-danger">{inputs.error.bahar}</span>
-                                </div>
-
-                                <div className="price_form-btn">
-                                    <button type="submit" className="btn btn-primary">
-                                        Update
-                                    </button>
-                                </div>
-                            </form>
+                <div className="card-body">
+                    <form action="" onSubmit={handleSubmit}>
+                        <div className="input-container login_input">
+                            <label htmlFor="main_no" className="login-label">
+                                Main
+                            </label>
+                            <input
+                                type="tel"
+                                name="main"
+                                className="form-control"
+                                value={inputs.main || ''}
+                                onChange={(e) => {
+                                    setInputs({ ...inputs, main: e.target.value });
+                                }}
+                                onKeyPress={(e) => handleAmountKeyPress(e)}
+                                onInput={(e) => handleInputValidation(e)}
+                            />
+                            <span className="text-danger">{inputs.error.main}</span>
                         </div>
-                    </div>
+
+                        <div className="input-container login_input">
+                            <label htmlFor="ander_no" className="login-label">
+                                Andar
+                            </label>
+                            <input
+                                type="tel"
+                                name="ander"
+                                className="form-control"
+                                value={inputs.ander || ''}
+                                onChange={(e) => {
+                                    setInputs({ ...inputs, ander: e.target.value });
+                                }}
+                                onKeyPress={(e) => handleAmountKeyPress(e)}
+                                onInput={(e) => handleInputValidation(e)}
+                            />
+                            <span className="text-danger">{inputs.error.ander}</span>
+                        </div>
+
+                        <div className="input-container login_input">
+                            <label htmlFor="bahar_no" className="login-label">
+                                Bahar
+                            </label>
+                            <input
+                                type="tel"
+                                name="bahar"
+                                className="form-control"
+                                value={inputs.bahar || ''}
+                                onChange={(e) => {
+                                    setInputs({ ...inputs, bahar: e.target.value });
+                                }}
+                                onKeyPress={(e) => handleAmountKeyPress(e)}
+                                onInput={(e) => handleInputValidation(e)}
+                            />
+                            <span className="text-danger">{inputs.error.bahar}</span>
+                        </div>
+
+                        <div className="price_form-btn">
+                            <button type="submit" className="btn btn-primary">
+                                Update
+                            </button>
+                        </div>
+                    </form>
                 </div>
+            </div>
+        </div>
     );
 }
 

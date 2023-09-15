@@ -216,6 +216,43 @@ function Game(props) {
         });
     }
 
+    const handleAmountKeyPress = (e) => {
+        const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    };
+
+    const handleInputValidation = (e) => {
+        const sanitizedValue = e.target.value.replace(/[^0-9+]/g, ''); // Allow only numbers and '+'
+
+        if (sanitizedValue.indexOf('+') === 0) {
+            e.target.value = sanitizedValue;
+        } else {
+            e.target.value = sanitizedValue.replace('+', ''); // Remove '+' if not at the beginning
+        }
+
+        const minValue = 0; // Define your desired minimum value
+        const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+        const currentValue = parseFloat(sanitizedValue);
+
+        if (currentValue < minValue || currentValue > maxValue) {
+            e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+        }
+    };
+
+
+    // const handleInputValidation = (e) => {
+    //     const minValue = 0; // Define your desired minimum value
+    //     const maxValue = 99; // Define your desired maximum value
+    //     const currentValue = parseFloat(e.target.value);
+
+    //     //if (currentValue < minValue || currentValue > maxValue) {
+    //     if (currentValue < minValue && currentValue > maxValue) {
+    //         e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+    //     }
+    // };
+
 
     const lastIndex = currentPage * DataPerPage.current;
     const firstIndex = lastIndex - DataPerPage.current;
@@ -240,15 +277,20 @@ function Game(props) {
                         <div className="col-auto backend_number-filed">
 
                             <input
-                                type="number"
+                                type="tel"
+                                maxLength={2}
+                                minLength={1}
                                 className="form-control"
                                 id="inputPassword2"
                                 //value={result.number || ''}
-                                value={(mainData.length > 0 || innerData.length > 0 || outerData.length > 0) && formatTime(time) >= '00:00' ? result.number || '' : ''}
+                                // value={(mainData.length > 0 || innerData.length > 0 || outerData.length > 0) && formatTime(time) >= '00:00' ? result.number || '' : ''}
+                                value={formatTime(time) >= '00:00' ? result.number || '' : ''}
                                 onChange={(e) => {
                                     setFinalNum(e.target.value); // Update the finalNum state
                                     setresult({ ...result, number: e.target.value }); // Update the result state
                                 }}
+                                onKeyPress={(e) => handleAmountKeyPress(e)}
+                                onInput={(e) => handleInputValidation(e)}
                                 required
                                 placeholder="Enter your Number"
                             />
@@ -265,13 +307,17 @@ function Game(props) {
                 <div className="timer_heading-time">
                     <h2>Timer</h2>
 
-                    {time < 0 ? (
+                    <button className="figmabtn wallet-btn">
+                        {formatTime(time)}
+                    </button>
+
+                    {/* {time < 0 ? (
                         <button className="figmabtn wallet-btn">00:00</button>
                     ) : (
                         <button className="figmabtn wallet-btn">
                             {formatTime(time)}
                         </button>
-                    )}
+                    )} */}
                 </div>
             </div>
 
@@ -298,7 +344,7 @@ function Game(props) {
                     </table>
                 </div>
                 <div className="game_backend-col">
-                    <h3>Ander</h3>
+                    <h3>Andar</h3>
                     <table className="table bordered table-striped  table-hover mt-4">
                         <thead className="thead-dark text-center">
                             <tr>

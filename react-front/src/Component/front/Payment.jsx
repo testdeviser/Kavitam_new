@@ -84,9 +84,20 @@ function Payment(props) {
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
+        // console.log(minutes);
         const seconds = time % 60;
+        // console.log(seconds);
+
+        // console.log(seconds);
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
+
+    // useEffect(() => {
+    //     if (formatTime(time) <= "00:00") {
+    //         navigate('/game');
+    //     }
+    // }, [time]);
+
 
     const handleAmountKeyPress = (e) => {
         const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
@@ -94,6 +105,31 @@ function Payment(props) {
             e.preventDefault();
         }
     };
+
+    const handleInputValidation = (e) => {
+        const sanitizedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        e.target.value = sanitizedValue;
+
+        // const minValue = 0; // Define your desired minimum value
+        // const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+        // const currentValue = parseFloat(sanitizedValue);
+
+        // if (currentValue < minValue || currentValue > maxValue) {
+        //     e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+        // }
+    };
+
+
+    // const handleInputValidation = (e) => {
+    //     const minValue = 0; // Define your desired minimum value
+    //     const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+    //     const currentValue = parseFloat(e.target.value);
+
+    //     //if (currentValue < minValue || currentValue > maxValue) {
+    //     if (currentValue < minValue) {
+    //         e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+    //     }
+    // };
 
     const SubmitHandler = (e) => {
         e.preventDefault();
@@ -114,14 +150,20 @@ function Payment(props) {
                     position: 'center',
                     icon: 'success',
                     title: res.data.message,
-                    showConfirmButton: false,
-                    timer: 1500
+                    showConfirmButton: true,
+                    //timer: 30000
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/game');
+                        // Navigate to the game page here
+                        // window.location.href = '/game'; // Change the URL to your actual game page URL
+                    }
                 });
                 // localStorage.setItem('auth_token', res.data.token);
                 // localStorage.setItem('user_name', res.data.username);
                 // localStorage.setItem('user_id', res.data.userid);
 
-                navigate('/game');
+                //navigate('/game');
             }
             else {
                 seterr({ error: res.data.error });
@@ -149,46 +191,63 @@ function Payment(props) {
                             <form onSubmit={SubmitHandler}>
                                 <div className='upiLogo define_float'>
                                     <img src={process.env.PUBLIC_URL + '/image/upilogo.webp'} alt="circle_dot-left" />
-                                    {/* <div className='payment-timer'>{formatTime(time)}</div> */}
+                                    <div className='payment-timer'>{formatTime(time)}</div>
                                 </div>
                                 <div className="steps_main-wrapper define_float">
                                     <div className='step1 payment-step-unique define_float'>
                                         <div className='step_title'><h5>Step 1.Copy UPI Information</h5></div>
                                         <div className='steps_border-inner define_float'>
-                                            <div className='amount_require'>
-                                                <div className='amount_inner-left'>
-                                                    <label>Amount:</label>
-                                                    <div className="amount-input">
-                                                        <input type='number' name='amount' value={inputs.amount || ''} onChange={(e) => { setinputs({ ...inputs, amount: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} />
-                                                        <span className='text-danger'>{err.error.amount ? err.error.amount : ''}</span>
+                                            <div className="payment_wrapper-main define_float">
+                                                <div className="amount_wrap-outer">
+                                                    <div className='amount_require'>
+                                                        <div className='amount_inner-left'>
+                                                            <label>Amount:</label>
+                                                            <div className="amount-input">
+                                                                <input type='tel'
+                                                                    maxLength={20}
+                                                                    name='amount' value={inputs.amount || ''} onChange={(e) => { setinputs({ ...inputs, amount: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} onInput={(e) => handleInputValidation(e)} />
+                                                                <span className='text-danger'>{err.error.amount ? err.error.amount : ''}</span>
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className='copy_btn'>
+                                                            <button type="button" onClick={handleCopyUPI}>Copy</button>
+                                                        </div> */}
+                                                    </div>
+                                                    <div className='VPA_upi-ct'>
+                                                        <div className='VPA_inner-left'>
+                                                            <div className="upi_main-ct">
+                                                                <label>VPA/UPI:{' '}</label>
+                                                                {/* <div className='value-VPA'>{upiValue}</div> */}
+                                                                <div className='value-VPA'>{upiId}</div>
+                                                            </div>
+
+                                                            <div className='qr-code-container copy_btn'>
+                                                                {/* <img src={qrImage} width={60} height={60} /> */}
+                                                                <button type="button" onClick={handleCopyUPI}>Copy</button>
+                                                                {isCopied && <span className="copy-success-message">Copied!</span>}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* <div className='qr-code-container copy_btn'>
+                                                            {isCopied && <span className="copy-success-message">Copied!</span>}
+                                                            <img src={qrImage} width={60} height={60} />
+                                                            <button type="button" onClick={handleCopyUPI}>Copy</button>
+                                                        </div> */}
                                                     </div>
                                                 </div>
-                                                {/* <div className='copy_btn'>
-                                                    <button type="button" onClick={handleCopyUPI}>Copy</button>
-                                                </div> */}
-                                            </div>
-                                            <div className='VPA_upi-ct'>
-                                                <div className='VPA_inner-left'>
-                                                    <label>VPA/UPI:{' '}</label>
-                                                    {/* <div className='value-VPA'>{upiValue}</div> */}
-                                                    <div className='value-VPA'>{upiId}</div>
-                                                </div>
 
-                                                <div className='qr-code-container copy_btn'>
-                                                    {isCopied && <span className="copy-success-message">Copied!</span>}
-                                                    <img src={qrImage} width={60} height={60} />
-                                                    <button type="button" onClick={handleCopyUPI}>Copy</button>
+                                                <div className='qrCode'>
+                                                    <img src={qrImage} width={150} height={150} />
                                                 </div>
                                             </div>
-
                                             <div className='googlePhonePay'>
-                                                <Link to="upi://pay?pa=kamalmaurya9646@okaxis&amp;pn=FNAME SNAME K&amp;cu=INR" class="upi-pay1">
+                                                <Link to="upi://pay?pa=kamalmaurya9646@okaxis&amp;pn=FNAME SNAME K&amp;cu=INR" className="upi-pay1">
                                                     <img src={process.env.PUBLIC_URL + '/image/googlePay.jpg'} alt="circle_dot-left" />
                                                 </Link>
-                                                <Link to="phonepe://pay?pa=8699755546@ybl&amp;pn=FNAME SNAME K&amp;cu=INR" class="upi-pay1">
+                                                <Link to="phonepe://pay?pa=8699755546@ybl&amp;pn=FNAME SNAME K&amp;cu=INR" className="upi-pay1">
                                                     <img src={process.env.PUBLIC_URL + '/image/phonePay.jpg'} alt="circle_dot-left" />
                                                 </Link>
-                                                <Link to="paytm://pay?pa=8699755546@paytm&amp;pn=FNAME SNAME K&amp;cu=INR" class="upi-pay1">
+                                                <Link to="paytm://pay?pa=8699755546@paytm&amp;pn=FNAME SNAME K&amp;cu=INR" className="upi-pay1">
                                                     <img src={process.env.PUBLIC_URL + '/image/paytm.png'} alt="circle_dot-left" />
                                                 </Link>
                                             </div>
@@ -215,7 +274,9 @@ function Payment(props) {
                                                     <p>Be sure to return this page to fill in the UTR numbers after you have completed your payment</p>
                                                 </div>
                                                 <div className='UTR-field'>
-                                                    <input type='text' className='register-input' name='refNo' placeholder='UTR (UPI Ref.ID) must be 12 digits' value={inputs.refNo || ''} onChange={(e) => { setinputs({ ...inputs, refNo: e.target.value }) }} />
+                                                    <input type='tel'
+                                                        maxLength={12}
+                                                        className='register-input' name='refNo' placeholder='UTR (UPI Ref.ID) must be 12 digits' value={inputs.refNo || ''} onChange={(e) => { setinputs({ ...inputs, refNo: e.target.value }) }} onKeyPress={(e) => handleAmountKeyPress(e)} onInput={(e) => handleInputValidation(e)} />
                                                     <span className='text-danger'>{err.error.refNo ? err.error.refNo : ''}</span>
                                                 </div>
                                             </div>

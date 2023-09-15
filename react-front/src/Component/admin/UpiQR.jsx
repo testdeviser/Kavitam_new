@@ -136,10 +136,10 @@ function UpiQR() {
                                 onChange={(e) => setImageFile(e.target.files[0])}
                             />
                         </div>
-
-                        <img src={qrImage} width={100} height={100} />
-
-                        <div className="price_form-btn">
+                        <div className="qr_img-bkend define_float">
+                            <img src={qrImage} />
+                        </div>
+                        <div className="price_form-btn define_float">
                             <button type="submit" className="btn btn-primary">
                                 Update
                             </button>

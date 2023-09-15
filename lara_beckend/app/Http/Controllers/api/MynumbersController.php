@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\EventResult;
+use App\Models\EventStatus;
 use Illuminate\Http\Request;
 use App\Models\inner;
 use App\Models\MainNumbers;
@@ -11,6 +12,7 @@ use App\Models\outer;
 use App\Models\events;
 use App\Models\user;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 
 class MynumbersController extends Controller
 {
@@ -73,7 +75,7 @@ class MynumbersController extends Controller
         //$result = events::where('result', '!=', null)->orderByDesc('id')->get();
         //$result = EventResult::orderByDesc('id')->get();
         $currentDate = Carbon::now()->format('Y-m-d');
-        $result = EventResult::where('current_date', $currentDate)->orderByDesc('id')->get();
+        $result = EventResult::where('current_date', $currentDate)->where('status', 1)->orderBy('id')->get();
         if (!empty($result)) {
             foreach ($result as $key => $value) {
                 $resVal = $value->result;
@@ -98,13 +100,150 @@ class MynumbersController extends Controller
                 'message' => 'Empty!',
             ]);
         }
+    }
 
+    public function update_Result_today(Request $request)
+    {
+        $event = $request->event;
+        $eventsTime = $request->eventsTime;
+        $eventsTimeFormat = Carbon::createFromFormat('H:i', $eventsTime)->format('H:i:s');
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $updateStatus = EventResult::where('event_id', $event)->where('event_time', $eventsTimeFormat)->where('current_date', $currentDate)->where('status', 0)->first();
+
+        if ($updateStatus) {
+            // Update the status to 1
+            $updateStatus->status = 1;
+            $updateStatus->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Result status updated successfully',
+            ]);
+        }
+    }
+
+    public function ResultexceptLast(Request $request)
+    {
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $currentTime = Carbon::now('Asia/Kolkata')->format('H:i');
+        // $result = EventResult::where('current_date', $currentDate)->orderBy('id')->get();
+        $resultsExceptLast = EventResult::where('current_date', $currentDate)
+            ->orderBy('id')
+            ->get();
+
+        $result = $resultsExceptLast;
+
+        if ($result->count() > 0) {
+            $lastResult = $result->last();
+            $lastEventTime = $lastResult->event_time;
+            $updatedEventTime = Carbon::parse($lastEventTime)->addMinutes(59)->format('H:i');
+            if ($updatedEventTime === $currentTime) {
+                if (!empty($result)) {
+                    foreach ($result as $key => $value) {
+                        $resVal = $value->result;
+                        if ($resVal < 10) {
+                            $num_padded = sprintf("%02d", $resVal);
+                            $numberkey = (string) $num_padded;
+                            $value->result = $numberkey;
+                        } else {
+                            $value->result = $value->result;
+                        }
+                    }
+                }
+
+                if ($result) {
+                    return response()->json([
+                        'status' => 200,
+                        'event' => $result,
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Empty!',
+                    ]);
+                }
+            } else {
+                $result = $resultsExceptLast->slice(0, -1);
+                if (!empty($result)) {
+                    foreach ($result as $key => $value) {
+                        $resVal = $value->result;
+                        if ($resVal < 10) {
+                            $num_padded = sprintf("%02d", $resVal);
+                            $numberkey = (string) $num_padded;
+                            $value->result = $numberkey;
+                        } else {
+                            $value->result = $value->result;
+                        }
+
+                    }
+                }
+
+                if ($result) {
+                    return response()->json([
+                        'status' => 200,
+                        'event' => $result,
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Empty!',
+                    ]);
+                }
+            }
+
+        } else {
+            return response()->json([
+                'status' => 200,
+                'message' => 'No result found',
+            ]);
+        }
+
+
+        // echo "<pre>";
+        // print_r($updatedEventTime);
+        // print_r($currentTime);
+
+
+        // if ($resultsExceptLast->count() > 0) {
+        //     $result = $resultsExceptLast->slice(0, -1); // Slice all except the last result
+        // } else {
+        //     $result = collect(); // Empty collection if no results
+        // }
+
+        // if (!empty($result)) {
+        //     foreach ($result as $key => $value) {
+        //         $resVal = $value->result;
+        //         if ($resVal < 10) {
+        //             $num_padded = sprintf("%02d", $resVal);
+        //             $numberkey = (string) $num_padded;
+        //             $value->result = $numberkey;
+        //         } else {
+        //             $value->result = $value->result;
+        //         }
+        //     }
+        // }
+
+        // if ($result) {
+        //     return response()->json([
+        //         'status' => 200,
+        //         'currentTime' => $currentTime,
+        //         'event' => $result,
+        //     ]);
+        // } else {
+        //     return response()->json([
+        //         'status' => 200,
+        //         'message' => 'Empty!',
+        //     ]);
+        // }
+
+
+        // echo "<pre>";
+        // print_r($resultsExceptLast);
     }
 
     public function Result_by_date(Request $request)
     {
         $date = $request->date;
-        $result = EventResult::where('current_date', $date)->orderByDesc('id')->get();
+        $result = EventResult::where('current_date', $date)->orderBy('id')->get();
         if (!empty($result)) {
             foreach ($result as $key => $value) {
                 $resVal = $value->result;
@@ -207,14 +346,23 @@ class MynumbersController extends Controller
 
     public function todayActiveEvents(Request $request)
     {
+        $apiKey = "KOBW56T368TS"; // Replace with your API key
+        $apiUrl = "http://api.timezonedb.com/v2.1/get-time-zone?key=$apiKey&format=json&by=zone&zone=Asia/Kolkata";
+
+        $client = new Client();
+        $response = $client->get($apiUrl);
+        $data = json_decode($response->getBody(), true);
+        $timestamp = $data['timestamp'];
+        $indianTime = Carbon::createFromTimestamp($timestamp)->format('H:i:s');
+
         $currentDate = Carbon::now()->format('Y-m-d');
         $currentTime = Carbon::now()->timezone('Asia/Kolkata');
-        $currentTime1 = Carbon::now()->timezone('Asia/Kolkata')->format('H:i:s');
+        // $currentTime1 = Carbon::now()->timezone('Asia/Kolkata')->format('H:i:s');
+        $currentTime1 = $indianTime;
         $events = events::where('status', '1')->get();
         //echo "<pre>";print_r($events);die;
         //$minTimeDifference = null; // Variable to store the minimum time difference
         //$closestEvent = null; // Variable to store the closest event
-
         $closestEventId = false;
         $closestEventTime = '';
         $message = 'No active events found';
@@ -231,6 +379,11 @@ class MynumbersController extends Controller
                 $closestEventId = $closestEvent->id;
                 $closestEventTime = $closestEvent->event_date;
                 $closestEventTime = Carbon::parse($closestEventTime)->format('H:i:s');
+                // Parse the time string to create a Carbon instance
+                $carbonTime = Carbon::parse($closestEventTime);
+                // Add 59 minutes
+                $carbonTime->addMinutes(59);
+                $closestEventTimeWith59Minutes = $carbonTime->format('H:i:s');
                 $message = '';
             }
         }
@@ -238,6 +391,7 @@ class MynumbersController extends Controller
         return response()->json([
             'status' => 200,
             //'events' => $events,
+            'addOneHour' => $closestEventTimeWith59Minutes,
             'time' => $closestEventTime,
             'currentTime1' => $currentTime1,
             'event_id' => $closestEventId,
@@ -563,9 +717,10 @@ class MynumbersController extends Controller
             $fullHrsTime = $event_date->format('h:i:s'); // Output: '10:00:00'
             $time24hours = $event_date->toTimeString(); // Output: '16:00:00'
 
-            $eventDataMain = MainNumbers::where('event_id', $eventId)->get();
-            $eventDataInner = inner::where('event_id', $eventId)->get();
-            $eventDataOuter = outer::where('event_id', $eventId)->get();
+            // $eventDataMain = MainNumbers::where('event_id', $eventId)->get();
+            $eventDataMain = MainNumbers::where('event_id', $eventId)->whereDate('created_at', $currentDate)->get();
+            $eventDataInner = inner::where('event_id', $eventId)->whereDate('created_at', $currentDate)->get();
+            $eventDataOuter = outer::where('event_id', $eventId)->whereDate('created_at', $currentDate)->get();
 
             $eventData = $eventDataMain->concat($eventDataInner)->concat($eventDataOuter);
 
@@ -636,9 +791,9 @@ class MynumbersController extends Controller
 
             $time24hoursWeekly = $event_dateWeekly->toTimeString(); // Output: '16:00:00'
 
-            $eventDataMainWeekly = MainNumbers::where('event_id', $eventIdWeekly)->get();
-            $eventDataInnerWeekly = inner::where('event_id', $eventIdWeekly)->get();
-            $eventDataOuterWeekly = outer::where('event_id', $eventIdWeekly)->get();
+            $eventDataMainWeekly = MainNumbers::where('event_id', $eventIdWeekly)->whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
+            $eventDataInnerWeekly = inner::where('event_id', $eventIdWeekly)->whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
+            $eventDataOuterWeekly = outer::where('event_id', $eventIdWeekly)->whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
 
             $eventDataWeekly = $eventDataMainWeekly->concat($eventDataInnerWeekly)->concat($eventDataOuterWeekly);
 
@@ -708,9 +863,9 @@ class MynumbersController extends Controller
 
             $time24hoursMonthly = $event_dateMonthly->toTimeString(); // Output: '16:00:00'
 
-            $eventDataMainMonthly = MainNumbers::where('event_id', $eventIdMonthly)->get();
-            $eventDataInnerMonthly = inner::where('event_id', $eventIdMonthly)->get();
-            $eventDataOuterMonthly = outer::where('event_id', $eventIdMonthly)->get();
+            $eventDataMainMonthly = MainNumbers::where('event_id', $eventIdMonthly)->whereMonth('created_at', Carbon::now()->month)->get();
+            $eventDataInnerMonthly = inner::where('event_id', $eventIdMonthly)->whereMonth('created_at', Carbon::now()->month)->get();
+            $eventDataOuterMonthly = outer::where('event_id', $eventIdMonthly)->whereMonth('created_at', Carbon::now()->month)->get();
 
             $eventDataMonthly = $eventDataMainMonthly->concat($eventDataInnerMonthly)->concat($eventDataOuterMonthly);
 
@@ -825,7 +980,6 @@ class MynumbersController extends Controller
                 $value->number = $value->number;
             }
         }
-
 
         $innerToday = inner::whereDate('created_at', $currentDate)
             ->where('userId', $userId)
@@ -950,6 +1104,14 @@ class MynumbersController extends Controller
         ]);
 
     }
+
+    public function updateEventStatus(Request $request)
+    {
+        $event = EventStatus::first(); // Fetch the event record from the database
+        $event->status = 1; // Update the status field to 1
+        $event->save(); // Save the changes back to the database
+    }
+
 
 
 }

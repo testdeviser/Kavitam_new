@@ -12,6 +12,7 @@ class BankDetails extends Model
     protected $fillable = [
         'user_id',
         'user_name',
+        'bank_name',
         'bank_holder_name',
         'account_no',
         'ifsc_code',

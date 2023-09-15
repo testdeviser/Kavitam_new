@@ -1,30 +1,35 @@
-// GoogleTranslator.js
+// GoogleTranslator.jsx
 import React, { useEffect } from 'react';
 
-const GoogleTranslator = () => {
-    const googleTranslateElementInit = () => {
-        new window.google.translate.TranslateElement(
-            {
-                pageLanguage: "en",
-                includedLanguages: "en,hi,pa", // English, Hindi, and Punjabi languages
-                defaultLanguage: "en",
-                autoDisplay: false,
-            },
-            "google_translate_element"
-        );
-    };
-
+const GoogleTranslator = ({ id }) => {
     useEffect(() => {
-        var addScript = document.createElement("script");
-        addScript.setAttribute(
-            "src",
-            "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        );
-        document.body.appendChild(addScript);
-        window.googleTranslateElementInit = googleTranslateElementInit;
-    }, []);
+        const googleTranslateScript = document.createElement("script");
+        googleTranslateScript.type = "text/javascript";
+        googleTranslateScript.async = true;
+        googleTranslateScript.src = `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit_${id}`;
 
-    return <div id="google_translate_element"></div>;
+        document.head.appendChild(googleTranslateScript);
+
+        window[`googleTranslateElementInit_${id}`] = () => {
+            new window.google.translate.TranslateElement(
+                {
+                    pageLanguage: "en",
+                    includedLanguages: "en,hi,pa",
+                    defaultLanguage: "en",
+                    autoDisplay: false,
+                },
+                id
+            );
+        };
+
+        return () => {
+            // Cleanup the added script and function
+            delete window[`googleTranslateElementInit_${id}`];
+            document.head.removeChild(googleTranslateScript);
+        };
+    }, [id]);
+
+    return <div id={id}></div>;
 };
 
 export default GoogleTranslator;

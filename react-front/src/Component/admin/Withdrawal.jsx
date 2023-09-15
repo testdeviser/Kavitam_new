@@ -40,11 +40,22 @@ function Withdrawal(props) {
     const columns = [
         {
             name: "Username",
-            selector: (row) => row.username,
+            selector: (row) => row.user_name,
         },
+        // {
+        //     name: "Account No.",
+        //     selector: (row) => row.account_no
+        // },
         {
-            name: "Account No.",
-            selector: (row) => row.account_no
+            name: "Bank Details",
+            cell: (row) => (
+                <div>
+                    <div><strong>Acc.No.:</strong> {row.account_no}</div>
+                    <div><strong>Bank Name:</strong> {row.bank_name}</div>
+                    <div><strong>Name:</strong> {row.bank_holder_name}</div>
+                    <div><strong>IFSC Code:</strong> {row.ifsc_code}</div>
+                </div>
+            )
         },
         {
             name: "Amount",

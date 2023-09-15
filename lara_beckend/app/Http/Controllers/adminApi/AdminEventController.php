@@ -270,9 +270,16 @@ class AdminEventController extends Controller
 
     public function UpiIdQRUpdate(Request $request, $id)
     {
+        // $validator = Validator::make($request->all(), [
+        //     'upiId' => 'required|string',
+        //     'image' => 'image|mimes:jpeg,png,jpg', // Update to 'image' instead of 'imageFile'
+        // ]);
+
         $validator = Validator::make($request->all(), [
             'upiId' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg', // Update to 'image' instead of 'imageFile'
+        ], [
+            'upiId.required' => 'Please enter UPI Id',
         ]);
 
         if ($validator->fails()) {

@@ -24,8 +24,8 @@ function PlayesFeedback(props) {
         <div className="row">
           <div className="col-lg-12">
             <div className="live_result_sec define_float">
-              <h5 className='heading'>Testimonials</h5>
-              <img className='white_dot_img' src={process.env.PUBLIC_URL + '/image/white-dot-lines.png'} alt="" width={218} height={18} />
+              {/* <h5 className='heading'>Testimonials</h5>
+              <img className='white_dot_img' src={process.env.PUBLIC_URL + '/image/white-dot-lines.png'} alt="" width={218} height={18} /> */}
               <h2>Player’s valuable feedback</h2>
             </div>
           </div>
@@ -42,7 +42,7 @@ function PlayesFeedback(props) {
                   <div className='rgt-sectn'>
                     <img className='' src={process.env.PUBLIC_URL + '/image/Quote.png'} alt="" />
                     <p>
-                      मैंने यह गेम तीन बार खेला था. मैंने कुल 1000 रुपये का निवेश किया और 8000 रुपये का लाभ प्राप्त किया। यदि आप लाभ कमाना चाहते हैं, तो आपको कम से कम एक बार यह गेम खेलना चाहिए
+                      मैंने यह गेम तीन बार खेला था. मैंने कुल 100 रुपये का निवेश किया और 9000 रुपये का लाभ प्राप्त किया। यदि आप लाभ कमाना चाहते हैं, तो आपको कम से कम एक बार यह गेम खेलना चाहिए
                     </p>
                     <img className='right-quote' src={process.env.PUBLIC_URL + '/image/Quote1.png'} alt="" />
                   </div>
@@ -60,7 +60,7 @@ function PlayesFeedback(props) {
                   <div className='rgt-sectn'>
                     <img className='' src={process.env.PUBLIC_URL + '/image/Quote.png'} alt="" />
                     <p>
-                      मैंने इस गेम में 100 रुपये लगाए थे और मुझे 800 रुपये का फायदा हुआ| अगर आप मुनाफा कमाना चाहते हैं तो आपको ये गेम खेलना चाहिए|
+                      मैंने इस गेम में 200 रुपये लगाए थे और मुझे 18000 रुपये का फायदा हुआ| अगर आप मुनाफा कमाना चाहते हैं तो आपको ये गेम खेलना चाहिए|
                     </p>
                     <img className='right-quote' src={process.env.PUBLIC_URL + '/image/Quote1.png'} alt="" />
                   </div>
@@ -78,7 +78,7 @@ function PlayesFeedback(props) {
                   <div className='rgt-sectn'>
                     <img className='' src={process.env.PUBLIC_URL + '/image/Quote.png'} alt="" />
                     <p>
-                      मैंने इस गेम में 5000 रुपये का निवेश किया था, मुझे 44000 रुपये का लाभ हुआ। मुझे लगता है कि आपको भी लाभ पाने के लिए इस गेम में निवेश करना चाहिए।
+                      मैंने इस गेम में 1000 रुपये का निवेश किया था, मुझे 90000 रुपये का लाभ हुआ। मुझे लगता है कि आपको भी लाभ पाने के लिए इस गेम में निवेश करना चाहिए।
                     </p>
                     <img className='right-quote' src={process.env.PUBLIC_URL + '/image/Quote1.png'} alt="" />
                   </div>
@@ -96,7 +96,7 @@ function PlayesFeedback(props) {
                   <div className='rgt-sectn'>
                     <img className='' src={process.env.PUBLIC_URL + '/image/Quote.png'} alt="" />
                     <p>
-                      मैंने यह गेम तीन बार खेला था. मैंने कुल 1000 रुपये का निवेश किया और 8000 रुपये का लाभ प्राप्त किया। यदि आप लाभ कमाना चाहते हैं, तो आपको कम से कम एक बार यह गेम खेलना चाहिए
+                      मैंने यह गेम तीन बार खेला था. मैंने कुल 10 रुपये का निवेश किया और 900 रुपये का लाभ प्राप्त किया। यदि आप लाभ कमाना चाहते हैं, तो आपको कम से कम एक बार यह गेम खेलना चाहिए
                     </p>
                     <img className='right-quote' src={process.env.PUBLIC_URL + '/image/Quote1.png'} alt="" />
                   </div>
@@ -114,7 +114,7 @@ function PlayesFeedback(props) {
                   <div className='rgt-sectn'>
                     <img className='' src={process.env.PUBLIC_URL + '/image/Quote.png'} alt="" />
                     <p>
-                      मैंने इस गेम में 100 रुपये लगाए थे और मुझे 800 रुपये का फायदा हुआ| अगर आप मुनाफा कमाना चाहते हैं तो आपको ये गेम खेलना चाहिए|
+                      मैंने इस गेम में 600 रुपये लगाए थे और मुझे 54000 रुपये का फायदा हुआ| अगर आप मुनाफा कमाना चाहते हैं तो आपको ये गेम खेलना चाहिए|
                     </p>
                     <img className='right-quote' src={process.env.PUBLIC_URL + '/image/Quote1.png'} alt="" />
                   </div>
@@ -132,7 +132,7 @@ function PlayesFeedback(props) {
                   <div className='rgt-sectn'>
                     <img className='' src={process.env.PUBLIC_URL + '/image/Quote.png'} alt="" />
                     <p>
-                      मैंने इस गेम में 5000 रुपये का निवेश किया था, मुझे 44000 रुपये का लाभ हुआ। मुझे लगता है कि आपको भी लाभ पाने के लिए इस गेम में निवेश करना चाहिए।
+                      मैंने इस गेम में 500 रुपये का निवेश किया था, मुझे 45000 रुपये का लाभ हुआ। मुझे लगता है कि आपको भी लाभ पाने के लिए इस गेम में निवेश करना चाहिए।
                     </p>
                     <img className='right-quote' src={process.env.PUBLIC_URL + '/image/Quote1.png'} alt="" />
                   </div>

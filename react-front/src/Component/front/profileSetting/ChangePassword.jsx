@@ -23,12 +23,9 @@ function Login(props) {
             confirmPassword: inputs.confirmPassword,
         };
 
-        console.log("jaspreeet");
-        console.log(data);
-
         try {
             await axios.post(`/api/user/changePassword`, data).then(res => {
-                console.log(res.data);
+                //console.log(res.data);
                 if (res.data.status == 200) {
                     Swal.fire({
                         position: 'center',
@@ -104,7 +101,6 @@ function Login(props) {
             </div>
             {/* </div >
             </section> */}
-
 
         </>
     );

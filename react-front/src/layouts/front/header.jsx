@@ -12,7 +12,8 @@ import { FaGamepad } from 'react-icons/fa';
 import axios from 'axios';
 import { WalletContext } from '../../WalletContext';
 import GoogleTranslator from '../../Component/front/GoogleTranslator';
-
+import { handleSidebarStyle } from '../../utils';
+import { setActiveSidebarLink } from '../../utils/utils';
 
 // function Header({ callback, setcheckNumber_loading, paymentStatus, walletBalance, ...props }) {
 function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
@@ -32,10 +33,14 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
         setShowNavigationLinks(!showNavigationLinks);
     };
 
-    const handleLinkClick = () => {
-        setShowNavigationLinks(false);
+    const handleLinkClick = (linkText) => {
+        handleNavShow(); // Close the navigation links
+        setActiveSidebarLink(linkText);
     };
 
+    // const handleLinkClick = () => {
+    //     setShowNavigationLinks(false);
+    // };
 
     var currentPath = location.pathname;
     var pageName = currentPath.slice(1);
@@ -47,9 +52,6 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
             .join(' ');
     };
 
-
-
-
     // sidebar 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -60,13 +62,15 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
     const [events, setEvents] = useState();
 
     useEffect(() => {
-        fetchData();
-        const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+        if (auth_token) {
+            fetchData();
+            const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
 
-        return () => {
-            clearInterval(interval); // Clean up the interval on component unmount
-        };
-    }, []);
+            return () => {
+                clearInterval(interval); // Clean up the interval on component unmount
+            };
+        }
+    }, [auth_token]);
 
     const fetchData = () => {
         axios.get('api/fetchWalletBalance').then((res) => {
@@ -80,20 +84,12 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
         });
     };
 
-
     const handleButtonClick = () => {
         // Redirect to the login page
         navigate('/payment');
     };
 
-    const handlePlayNowClick = () => {
-        // Check if the user is logged in
-        if (auth_token) {
-            navigate('/game'); // Navigate to the game page if logged in
-        } else {
-            navigate('/login'); // Navigate to the login page if not logged in
-        }
-    };
+    const googleTranslatorId = "google_translate_element_header";
 
     var authentication = '';
     if (auth_token) {
@@ -112,40 +108,83 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                     <Link to="/contactus" onClick={handleLinkClick}>Contact Us</Link>
                 </li>
 
-                <li>
+                {/* <li>
                     <GoogleTranslator />
-                </li>
+                </li> */}
 
+                <li>
+                    <GoogleTranslator id={googleTranslatorId} />
+                </li>
 
                 {/* <li >
                     <Link to="/mynumbers">My numbers</Link>
                 </li> */}
 
-
                 <li className="hover_dropdown">
-                    <Link to="/setting"><img src={process.env.PUBLIC_URL + '/image/undraw_profile.svg'} className="rounded-circle" width="45px" height="30" />{auth_token ? user_name : 'guest'}</Link>
+                    <Link to="/Setting"><img src={process.env.PUBLIC_URL + '/image/undraw_profile.svg'} className="rounded-circle" width="45px" height="30" />{auth_token ? user_name : 'guest'}</Link>
                     <ul>
-                        <li >
+
+                        <li onClick={() => handleLinkClick("Profile")}>
                             <Link to="/Setting">Profile</Link>
                         </li>
-                        <li >
+                        <li onClick={() => handleLinkClick("Wallet")}>
                             <Link to="/Setting/wallet">Wallet</Link>
                         </li>
-                        <li >
+                        <li onClick={() => handleLinkClick("History")}>
                             <Link to="/Setting/history">History</Link>
                         </li>
-                        <li >
-                            <Link to="/Setting/Refferral">Referral</Link>
+                        <li onClick={() => handleLinkClick("referral")}>
+                            <Link to="/Setting/Refferral">Refferal</Link>
                         </li>
-                        <li >
+                        <li onClick={() => handleLinkClick("Change Password")}>
                             <Link to="/Setting/changePassword">Change Password</Link>
                         </li>
-                        <li >
+                        <li onClick={() => handleLinkClick("Withdrawal")}>
                             <Link to="/Setting/withdrawal">Withdrawal</Link>
                         </li>
 
+                        {/* <li >
+                            <Link to="/Setting/Refferral" onClick={handleLinkClick}>Referral</Link>
+                        </li>
                         <li >
-                            <Link to="#" onClick={logout}>Logout</Link>
+                            <Link to="/Setting/changePassword" onClick={handleLinkClick}>Change Password</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/withdrawal" onClick={handleLinkClick}>Withdrawal</Link>
+                        </li> */}
+
+                        {/* <li>
+                            <Link to="/Setting" onClick={() => handleLinkClick("/Setting")}>Profile</Link>
+                        </li>
+                        <li>
+                            <Link to="/Setting/wallet" onClick={() => handleLinkClick("/Setting/wallet")}>Wallet</Link>
+                        </li>
+                        <li>
+                            <Link to="/Setting/history" onClick={() => handleLinkClick("/Setting/history")}>History</Link>
+                        </li> */}
+
+                        {/* <li >
+                            <Link to="/Setting" onClick={handleLinkClick}>Profile</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/wallet" onClick={handleLinkClick}>Wallet</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/history" onClick={handleLinkClick}>History</Link>
+                        </li> */}
+                        {/* <li >
+                            <Link to="/Setting/Refferral" onClick={handleLinkClick}>Referral</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/changePassword" onClick={handleLinkClick}>Change Password</Link>
+                        </li>
+                        <li >
+                            <Link to="/Setting/withdrawal" onClick={handleLinkClick}>Withdrawal</Link>
+                        </li> */}
+
+                        <li >
+                            {/* <Link to="#" onClick={logout}>Logout</Link> */}
+                            <Link to="#" onClick={(e) => { handleLinkClick(); logout(); }}>Logout</Link>
                         </li>
                     </ul>
                 </li>
@@ -191,9 +230,14 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                 <li>
                     <Link to="/contactus" onClick={handleLinkClick}>Contact Us</Link>
                 </li>
-                <li>
+                {/* <li>
                     <GoogleTranslator />
+                </li> */}
+
+                <li>
+                    <GoogleTranslator id={googleTranslatorId} />
                 </li>
+
 
                 {/* <li>
                     <Link to="/termsconditions">Terms&Conditions</Link>
@@ -202,7 +246,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                     <Link to="/faq">FAQ</Link>
                 </li> */}
                 <div className={`navigation-links oo0o0 ${showNavigationLinks ? 'showNav' : ''}`}>
-                    <Link to='/login' className='figmabtn wallet-btn'>
+                    <Link to='/login' className='figmabtn wallet-btn' onClick={handleLinkClick}>
                         <img src={process.env.PUBLIC_URL + '/image/user-icon.svg'} alt="" />
                         Login
                     </Link>
@@ -222,7 +266,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
 
 
         axios.post(`/api/logout`).then(res => {
-            console.log(res);
+            //console.log(res);
             if (localStorage.getItem("auth_token")) {
 
                 Swal.fire({
@@ -247,185 +291,191 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
     return (
         // <div className="header_with-bnnr define_float">
         <div className={`header_with-bnnr define_float ${isHomePage ? 'home-page' : ''}`}>
-            {/* <header className="header_kavitam-main define_float"> */}
-            <header className={`header_kavitam-main define_float ${auth_token ? '' : 'wallet_after_login'}`}>
-                <div className="container">
-                    <div className="navbar">
-                        <nav className="kaivtam_nav define_float">
-                            <div className="logo">
-                                <div className='icon'>
-                                    <Link to="/">
-                                        <img src={process.env.PUBLIC_URL + '/image/logo-img.svg'} alt="" />
-                                    </Link>
-                                </div>
 
-                                {/* <div className='icon'>
+            {pageName !== 'payment' ? (
+                <header className={`header_kavitam-main define_float ${auth_token ? '' : 'wallet_after_login'}`}>
+                    <div className="container">
+                        <div className="navbar">
+                            <nav className="kaivtam_nav define_float">
+                                <div className="logo">
+                                    <div className='icon'>
+                                        <Link to="/">
+                                            <img src={process.env.PUBLIC_URL + '/image/logo-img.svg'} alt="" />
+                                        </Link>
+                                    </div>
+
+                                    {/* <div className='icon'>
                                     <img src={process.env.PUBLIC_URL + '/image/logo-img.svg'} alt="" />
                                 </div> */}
 
-                                {/* <div className="website-Name">
+                                    {/* <div className="website-Name">
                                     <b style={{ 'fontWeight': '800' }}> Kavitam </b>
                                 </div> */}
 
-                                <div className="website-Name">
-                                    <Link to="/" style={{ fontWeight: '800' }}>
-                                        Kavitam
+                                    <div className="website-Name">
+                                        <Link to="/" style={{ fontWeight: '800' }}>
+                                            Kavitam
+                                        </Link>
+                                    </div>
+                                </div>
+
+                                <div className='Wallert_outer-mobile'>
+                                    <Link to="" className='menuicon' onClick={handleNavShow}>
+                                        <img src="image/menu.svg" alt="" />
                                     </Link>
+                                    <div className={`navigation-links ${showNavigationLinks ? 'showNav' : ''}`}>
+                                        <ul>
+                                            {authentication}
+                                        </ul>
+                                    </div>
+
+                                    {events ? (
+                                        <button onClick={handleButtonClick} className='figmabtn wallet-btn'>
+                                            <img src={process.env.PUBLIC_URL + '/image/wallet-icon.svg'} alt="" />
+                                            Rs. {events}
+                                        </button>
+                                    ) : (
+                                        <button onClick={handleButtonClick} className='figmabtn wallet-btn'>
+                                            <img src={process.env.PUBLIC_URL + '/image/wallet-icon.svg'} alt="" />
+                                            Rs. {walletAmount}
+                                        </button>
+                                    )}
                                 </div>
-                            </div>
 
-                            <div className='Wallert_outer-mobile'>
-                                <Link to="" className='menuicon' onClick={handleNavShow}>
-                                    <img src="image/menu.svg" alt="" />
-                                </Link>
-                                <div className={`navigation-links ${showNavigationLinks ? 'showNav' : ''}`}>
-                                    <ul>
-                                        {authentication}
-                                    </ul>
-                                </div>
-
-                                {events ? (
-                                    <button onClick={handleButtonClick} className='figmabtn wallet-btn'>
-                                        <img src={process.env.PUBLIC_URL + '/image/wallet-icon.svg'} alt="" />
-                                        Rs. {events}
-                                    </button>
-                                ) : (
-                                    <button onClick={handleButtonClick} className='figmabtn wallet-btn'>
-                                        <img src={process.env.PUBLIC_URL + '/image/wallet-icon.svg'} alt="" />
-                                        Rs. {walletAmount}
-                                    </button>
-                                )}
-                            </div>
-
-                        </nav>
+                            </nav>
 
 
+                        </div>
                     </div>
-                </div>
-                <OffCanvas show={show} setcheckNumber_loading={setcheckNumber_loading} paymentStatus={paymentStatus} handleClose={handleClose} handleShow={handleShow} callback={callback} name='wallet' placement="end"></OffCanvas>
-            </header>
-            <section className='header-Section'>
-                <div className="container">
+                    <OffCanvas show={show} setcheckNumber_loading={setcheckNumber_loading} paymentStatus={paymentStatus} handleClose={handleClose} handleShow={handleShow} callback={callback} name='wallet' placement="end"></OffCanvas>
+                </header>
+            ) : null}
+            {/* <header className="header_kavitam-main define_float"> */}
 
-                    {pageName === 'login' || pageName === 'register' ? (
-                        <div>
-                            <div className="page-name">{capitalizeWords(pageName)}</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                        </div>
-                    ) : null}
+            {pageName !== 'payment' ? (
+                <section className='header-Section'>
+                    <div className="container">
 
-                    {pageName === 'login' ? (
-                        <div className="page-details"><p>Sign in to enter, if you've an account</p></div>
-                    ) : pageName === 'register' ? (
-                        <div className="page-details"><p>Sign-up to create an account</p></div>
-                    ) : pageName === 'game' ? (
-                        <div>
-                            <div className="page-name">Numbers</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div>
-                        </div>
-                    ) : pageName === 'privacypolicy' ? (
-                        <div>
-                            <div className="page-name">Privacy Policy</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
-                        </div>
-                    ) : pageName === 'faq' ? (
-                        <div>
-                            <div className="page-name">FAQ Page</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
-                        </div>
-                    ) : pageName === 'contactus' ? (
-                        <div>
-                            <div className="page-name">Contact Us</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
-                        </div>
-                    ) : pageName === 'payment' ? (
-                        <div>
-                            {/* <div className="page-name">Contact Us Page</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
-                        </div>
-                    ) : pageName === 'termsconditions' ? (
-                        <div>
-                            <div className="page-name">Terms And Conditions</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
-                        </div>
-                    ) : pageName === 'aboutus' ? (
-                        <div>
-                            <div className="page-name">About Us</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
-                        </div>
-                    ) : pageName === 'allEventResults' ? (
-                        <div>
-                            <div className="page-name">All Event Results</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            {/* <div className="page-details"><p>Quick Pick or Choose Your Own Numbers</p></div> */}
-                        </div>
-                    ) : pageName === 'setting' || pageName === 'mynumbers' || pageName === 'Setting/wallet' || pageName === 'Setting' || pageName === 'Setting/changePassword' || pageName === 'Setting/Refferral' || pageName === 'Setting/history' || pageName === 'Setting/withdrawal' || pageName === 'Setting/wallet/refferal-history' ? (
-                        <div>
-                            <div className="page-name">Numbers</div>
-                            <div className="dice-icon">
-                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
-                            </div>
-                            <div className="page-details"><p>Welcome to our number games</p></div>
-                        </div>
-                    ) : (
-                        <div className="main-div">
-                            {/* <div className={`main-div ${pageName !== undefined ? 'new-class' : ''}`}> */}
-                            <div className='left-sec'>
-                                {/* <img src={process.env.PUBLIC_URL + '/image/banner-text.png'} alt="" /> */}
-                                {/* <div className='heaading'>Welcome to our site</div> */}
-                                <div className='heaading hindi_text'>सबसे भरोसेमंद वेबसाइट, अब हर रोज़ नहीं, हर घंटे जीते।</div>
-                                <div className="dice-icon1">
-                                    <img src={process.env.PUBLIC_URL + '/image/dice-lines1.png'} alt="" />
-                                </div>
-                                {/* <div className='quickChoose'>Quick Pick or Choose <br /> Your Own  <span className='heding'>Numbers</span></div> */}
-                                <div className='quickChoose hindi_text'><span className='banner_ques'>कवितम क्या है?</span><br /><span className='heding hindi_text'>कवितम दुबई से संचालित रजिस्ट्रेड वेबसाइट है, इस वेबसाइट पर रिजल्ट कंपनी द्वारा हर घंटे खोले जाते है, कुछ लोग जो जल्दी अमीर बनना चाहते हैं, वे इस खेल को खेल रहे हैं। हमारी वेबसाइट पे हर रोज़ लाखो की संख्या में लोग आते है और जीतते है, आप और जगह नंबर लगा के 24 घंटे का इंतज़ार करते है, अब वो इंतज़ार ख़तम, अब आप हर घंटे नंबर लगा सकते है और हर घण्टे लाखो जीत सकते है।</span></div>
-                                <div className='play_explore'>
-                                    {/* <Link onClick={handlePlayNowClick} className='figmabtn'>Play Now</Link> */}
-                                    {/* <Link to="/login" className='figmabtn'>Play Now</Link> */}
-
-                                    <Link
-                                        className='figmabtn'
-                                        to={auth_token ? '/game' : '/login'}
-                                    // onClick={handleLinkClick}
-                                    >
-                                        Play Now
-                                    </Link>
-
-                                    {/* <Link className='explore-here'>Explore Here</Link> */}
+                        {pageName === 'login' || pageName === 'register' ? (
+                            <div>
+                                <div className="page-name">{capitalizeWords(pageName)}</div>
+                                <div className="dice-icon">
+                                    <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
                                 </div>
                             </div>
-                            <div className='right-sec'>
-                                <img src={process.env.PUBLIC_URL + '/image/mainImg.png'} alt="" />
+                        ) : null}
+
+                        {pageName === 'login' ? (
+                            <div className="page-details"><p>Sign in to enter, if you've an account</p></div>
+                        ) : pageName === 'register' ? (
+                            <div className="page-details"><p>Sign-up to create an account</p></div>
+                        ) : pageName === 'game' ? (
+                            <div>
+                                {/* <div className="page-name">Numbers</div> */}
+                                {/* <div className="dice-icon">
+                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
+                            </div> */}
+                                <div className="page-details"><p>Choose your lucky number</p></div>
                             </div>
-                        </div>
-                    )}
-                </div>
-            </section>
+                        ) : pageName === 'privacypolicy' ? (
+                            <div>
+                                <div className="page-name">Privacy Policy</div>
+                                <div className="dice-icon">
+                                    <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
+                                </div>
+                                {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
+                            </div>
+                        ) : pageName === 'faq' ? (
+                            <div>
+                                <div className="page-name">FAQ Page</div>
+                                <div className="dice-icon">
+                                    <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
+                                </div>
+                                {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
+                            </div>
+                        ) : pageName === 'contactus' ? (
+                            <div>
+                                <div className="page-name">Contact Us</div>
+                                <div className="dice-icon">
+                                    <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
+                                </div>
+                                {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
+                            </div>
+                        ) : pageName === 'payment' ? (
+                            <div>
+                                {/* <div className="page-name">Contact Us Page</div>
+                            <div className="dice-icon">
+                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
+                            </div>
+                            <div className="page-details"><p>Choose your lucky number</p></div> */}
+                            </div>
+                        ) : pageName === 'termsconditions' ? (
+                            <div>
+                                <div className="page-name">Terms And Conditions</div>
+                                <div className="dice-icon">
+                                    <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
+                                </div>
+                                {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
+                            </div>
+                        ) : pageName === 'aboutus' ? (
+                            <div>
+                                <div className="page-name">About Us</div>
+                                <div className="dice-icon">
+                                    <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
+                                </div>
+                                {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
+                            </div>
+                        ) : pageName === 'allEventResults' ? (
+                            <div>
+                                <div className="page-name">All Event Results</div>
+                                <div className="dice-icon">
+                                    <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
+                                </div>
+                                {/* <div className="page-details"><p>Choose your lucky number</p></div> */}
+                            </div>
+                        ) : pageName === 'setting' || pageName === 'mynumbers' || pageName === 'Setting/wallet' || pageName === 'Setting' || pageName === 'Setting/changePassword' || pageName === 'Setting/Refferral' || pageName === 'Setting/history' || pageName === 'Setting/withdrawal' || pageName === 'Setting/wallet/refferal-history' ? (
+                            <div>
+                                {/* <div className="page-name">Numbers</div>
+                            <div className="dice-icon">
+                                <img src={process.env.PUBLIC_URL + '/image/dice-lines.png'} alt="" />
+                            </div> */}
+                                <div className="page-details"><p>Welcome to Kavitam</p></div>
+                            </div>
+                        ) : (
+                            <div className="main-div">
+                                {/* <div className={`main-div ${pageName !== undefined ? 'new-class' : ''}`}> */}
+                                <div className='left-sec'>
+                                    {/* <img src={process.env.PUBLIC_URL + '/image/banner-text.png'} alt="" /> */}
+                                    {/* <div className='heaading'>Welcome to our site</div> */}
+                                    <div className='heaading hindi_text'>सबसे भरोसेमंद वेबसाइट, अब हर रोज़ नहीं, हर घंटे जीते।</div>
+                                    <div className="dice-icon1">
+                                        <img src={process.env.PUBLIC_URL + '/image/dice-lines1.png'} alt="" />
+                                    </div>
+                                    {/* <div className='quickChoose'>Quick Pick or Choose <br /> Your Own  <span className='heding'>Numbers</span></div> */}
+                                    <div className='quickChoose hindi_text'><span className='banner_ques'>कवितम क्या है?</span><br /><span className='heding hindi_text'>कवितम दुबई से संचालित रजिस्ट्रेड वेबसाइट है, इस वेबसाइट पर रिजल्ट कंपनी द्वारा हर घंटे खोले जाते है, कुछ लोग जो जल्दी अमीर बनना चाहते हैं, वे इस खेल को खेल रहे हैं। हमारी वेबसाइट पे हर रोज़ लाखो की संख्या में लोग आते है और जीतते है, आप और जगह नंबर लगा के 24 घंटे का इंतज़ार करते है, अब वो इंतज़ार ख़तम, अब आप हर घंटे नंबर लगा सकते है और हर घण्टे लाखो जीत सकते है।</span></div>
+                                    <div className='play_explore'>
+                                        {/* <Link onClick={handlePlayNowClick} className='figmabtn'>Play Now</Link> */}
+                                        {/* <Link to="/login" className='figmabtn'>Play Now</Link> */}
+
+                                        <Link
+                                            className='figmabtn'
+                                            to={auth_token ? '/game' : '/login'}
+                                        // onClick={handleLinkClick}
+                                        >
+                                            Play Now
+                                        </Link>
+
+                                        {/* <Link className='explore-here'>Explore Here</Link> */}
+                                    </div>
+                                </div>
+                                <div className='right-sec'>
+                                    <img src={process.env.PUBLIC_URL + '/image/mainImg.png'} alt="" />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+            ) : null}
         </div>
 
     );

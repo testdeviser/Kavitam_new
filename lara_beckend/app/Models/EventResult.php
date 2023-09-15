@@ -14,5 +14,6 @@ class EventResult extends Model
         'event_time',
         'current_date',
         'result',
+        'status',
     ];
 }

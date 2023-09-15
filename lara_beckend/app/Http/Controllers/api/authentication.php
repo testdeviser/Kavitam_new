@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AdminContactUsEmail;
+use App\Mail\ResetPasswordMail;
+use App\Models\Contact;
+use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +16,9 @@ use App\Models\Wallet;
 use App\Models\PriceMultiplyBy;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactUsEmail;
 use App\Mail\MyTestMail;
+use Carbon\Carbon;
 
 class authentication extends Controller
 {
@@ -59,14 +65,66 @@ class authentication extends Controller
         //          ]);
         // }
 
-        $validator = Validator::make($req->all(), [
-            // 'name' => 'required|min:3|max:191|unique:users,name',
+        // $validator = Validator::make($req->all(), [
+        //     // 'name' => 'required|min:3|max:191|unique:users,name',
+        //     'name' => 'required|min:3|max:191',
+        //     'username' => 'required|min:3|max:191|unique:users,username',
+        //     'user_password' => 'required|min:6',
+        //     'user_confirmpassword' => 'required|same:user_password',
+        //     'phone' => 'numeric|digits_between:10,15',
+        // ]);
+
+        // $validator = Validator::make($req->all(), [
+        //     'name' => 'required|min:3|max:191',
+        //     'username' => 'required|min:3|max:191|unique:users,username',
+        //     'user_password' => 'required|min:6',
+        //     'user_confirmpassword' => 'required|same:user_password',
+        //     // 'phone' => 'numeric|digits_between:10,15',
+        //     'phone' => 'regex:/^[0-9+]+$/|between:10,15',
+        //     'referredby_user_link' => 'exists:users,user_referral_link|nullable',
+        // ], [
+        //     'name.required' => 'Please enter Name',
+        //     'username.required' => 'Please enter Username',
+        //     'user_password.required' => 'Please enter Password',
+        //     'user_password.min' => 'Password must be at least of 6 digits',
+        //     'user_confirmpassword.required' => 'Please enter Confirm Password',
+        //     'user_confirmpassword.same' => 'Confirm Password must match Password',
+        //     // 'phone.numeric' => 'Phone number must be numeric and ',
+        //     'phone.regex' => 'Phone number must contain only digits or the "+" sign and ',
+        //     // 'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+        //     'phone.between' => 'Phone No. must be between 10 and 15 characters',
+        //     'referredby_user_link.exists' => 'Referral code does not exist',
+        // ]);
+
+        $rules = [
             'name' => 'required|min:3|max:191',
             'username' => 'required|min:3|max:191|unique:users,username',
             'user_password' => 'required|min:6',
             'user_confirmpassword' => 'required|same:user_password',
-            'phone' => 'numeric|digits_between:10,15',
-        ]);
+            'phone' => [
+                'nullable',
+                // Allow the field to be nullable
+                'regex:/^[0-9+]+$/',
+                // Regex rule for digits or "+"
+                'between:10,15',
+                // Length between 10 and 15 characters
+            ],
+            'referredby_user_link' => 'exists:users,user_referral_link|nullable',
+        ];
+
+        $messages = [
+            'name.required' => 'Please enter Name',
+            'username.required' => 'Please enter Username',
+            'user_password.required' => 'Please enter Password',
+            'user_password.min' => 'Password must be at least 6 characters',
+            'user_confirmpassword.required' => 'Please enter Confirm Password',
+            'user_confirmpassword.same' => 'Confirm Password must match Password',
+            'phone.regex' => 'Phone number must contain only digits or the "+" sign',
+            'phone.between' => 'Phone No. must be between 10 and 15 characters',
+            'referredby_user_link.exists' => 'Referral code does not exist',
+        ];
+
+        $validator = Validator::make($req->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return response()->json([
@@ -74,7 +132,6 @@ class authentication extends Controller
                 'p_suggestion' => Str::random(5) . mt_rand(10000, 99999),
             ]);
         } else {
-
             $user_password = $req->user_password;
             $user_confirmpassword = $req->confirmpassword;
             // $mail_password=$req->mail_pass;
@@ -203,10 +260,19 @@ class authentication extends Controller
     public function login(Request $req)
     {
 
-        $validator = validator::make($req->all(), [
+        // $validator = validator::make($req->all(), [
+        //     'username' => 'required',
+        //     'password' => 'required',
+        // ]);
+
+        $validator = Validator::make($req->all(), [
             'username' => 'required',
             'password' => 'required',
+        ], [
+            'username.required' => 'Please enter Username',
+            'password.required' => 'Please enter Password',
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 401,
@@ -214,41 +280,66 @@ class authentication extends Controller
             ]);
         } else {
             $user = User::where('username', $req->username)->first();
-            if (!$user) {
+            if (!$user || !Hash::check($req->password, $user->password)) {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'Username does not exists !!',
+                    'message' => 'Invalid Username or Password !!',
                 ]);
             } else {
-                if (!Hash::check($req->password, $user->password)) {
-                    return response()->json([
-                        'status' => 404,
-                        'message' => 'Password  did not match !!',
-                    ]);
+                if ($user->role_as == 1) {
+                    $token = $user->createToken($user->name . '_AdminToken', ['server:admin'])->plainTextToken;
+                    $user_is = 'admin';
                 } else {
-                    if ($user->role_as == 1) {
-
-                        $token = $user->createToken($user->name . '_AdminToken', ['server:admin'])->plainTextToken;
-                        $user_is = 'admin';
-                    } else {
-                        $token = $user->createToken($user->name . '_Token', [''])->plainTextToken;
-                        $user_is = 'user';
-                    }
-
-                    return response()->json([
-                        'status' => 200,
-                        'userid' => $user->id,
-                        'username' => $user->username,
-                        'token' => $token,
-                        'message' => 'Loggedin Successfully',
-                        'user' => $user_is,
-                    ]);
+                    $token = $user->createToken($user->name . '_Token', [''])->plainTextToken;
+                    $user_is = 'user';
                 }
 
+                return response()->json([
+                    'status' => 200,
+                    'userid' => $user->id,
+                    'username' => $user->username,
+                    'token' => $token,
+                    'message' => 'Loggedin Successfully',
+                    'user' => $user_is,
+                ]);
             }
-
-
         }
+
+        // else {
+        //     $user = User::where('username', $req->username)->first();
+        //     if (!$user) {
+        //         return response()->json([
+        //             'status' => 404,
+        //             'message' => 'Username does not exists !!',
+        //         ]);
+        //     } else {
+        //         if (!Hash::check($req->password, $user->password)) {
+        //             return response()->json([
+        //                 'status' => 404,
+        //                 'message' => 'Password  did not match !!',
+        //             ]);
+        //         } else {
+        //             if ($user->role_as == 1) {
+
+        //                 $token = $user->createToken($user->name . '_AdminToken', ['server:admin'])->plainTextToken;
+        //                 $user_is = 'admin';
+        //             } else {
+        //                 $token = $user->createToken($user->name . '_Token', [''])->plainTextToken;
+        //                 $user_is = 'user';
+        //             }
+
+        //             return response()->json([
+        //                 'status' => 200,
+        //                 'userid' => $user->id,
+        //                 'username' => $user->username,
+        //                 'token' => $token,
+        //                 'message' => 'Loggedin Successfully',
+        //                 'user' => $user_is,
+        //             ]);
+        //         }
+
+        //     }
+        // }
     }
 
     public function profile(Request $req)
@@ -297,9 +388,20 @@ class authentication extends Controller
 
     public function payment(Request $request)
     {
+        $currentDate = Carbon::now()->format('Y-m-d');
+        // $validator = Validator::make($request->all(), [
+        //     'amount' => 'required|numeric',
+        //     'refNo' => 'required|digits:12',
+        // ]);
+
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
             'refNo' => 'required|digits:12',
+        ], [
+            'amount.required' => 'Please enter Amount',
+            'amount.numeric' => 'Amount must be a number',
+            'refNo.required' => 'Please enter Reference Number',
+            'refNo.digits' => 'Reference Number must be of 12 digits',
         ]);
 
         if ($validator->fails()) {
@@ -326,6 +428,21 @@ class authentication extends Controller
                 'bonus' => $hasBonus ? 0 : 1, // Set bonus value based on whether the user has a bonus or not
             ]);
 
+            $userWallet = Wallet::where('user_id', $request->userId)->first();
+            $userWalletId = $userWallet->id;
+
+            $transaction_history = new TransactionHistory();
+            $transaction_history->userId = $request->userId;
+            $transaction_history->walletId = $userWalletId;
+            $transaction_history->withdrawalId = 0;
+            $transaction_history->UpiId = $payment->id;
+            $transaction_history->payment_mode = "UPI";
+            $transaction_history->eventId = 0;
+            $transaction_history->price = $totalAmount;
+            $transaction_history->status = 'Pending';
+            $transaction_history->current_date = $currentDate;
+            $transaction_history->save();
+
             // $payment = Payment::create([
             //     'userId' => $request->userId,
             //     'username' => $request->username,
@@ -340,7 +457,8 @@ class authentication extends Controller
                 'userId' => $payment->userId,
                 'amount' => $payment->amount,
                 'refNo' => $payment->refNo,
-                'message' => 'Payment done successfully',
+                //'message' => 'Payment done successfully',
+                'message' => 'Payment request has been accepted, It will be credit in your account within 1-2 minutes.',
             ]);
 
 
@@ -375,11 +493,24 @@ class authentication extends Controller
 
     public function changePassword(Request $request)
     {
+        // $validator = Validator::make($request->all(), [
+        //     'oldPassword' => 'required',
+        //     'newPassword' => 'required|min:6',
+        //     'confirmPassword' => 'required|same:newPassword',
+        // ]);
+
         $validator = Validator::make($request->all(), [
             'oldPassword' => 'required',
             'newPassword' => 'required|min:6',
             'confirmPassword' => 'required|same:newPassword',
+        ], [
+            'oldPassword.required' => 'Please enter Old Password',
+            'newPassword.required' => 'Please enter New Password',
+            'confirmPassword.required' => 'Please enter Confirm Password',
+            'newPassword.min' => 'New Password must be at least of 6 digits',
+            'confirmPassword.same' => 'Confirm Password must match New Password',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json([
@@ -402,6 +533,7 @@ class authentication extends Controller
 
         return response()->json([
             'status' => 200,
+            'data' => $user,
             'message' => 'Password changed successfully!',
         ]);
     }
@@ -432,8 +564,81 @@ class authentication extends Controller
             ]);
         }
 
-
     }
+
+    public function contactus(Request $request)
+    {
+        // $validator = Validator::make($request->all(), [
+        //     'email' => 'required|email',
+        //     // 'phone' => 'numeric|digits_between:10,15',
+        //     'phone' => 'regex:/^[0-9+]+$/|between:10,15',
+        //     'message' => 'required',
+        // ], [
+        //     'email.required' => 'Please enter Email',
+        //     'email.email' => 'Please enter a valid Email',
+        //     'phone.regex' => 'Phone number must contain only digits or the "+" sign and ',
+        //     'phone.between' => 'Phone No. must be between 10 and 15 characters',
+        //     // 'phone.numeric' => 'Phone number must be numeric and ',
+        //     // 'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+        //     'message.required' => 'Please enter Message',
+        // ]);
+
+        $rules = [
+            'email' => 'required|email',
+            'phone' => [
+                'nullable',
+                // Allow the field to be nullable
+                'regex:/^[0-9+]+$/',
+                // Regex rule for digits or "+"
+                'between:10,15',
+                // Length between 10 and 15 characters
+            ],
+            'message' => 'required',
+        ];
+
+        $messages = [
+            'email.required' => 'Please enter Email',
+            'email.email' => 'Please enter a valid Email',
+            'phone.regex' => 'Phone number must contain only digits or the "+" sign and ',
+            'phone.between' => 'Phone No. must be between 10 and 15 characters',
+            // 'phone.numeric' => 'Phone number must be numeric and ',
+            // 'phone.digits_between' => 'Phone No. must be between 10 and 15 digits',
+            'message.required' => 'Please enter Message',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 401,
+                'error' => $validator->messages(),
+            ]);
+        } else {
+            $email = $request->email;
+            $message = $request->message;
+
+            $contact = Contact::create([
+                'email' => $email,
+                'phone' => $request->phone,
+                'message' => $message,
+            ]);
+
+            //send the password reset email (In Gmail)
+            if ($contact) {
+                try {
+                    Mail::mailer('smtp')->to($email)->send(new ContactUsEmail($contact));
+                    Mail::mailer('smtp')->to('kavi998854@gmail.com')->send(new AdminContactUsEmail($contact));
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Thank You for getting in Touch'
+                    ]);
+                } catch (\Exception $err) {
+                    return response()->json(['status' => 500, 'message' => 'Could not send email']);
+                }
+            }
+        }
+    }
+
 
     // public function PriceMultiplyBy(Request $req)
     // {

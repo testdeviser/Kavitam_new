@@ -1,16 +1,30 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import { FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 import "../../../assets/front/css/profile.css";
-import { Link, Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Link, Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FaClockRotateLeft } from "react-icons/fa";
 import ListGroup from "react-bootstrap/ListGroup";
+import { handleSidebarStyle } from "../../../utils";
+import { setActiveSidebarLink } from "../../../utils/utils";
 
 function Setting(props) {
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
+  const [activeLink, setActiveLink] = useState("");
 
-  const handleSidebar_style = (e, data) => {
+  useEffect(() => {
+    // Set the active link based on the current location
+    // const path = location.pathname.toLowerCase();
+    const path = location.pathname;
+    setActiveLink(path === "/Setting" ? "Profile" : path.substring("/setting/".length));
+  }, [location]);
+
+  const handleSidebarClick = (data) => {
+
+    setActiveLink(data); // Update the active link
     if (data == "profile") {
       navigate("/Setting");
     } else if (data == "wallet") {
@@ -19,25 +33,47 @@ function Setting(props) {
       navigate("/Setting/history");
     } else if (data == "referral") {
       navigate("/Setting/Refferral");
-    } else if (data == "changePassword") {
+    } else if (data == "Change Password") {
       navigate("/Setting/changePassword");
     } else {
     }
-    e.preventDefault();
-    try {
-      var findClass = document.getElementsByClassName("active-sidebar");
-      var target = e.currentTarget;
-      var hasclass = target.classList.contains("active-sidebar");
-      findClass[0].classList.remove("active-sidebar");
-      if (hasclass) {
-        target.classList.add("active-sidebar");
-      } else {
-        target.classList.add("active-sidebar");
-      }
-    } catch (err) {
-      console.log(err);
-    }
+
+    //navigate(`/Setting/${data.toLowerCase()}`); // Navigate to the corresponding route
   };
+
+  // const handleSidebar_style = (e, data) => {
+  //   setActiveSidebarLink(data);
+  //   // Rest of your code...
+  // };
+
+  // const handleSidebar_style = (e, data) => {
+  //   if (data == "profile") {
+  //     navigate("/Setting");
+  //   } else if (data == "wallet") {
+  //     navigate("/Setting/wallet");
+  //   } else if (data == "history") {
+  //     navigate("/Setting/history");
+  //   } else if (data == "referral") {
+  //     navigate("/Setting/Refferral");
+  //   } else if (data == "changePassword") {
+  //     navigate("/Setting/changePassword");
+  //   } else {
+  //   }
+  //   e.preventDefault();
+  //   try {
+  //     var findClass = document.getElementsByClassName("active-sidebar");
+  //     var target = e.currentTarget;
+  //     var hasclass = target.classList.contains("active-sidebar");
+  //     findClass[0].classList.remove("active-sidebar");
+  //     if (hasclass) {
+  //       target.classList.add("active-sidebar");
+  //     } else {
+  //       target.classList.add("active-sidebar");
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   return (
     <div className="profile_setting define_float">
       <div className="circle_dot-left">
@@ -64,11 +100,11 @@ function Setting(props) {
             <div className="sidebar">
               <h2 className="profile_ac-name">Account Setting</h2>
               <ul className="profile_side-ul">
+
                 <li
-                  onClick={(e) => {
-                    handleSidebar_style(e, "profile");
-                  }}
-                  className="active-sidebar">
+                  onClick={() => handleSidebarClick("Profile")}
+                  className={activeLink === "Profile" ? "active-sidebar" : ""}
+                >
                   <Link to="/Setting">
                     <span className="payment_side_ioc">
                       <svg
@@ -86,10 +122,11 @@ function Setting(props) {
                     <span>Profile</span>
                   </Link>
                 </li>
+
                 <li
-                  onClick={(e) => {
-                    handleSidebar_style(e, "wallet");
-                  }}>
+                  onClick={() => handleSidebarClick("Wallet")}
+                  className={activeLink === "wallet" ? "active-sidebar" : ""}
+                >
                   <Link to="/Setting/wallet">
                     <span className="payment_side_ioc">
                       <svg
@@ -109,9 +146,9 @@ function Setting(props) {
                 </li>
 
                 <li
-                  onClick={(e) => {
-                    handleSidebar_style(e, "history");
-                  }}>
+                  onClick={() => handleSidebarClick("History")}
+                  className={activeLink === "history" ? "active-sidebar" : ""}
+                >
                   <Link to="/Setting/history">
                     <span className="payment_side_ioc">
                       <svg
@@ -137,10 +174,11 @@ function Setting(props) {
                     <span>History</span>
                   </Link>
                 </li>
+
                 <li
-                  onClick={(e) => {
-                    handleSidebar_style(e, "referral");
-                  }}>
+                  onClick={() => handleSidebarClick("referral")}
+                  className={activeLink === "Refferral" ? "active-sidebar" : ""}
+                >
                   <Link to="/Setting/Refferral">
                     <span className="payment_side_ioc">
                       <svg
@@ -158,10 +196,11 @@ function Setting(props) {
                     <span>Refferal</span>
                   </Link>
                 </li>
+
                 <li
-                  onClick={(e) => {
-                    handleSidebar_style(e, "changePassword");
-                  }}>
+                  onClick={() => handleSidebarClick("Change Password")}
+                  className={activeLink === "changePassword" ? "active-sidebar" : ""}
+                >
                   <Link to="/Setting/changePassword">
                     <span className="payment_side_ioc">
                       <svg
@@ -180,32 +219,10 @@ function Setting(props) {
                   </Link>
                 </li>
 
-                {/* <li
-                  onClick={(e) => {
-                    handleSidebar_style(e, "addBankAccount");
-                  }}>
-                  <Link to="/Setting/addBankAccount">
-                    <span className="payment_side_ioc">
-                      <svg
-                        width="13"
-                        height="20"
-                        viewBox="0 0 13 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M6.25 1.25C6.91304 1.25 7.54893 1.51339 8.01777 1.98223C8.48661 2.45107 8.75 3.08696 8.75 3.75V8.75H3.75V3.75C3.75 3.08696 4.01339 2.45107 4.48223 1.98223C4.95107 1.51339 5.58696 1.25 6.25 1.25ZM10 8.75V3.75C10 2.75544 9.60491 1.80161 8.90165 1.09835C8.19839 0.395088 7.24456 0 6.25 0C5.25544 0 4.30161 0.395088 3.59835 1.09835C2.89509 1.80161 2.5 2.75544 2.5 3.75V8.75C1.83696 8.75 1.20107 9.01339 0.732233 9.48223C0.263392 9.95107 0 10.587 0 11.25V17.5C0 18.163 0.263392 18.7989 0.732233 19.2678C1.20107 19.7366 1.83696 20 2.5 20H10C10.663 20 11.2989 19.7366 11.7678 19.2678C12.2366 18.7989 12.5 18.163 12.5 17.5V11.25C12.5 10.587 12.2366 9.95107 11.7678 9.48223C11.2989 9.01339 10.663 8.75 10 8.75ZM2.5 10H10C10.3315 10 10.6495 10.1317 10.8839 10.3661C11.1183 10.6005 11.25 10.9185 11.25 11.25V17.5C11.25 17.8315 11.1183 18.1495 10.8839 18.3839C10.6495 18.6183 10.3315 18.75 10 18.75H2.5C2.16848 18.75 1.85054 18.6183 1.61612 18.3839C1.3817 18.1495 1.25 17.8315 1.25 17.5V11.25C1.25 10.9185 1.3817 10.6005 1.61612 10.3661C1.85054 10.1317 2.16848 10 2.5 10Z"
-                          fill="#777996"
-                        />
-                      </svg>
-                    </span>
-                    <span>Add Bank Account</span>
-                  </Link>
-                </li> */}
-
                 <li
-                  onClick={(e) => {
-                    handleSidebar_style(e, "withdrawal");
-                  }}>
+                  onClick={() => handleSidebarClick("withdrawal")}
+                  className={activeLink === "withdrawal" ? "active-sidebar" : ""}
+                >
                   <Link to="/Setting/withdrawal">
                     <span className="payment_side_ioc">
                       {/* <svg

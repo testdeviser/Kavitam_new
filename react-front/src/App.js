@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Main from "./Component/front/Main";
 import Game from "./Component/front/pages/Game";
 import Home from "./Component/front/pages/Home";
@@ -34,12 +34,13 @@ import ChangePassword from "./Component/front/profileSetting/ChangePassword";
 import AddBankAccount from "./Component/front/profileSetting/AddBankAccount";
 import Withdrawal from "./Component/front/profileSetting/Withdrawal";
 import GoogleTranslator from "./Component/front/GoogleTranslator";
+import NotFound from "./NotFound";
 // import 'datatables.net-dt/css/jquery.dataTables.css';
 // import 'datatables.net-dt/js/dataTables.dataTables';
 
 
-axios.defaults.baseURL = 'http://localhost:8000/';
-// axios.defaults.baseURL = 'https://kavitam.com/lara_beckend/public';
+// axios.defaults.baseURL = 'http://localhost:8000/';
+axios.defaults.baseURL = 'https://kavitam.com/lara_beckend/public';
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.withCredentials = true;
@@ -52,6 +53,7 @@ axios.interceptors.request.use(function (config) {
 
 function App() {
   const isLoggedIn = !!localStorage.getItem('auth_token');
+  const isAdmin = localStorage.getItem('user_name') == 'admin'; // Assuming you store user role in local storage
 
   // const googleTranslateElementInit = () => {
   //   new window.google.translate.TranslateElement(
@@ -74,9 +76,24 @@ function App() {
   //   window.googleTranslateElementInit = googleTranslateElementInit;
   // }, []);
 
+  const location = useLocation();
+
+  useEffect(() => {
+    // Extract the current route path and format it for class names
+    const routeClassName = location.pathname.replace('/', '').replace('/', '-');
+    if (routeClassName === '') {
+      document.body.className = 'page-main';
+    } else {
+      document.body.className = `page-${routeClassName}`;
+    }
+
+  }, [location]);
+
+  if (isAdmin && isLoggedIn && location.pathname === '/') {
+    return <Navigate to="/admin/dashboard" />;
+  }
+
   return (
-
-
     // <Routes>
     // </Routes>
     <WalletProvider>
@@ -152,6 +169,9 @@ function App() {
             ))}
           <Route index element={<Navigate to="/admin/dashboard" />} />
         </Route>
+
+        <Route path="*" element={<NotFound />} />
+
       </Routes>
     </WalletProvider>
   );

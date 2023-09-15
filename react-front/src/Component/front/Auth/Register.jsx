@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import app from './firbase_config';
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+// import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import Navbar from '../../../layouts/front/navbar';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -10,7 +10,7 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import { useLocation } from 'react-router-dom';
 
-const auth = getAuth(app);
+// const auth = getAuth(app);
 
 function Register(props) {
 
@@ -40,56 +40,56 @@ function Register(props) {
     //refferalCode: '',
   });
 
-  const oncaptchaVerifier = () => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-        'size': 'invisible',
-        'callback': (response) => {
-          onSingInSubmit();
+  // const oncaptchaVerifier = () => {
+  //   if (!window.recaptchaVerifier) {
+  //     window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+  //       'size': 'invisible',
+  //       'callback': (response) => {
+  //         onSingInSubmit();
 
-        }
-      }, auth);
+  //       }
+  //     }, auth);
 
-    }
-  }
+  //   }
+  // }
 
 
-  const onSingInSubmit = (e) => {
-    e.preventDefault();
-    oncaptchaVerifier();
+  // const onSingInSubmit = (e) => {
+  //   e.preventDefault();
+  //   oncaptchaVerifier();
 
-    var data = {
-      phone: phone.current,
-    }
+  //   var data = {
+  //     phone: phone.current,
+  //   }
 
-    axios.post('/api/checkPhone', data).then(res => {
-      if (res.data.status == 200) {
-        const phoneNumber = "+91" + phone.current;
-        const appVerifier = window.recaptchaVerifier;
+  //   axios.post('/api/checkPhone', data).then(res => {
+  //     if (res.data.status == 200) {
+  //       const phoneNumber = "+91" + phone.current;
+  //       const appVerifier = window.recaptchaVerifier;
 
-        signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-          .then((confirmationResult) => {
-            window.confirmationResult = confirmationResult;
+  //       signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+  //         .then((confirmationResult) => {
+  //           window.confirmationResult = confirmationResult;
 
-            setinputs({ ...inputs, otp_varification: true });
-            seterr({ error: '' });
-            // ...
-          }).catch((error) => {
-            console.log(error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Verification failed, Please try again...',
-            })
-            // alert('verification failed');
-          });
+  //           setinputs({ ...inputs, otp_varification: true });
+  //           seterr({ error: '' });
+  //           // ...
+  //         }).catch((error) => {
+  //           console.log(error);
+  //           Swal.fire({
+  //             icon: 'error',
+  //             title: 'Oops...',
+  //             text: 'Verification failed, Please try again...',
+  //           })
+  //           // alert('verification failed');
+  //         });
 
-      }
-      else {
-        seterr({ error: res.data.error });
-      }
-    });
-  }
+  //     }
+  //     else {
+  //       seterr({ error: res.data.error });
+  //     }
+  //   });
+  // }
 
 
   const verifyOtp = (e) => {
@@ -169,7 +169,8 @@ function Register(props) {
       name: inputs.name,
       // email:inputs.email,
       // mail_pass:inputs.gmail_password,
-      referredby_user_link: referralCode,
+      // referredby_user_link: referralCode,
+      referredby_user_link: referralCode || inputs.referredby_user_link || null,
       user_password: inputs.user_password,
       user_confirmpassword: inputs.user_confirmpassword,
       phone: phone.current,
@@ -232,19 +233,117 @@ function Register(props) {
     }
   }
 
-  var verifybtn = ''
-  if (inputs.verifyBtn) {
+  // var verifybtn = ''
+  // if (inputs.verifyBtn) {
 
-    if (!inputs.verify_phone) {
-      verifybtn = (
-        <>
-          <button className='btn btn-primary w-100' onClick={onSingInSubmit}>Verify</button>
-          {inputs.otp_varification ? <><span className="text-success">Otp sent successfully</span></> : <></>}
-        </>
-      )
+  //   if (!inputs.verify_phone) {
+  //     verifybtn = (
+  //       <>
+  //         <button className='btn btn-primary w-100' onClick={onSingInSubmit}>Verify</button>
+  //         {inputs.otp_varification ? <><span className="text-success">Otp sent successfully</span></> : <></>}
+  //       </>
+  //     )
+  //   }
+
+  // }
+
+  const handleAmountKeyPress = (e) => {
+    const currentValue = e.target.value;
+
+    // Remove any non-digit and non-plus characters
+    const sanitizedValue = currentValue.replace(/[^0-9+]/g, '');
+
+    // Check if the input exceeds the maximum length (15 characters)
+    if (sanitizedValue.length >= 15 && !['Backspace', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+      e.preventDefault();
+      return;
     }
 
-  }
+    // Allow specific key events
+    if (
+      (e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'y', 'z'].includes(e.key) || // Ctrl key shortcuts
+      ['ArrowLeft', 'ArrowRight', 'Backspace'].includes(e.key) // Arrow keys and Backspace
+    ) {
+      return;
+    }
+
+    // Check if the '+' sign is already present
+    const plusIndex = sanitizedValue.indexOf('+');
+
+    // Allow the '+' character only at the beginning or if it follows a non-digit character
+    if (
+      (e.key === '+' && (plusIndex !== -1 || e.target.selectionStart !== 0)) ||
+      (e.target.selectionStart > 0 && sanitizedValue.charAt(e.target.selectionStart - 1) !== '+' && !/^[0-9]$/.test(e.key))
+    ) {
+      e.preventDefault();
+      return;
+    }
+
+    // Update the input value with the sanitized value
+    e.target.value = sanitizedValue;
+  };
+
+
+  // const handleAmountKeyPress = (e) => {
+  //   // Allow the backspace key
+  //   if (e.key === 'Backspace') {
+  //     return;
+  //   }
+
+  //   // Check if the pressed key is not a digit or the '+' character
+  //   if (!/^[0-9+]$/.test(e.key)) {
+  //     e.preventDefault();
+  //   }
+
+  //   // Allow only one '+' character at the beginning
+  //   if (e.target.value === '+' && e.key === '+') {
+  //     e.preventDefault();
+  //   }
+
+  //   // Allow only digits after the '+' character
+  //   if (e.target.value === '+' && /^[0-9]$/.test(e.key)) {
+  //     return;
+  //   }
+  // };
+
+  // const handleAmountKeyPress = (e) => {
+  //   const allowedCharacters = /^[0-9\b+]+$/; // Regular expression to allow digits (0-9) and '+'
+  //   if (!allowedCharacters.test(e.key)) {
+  //     e.preventDefault();
+  //   }
+  // };
+
+  // const handleAmountKeyPress = (e) => {
+  //   const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
+  //   if (!allowedCharacters.test(e.key)) {
+  //     e.preventDefault();
+  //   }
+  // };
+
+  const handleInputValidation = (e) => {
+    const sanitizedValue = e.target.value.replace(/[^0-9+]/g, ''); // Allow only numbers and '+'
+    e.target.value = sanitizedValue;
+
+    const minValue = 0; // Define your desired minimum value
+    const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+    const currentValue = parseFloat(sanitizedValue);
+
+    if (currentValue < minValue || currentValue > maxValue) {
+      e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+    }
+  };
+
+
+  // const handleInputValidation = (e) => {
+  //   const minValue = 0; // Define your desired minimum value
+  //   const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+  //   const currentValue = parseFloat(e.target.value);
+
+  //   //if (currentValue < minValue || currentValue > maxValue) {
+  //   if (currentValue < minValue) {
+  //     e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+  //   }
+  // };
 
 
   var password_suggestion = '';
@@ -350,7 +449,7 @@ function Register(props) {
             <div className="refister-form">
               <form onSubmit={SubmitHandler}>
 
-                <input type="hidden" name="referredby_user_link" value={referralCode} />
+                {/* <input type="hidden" name="referredby_user_link" value={referralCode} /> */}
 
                 <div className="input-container login_input">
                   <label htmlFor="name" className='login-label'>Name </label>
@@ -366,7 +465,21 @@ function Register(props) {
 
                 <div className="input-container login_input">
                   <label htmlFor="email" className='login-label'>Phone number</label>
-                  <input type="number" className="register-input" name="phone" maxLength={15} minLength={10} onChange={phonehandler} disabled={inputs.verify_phone ? true : false} />
+                  <input
+                    // type="text"
+                    type="tel"
+                    className="register-input"
+                    name="phone"
+                    maxLength={15}
+                    minLength={10}
+                    onChange={phonehandler}
+                    onKeyDown={handleAmountKeyPress} // Change from onKeyPress to onKeyDown
+                    onInput={(e) => handleInputValidation(e)}
+                    disabled={inputs.verify_phone ? true : false}
+                  />
+
+                  {/* <input type="number" className="register-input" name="phone" maxLength={15} minLength={10} onChange={phonehandler} onKeyPress={(e) => handleAmountKeyPress(e)}
+                    onInput={(e) => handleInputValidation(e)} disabled={inputs.verify_phone ? true : false} /> */}
                   <span className='text-danger'>{err.error.phone ? err.error.phone : ''}</span>
                 </div>
 
@@ -397,8 +510,10 @@ function Register(props) {
 
                 <div className="input-container login_input">
                   <label htmlFor="name" className='login-label'>Referral Code</label>
-                  <input type="text" className='register-input' name="referredby_user_link" value={referralCode} />
-                  {/* <span className='text-danger'>{err.error.user_confirmpassword ? err.error.user_confirmpassword : ''}</span> */}
+                  {/* <input type="text" className='register-input' name="referredby_user_link" value={referralCode} /> */}
+                  <input type="text" className='register-input' name="referredby_user_link" value={inputs.referredby_user_link || referralCode || ''}
+                    onChange={(e) => setinputs({ ...inputs, referredby_user_link: e.target.value })} />
+                  <span className='text-danger'>{err.error.referredby_user_link ? err.error.referredby_user_link : ''}</span>
                 </div>
 
                 {/* <div className="input-container">
@@ -409,7 +524,7 @@ function Register(props) {
                 <div className="login_btn-global">
                   <button type="submit" className='SubmitBtn mt-3 mb-2' value='Submit' >Submit</button>
                   {/* <button type="submit" className='SubmitBtn' value='Submit'>Submit</button>      */}
-                  <p>Already have an account in website? <Link to='/login' className='mt-3' style={{ 'color': '#FC8019' }}>Login</Link> here to signin.</p>
+                  <p>Already have an account on Kavitam? <Link to='/login' className='mt-3' style={{ 'color': '#FC8019' }}>Login</Link> here to signin.</p>
                   {/* <button type="reset" className="btn btn-danger mt-2" style={{marginLeft:'10px'}}>Reset</button> */}
                 </div>
               </form>

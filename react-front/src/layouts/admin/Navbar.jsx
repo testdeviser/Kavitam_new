@@ -21,7 +21,7 @@ function Navbar(props) {
  function logout()
  {
    axios.post(`/api/logout`).then(res=>{
-        console.log(res);
+        //console.log(res);
         if(localStorage.getItem("auth_token"))
         {  
           

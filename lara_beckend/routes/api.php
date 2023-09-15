@@ -43,13 +43,14 @@ Route::post('/outerNumber/create', [OuterController::class, 'create']);
 Route::post('/outerNumber/remove/{id}', [OuterController::class, 'remove']);
 //Route::post('/outerNumber/remove/{number}/{username}', [OuterController::class, 'remove']);
 
-
 // Register
 Route::post('/user/Register', [authentication::class, 'Register']);
 // login
 Route::post('/user/login', [authentication::class, 'login'])->name('loginn');
+Route::post('/contactus', [authentication::class, 'contactus'])->name('contactus');
 Route::post('/user/changePassword', [authentication::class, 'changePassword'])->name('changePassword');
 Route::post('/user/addBankAccount', [BankController::class, 'index'])->name('addBankAccount');
+Route::post('/user/editBankAccount', [BankController::class, 'editBankAccount'])->name('editBankAccount');
 Route::post('/user/moneyWithdrawal', [BankController::class, 'moneyWithdrawal'])->name('moneyWithdrawal');
 Route::get('/user/bankDetails/{userId}', [BankController::class, 'bankDetails'])->name('bankDetails');
 
@@ -74,7 +75,6 @@ Route::group(['middleware' => ['auth:sanctum', 'isAdmin']], function () {
     ]);
   }, []);
 });
-
 
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
 
@@ -105,7 +105,7 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
   Route::delete('/admin/events/delete/{id}', [AdminEventController::class, 'delete']);
   Route::get('/admin/events/editdata/{id}', [AdminEventController::class, 'EditData'])->name('edit_event_data');
   Route::post('/admin/events/update_events/{id}', [AdminEventController::class, 'update'])->name('uddate');
-  Route::post('/result', [transactionController::class, 'Result'])->name('Result');
+  //Route::post('/result', [transactionController::class, 'Result'])->name('Result');
 
 
   Route::post('/annouce_result', [transactionController::class, 'Annouce_Result']);
@@ -123,6 +123,12 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
   Route::get('/admin/payments/fetch', [PaymentController::class, 'Index'])->name('Show_payments');
   Route::get('/admin/payments/editdata/{id}', [PaymentController::class, 'EditData'])->name('edit_payment_data');
   Route::post('/admin/payments/update_payments/{id}', [PaymentController::class, 'update'])->name('update');
+
+  //users
+  Route::get('/admin/users/fetch', [UserController::class, 'users'])->name('users');
+  Route::delete('/admin/users/{id}', [UserController::class, 'deleteUser']);
+  Route::put('/admin/users/{user}', [UserController::class, 'update']);
+
 
   //withdrawals
   Route::get('/admin/withdrawals/fetch', [PaymentController::class, 'withdrawals'])->name('withdrawals');
@@ -142,7 +148,7 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
 
 });
 
-//Route::get('/result', [transactionController::class, 'Result'])->name('Result');
+Route::get('/result', [transactionController::class, 'Result'])->name('Result');
 
 Route::get('/admin/Numbers/fetch/{eventid}', [MynumbersController::class, 'fetchNumbers'])->name('fetchNumbers');
 
@@ -200,6 +206,8 @@ Route::get('/Sidebar/outerNumber/fetch', [sidebarController::class, 'fetchOuter'
 
 //  Live Result Today
 Route::get('/Result_today', [MynumbersController::class, 'Live_result_today']);
+Route::post('/update_Result_today/{event}/{eventsTime}', [MynumbersController::class, 'update_Result_today']);
+Route::get('/ResultexceptLast', [MynumbersController::class, 'ResultexceptLast']);
 Route::get('/Result_by_date/{date}', [MynumbersController::class, 'Result_by_date']);
 Route::get('/fetch_all_events', [MynumbersController::class, 'fetch_all_events']);
 Route::get('/events/fetch', [AdminEventController::class, 'Fetch_Event_in_Front']);
@@ -227,3 +235,7 @@ Route::get('/getEventData/{eventid}', [MynumbersController::class, 'getEventData
 Route::get('/fetchBankData', [BankController::class, 'fetchBankData']);
 
 Route::get('/showUPIQRcode', [transactionController::class, 'showUPIQRcode']);
+
+Route::get('/current-indian-time', [BankController::class, 'getCurrentIndianTime']);
+
+// Route::post('/updateEventStatus', [MynumbersController::class, 'updateEventStatus']);

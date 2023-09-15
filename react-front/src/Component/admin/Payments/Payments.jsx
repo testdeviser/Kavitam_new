@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { FaPlusSquare, FaTrashAlt, FaPenSquare, FaTrophy } from "react-icons/fa";
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import Pagination from '../pagination/pagination';
 import Datatable from 'react-data-table-component';
 
 function Payments(props) {
@@ -20,7 +17,6 @@ function Payments(props) {
     const fetchPayments = () => {
         try {
             axios.get(`/api/admin/payments/fetch`).then(res => {
-                console.log(res.data.payments);
                 setdata(res.data.payments);
                 setApprovedData(res.data.approved);
                 setRejectedData(res.data.rejected);

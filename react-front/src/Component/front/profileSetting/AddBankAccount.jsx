@@ -74,6 +74,26 @@ function Login(props) {
         setSubmittedData(null);
     };
 
+    const handleAmountKeyPress = (e) => {
+        const allowedCharacters = /^[0-9\b]+$/; // Regular expression to allow only digits (0-9) and backspace (\b)
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    };
+
+    const handleInputValidation = (e) => {
+        const sanitizedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        e.target.value = sanitizedValue;
+
+        const minValue = 0; // Define your desired minimum value
+        const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+        const currentValue = parseFloat(sanitizedValue);
+
+        if (currentValue < minValue || currentValue > maxValue) {
+            e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+        }
+    };
+
     return (
         <>
             {!submittedData && (
@@ -108,13 +128,15 @@ function Login(props) {
                                             Account No.
                                         </label>
                                         <input
-                                            type="number"
+                                            type="tel"
                                             className="register-input"
                                             name="account_no"
                                             value={inputs.account_no}
                                             onChange={(e) =>
                                                 setInputs({ ...inputs, account_no: e.target.value })
                                             }
+                                            onKeyPress={(e) => handleAmountKeyPress(e)}
+                                            onInput={(e) => handleInputValidation(e)}
                                         />
                                         <span className='text-danger'>{errors.account_no ? errors.account_no : ''}</span>
                                     </div>
@@ -124,13 +146,15 @@ function Login(props) {
                                             Confirm Account No.
                                         </label>
                                         <input
-                                            type="number"
+                                            type="tel"
                                             className="register-input"
                                             name="confirm_account_no"
                                             value={inputs.confirm_account_no}
                                             onChange={(e) =>
                                                 setInputs({ ...inputs, confirm_account_no: e.target.value })
                                             }
+                                            onKeyPress={(e) => handleAmountKeyPress(e)}
+                                            onInput={(e) => handleInputValidation(e)}
                                         />
                                         <span className='text-danger'>{errors.confirm_account_no ? errors.confirm_account_no : ''}</span>
                                     </div>

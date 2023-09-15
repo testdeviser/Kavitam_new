@@ -27,9 +27,9 @@ function Mynumbers(props) {
             console.log(err);
         }
     }
-    useEffect(() => {
-        fetchdata();
-    }, []);
+    // useEffect(() => {
+    //     fetchdata();
+    // }, []);
 
     return (
         <div className="container-fluid">

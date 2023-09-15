@@ -102,7 +102,7 @@ a {
     box-shadow: 0px 0px 34px #ECECEC;
     border-radius: 15px;
     position: relative;
-    margin: 30px 0 0;
+    margin: 15px 0 0;
     padding: 50px 35px;
 }
 .userProfileForm {
@@ -163,6 +163,7 @@ top: 788px; */
     padding: 40px;
     display: flex;
     align-items: center;
+    margin: 0px !important;
 }
 .user-wallet_info .wallet {
     float: left;
@@ -250,7 +251,7 @@ top: 788px; */
 }
 
 .wallet_tabs {
-    margin: 40px auto 0;
+    margin: 20px auto 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -431,7 +432,7 @@ top: 788px; */
 /* end history */
 
 .profile_setting {
-    padding: 80px 0 99px;
+    padding: 50px 0;
     position: relative;
 }
 
@@ -850,22 +851,48 @@ ul.ul_privacy {
     padding: 90px 0;
 }
 .live_main-sec {
-    padding: 90px 0;
+    padding: 50px 0;
     position: relative;
     z-index: 3;
 }
-
+.circle_dot-right img {
+    width: 250px;
+}
+.circle_dot-left img {
+    width: 250px;
+}
+.login-right-bttom img {
+    width: 80px;
+}
+.fdg {
+    margin: 0 auto;
+    display: table;
+    text-align: center;
+    position: relative;
+}
+/* .row.show_result_seclive {
+    float: left;
+} */
+svg.calendar-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+}
 .card_live-result {
     text-align: center;
     border-radius: 20px;
     background: #FFF;
     box-shadow: 0px 2px 15px 0px #ecececbf;
-    padding: 40px 15px;
+    padding: 20px 15px;
     position: relative;
     height: 100%;
 }
+.result_live {
+    margin: 0 0 15px;
+}
 .live_result_sec {
-    margin: 0 0 35px;
+    margin: 0 0 15px;
 }
 .card_live-result::after {
     content: '';
@@ -887,7 +914,7 @@ ul.ul_privacy {
     line-height: 34px;
     float: left;
     width: 100%;
-    margin: 24px 0 0;
+    margin: 0px 0 0;
 }
 .result_live h4 {
     color: #FFF;
@@ -948,7 +975,7 @@ ul.ul_privacy {
     color: #fc8019;
 }
 .testimonial-main {
-    padding: 90px 0 100px;
+    padding: 50px 0 50px;
     position: relative;
 }
 .testi_dots {
@@ -973,7 +1000,8 @@ ul.ul_privacy {
     left: -50px;
     width: 100px;
     height: 100%;
-    background: url('http://localhost:3000/image/login-right-bttom.png');
+    /* background: url('http://localhost:3000/image/login-right-bttom.png'); */
+    background: url('https://kavitam.com/image/login-right-bttom.png');
     background-position: top left;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -1121,7 +1149,7 @@ ul.ul_privacy {
     display: block;
     border-radius: 20px;
     padding: 23px;
-    margin: 30px 0 0;
+    margin: 20px 0 0;
     background: #fff;
 }
 .table_border-horizontal {
@@ -1542,6 +1570,13 @@ h3.mobile-show {
     font-size: 16px;
     font-weight: 500;
     font-family: 'Barlow';
+    position: relative;
+    z-index: 9;
+    background: transparent;
+    cursor: pointer;
+}
+.result_live {
+    margin: 0 0 15px;
 }
 .react-datepicker__input-container input:focus,
 .react-datepicker__input-container input:hover {
@@ -1647,14 +1682,19 @@ h3.mobile-show {
 }
 
 .googlePhonePay a img {
-    width: 30px !important;
+    width: 50px !important;
     height: auto;
     margin: 0 10px 0 0;
 }
 .googlePhonePay a:last-child img {
     margin: 0;
 }
-
+span.copy-success-message {
+    font-size: 16px;
+    font-family: 'Barlow';
+    color: #000;
+    font-weight: 700;
+}
 .live_result_sec h2.hindi_text {
     font-size: 18px;
     line-height: 30px;
@@ -1671,6 +1711,156 @@ h3.mobile-show {
 .wallet_after_login button.figmabtn.wallet-btn {
     display: none;
 }
+.sb-sidenav .sb-sidenav-menu .nav .nav-link .submenu-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    transition: 0.4s ease all;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav .nav-link:hover {
+    background: #fff;
+    color: #FC8019;
+}
+
+/* .sb-sidenav .sb-sidenav-menu .nav .nav-link:hover .sb-nav-link-icon svg path {
+    fill: #FC8019;
+} */
+.sb-sidenav .sb-sidenav-menu .nav li:hover .nav-link .submenu-icon {
+    transform: translateY(-50%) rotate(180deg);
+    margin: 2px 0 0;
+}
+ul.submenu_bkend {
+    position: absolute;
+    top: 100%;
+    background: #fff;
+    left: 0;
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+    -webkit-transition: -webkit-transform .3s ease, opacity .3s ease, visibility .3s ease;
+    transition: transform .3s ease, opacity .3s ease, visibility .3s ease;
+    -webkit-transform: translate3d(-15px, 15px, 0);
+    -moz-transform: translate3d(-15px, 15px, 0);
+    -o-transform: translate3d(-15px, 15px, 0);
+    -ms-transform: translate3d(-15px, 15px, 0);
+    transform: translate3d(-15px, 15px, 0);
+}
+
+.sb-sidenav .sb-sidenav-menu .nav li {
+    position: relative;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav ul.submenu_bkend li a {
+    color: #000;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav ul.submenu_bkend li {
+    list-style: none;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav li:hover ul.submenu_bkend {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav li:last-child .nav-link {
+    margin: 0;
+}
+.input-container.login_input input[type="file"] {
+    height: auto;
+    padding: 9px 15px;
+    border: 1px solid #d7d7d7;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'barlow';
+    font-weight: 500;
+}
+.qr_img-bkend img {
+    width: 80px;
+}
+.qr_img-bkend {
+    margin: 0 0 15px;
+}
+.account_edit {
+    margin: 10px 0 0;
+    color: #FFF;
+    text-align: center;
+    font-family: Barlow;
+    font-weight: 700;
+    line-height: 10px;
+    transition: 0.4s ease all;
+    padding: 0 25px;
+    border: none;
+    height: 43px;
+    font-size: 16px;
+    background: #FC8019;
+    border-radius: 8px;
+    display: inline-block;
+}
+.account_edit:hover {
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+}
+.Update_and-cancel button {
+    width: auto;
+    padding: 0 25px;
+}
+
+.Update_and-cancel button.update_cancel1 {
+    border: none;
+    height: 43px;
+    background: linear-gradient(90deg, #0C244B 0%, #0B3846 100%);
+    border-radius: 8px;
+}
+.Update_and-cancel button.update_cancel1:hover {
+    background: #FC8019;
+}
+.Update_and-cancel {
+    display: flex;
+    gap: 10px;
+}
+.payment_wrapper-main {
+    display: flex;
+    justify-content: space-between;
+}
+.upi_main-ct {
+    display: flex;
+    gap: 10px;
+}
+.winner_result-time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.winner_result-time h4,
+.winner_result-time p {
+    font-size: 24px;
+    line-height: 24px;
+    color: #fff;
+    font-family: barlow;
+    font-weight: 700;
+    margin: 0;
+}
+
+.winner_result-time h4 {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #E9A23C 0%, #F16135 100%);
+}
 /* Admim CSS End */
 
 
@@ -1678,13 +1868,17 @@ h3.mobile-show {
     h2.profile_ac-name {
         font-size: 24px;
         line-height: 20px;
-        margin: 0 0 30px;
-        padding: 30px 18px 0;
+        margin: 0 0 15px;
+        padding: 20px 18px 0;
+    }
+    .header_with-bnnr::before,
+    .header_with-bnnr::after {
+        content: unset;
     }
     ul.profile_side-ul li a {
         font-size: 18px;
         line-height: 18px;
-        padding: 18px 18px;
+        padding: 12px 12px;
         gap: 15px;
     }
     .contact_info {
@@ -1787,8 +1981,17 @@ h3.mobile-show {
         height: auto;
         float: left;
         width: 100%;
-        margin: 0 0 30px;
+        margin: 0 0 20px;
         border-radius: 10px;
+    }
+    h2.profile_ac-name {
+        font-size: 20px;
+        line-height: 20px;
+        margin: 0 0 15px;
+        padding: 20px 18px 0;
+    }
+    .login_input {
+        margin: 0 0 20px;
     }
     header {
         padding: 15px 0;
@@ -1841,16 +2044,8 @@ h3.mobile-show {
     section.header-Section .main-div .left-sec {
         width: calc(100% - 450px);
     }
-    .live_main-sec {
-        padding: 70px 0;
-        position: relative;
-    }
-    section.Easiest_way_section {
-        padding: 70px 0;
-    }
-    .testimonial-main {
-        padding: 70px 0 70px;
-    }
+
+
     section.Easiest_way_section .login-right-bttom img {
         width: 70px;
     }
@@ -1884,9 +2079,9 @@ h3.mobile-show {
         font-size: 20px;
         line-height: 20px;
     }
-    .profile_setting {
+    /* .profile_setting {
         padding: 70px 0;
-    }
+    } */
     .register-wrapper.change_pass-tabs .login-form {
         padding-bottom: 0;
     }
@@ -1895,7 +2090,6 @@ h3.mobile-show {
         box-shadow: 0px 0px 34px #ECECEC;
         border-radius: 10px;
         padding: 20px;
-        margin-top: 30px;
     }
     .main_num {
         border-radius: 10px;
@@ -1911,7 +2105,7 @@ h3.mobile-show {
         padding: 20px;
     }
     .timer-sec.game-timer-sec {
-        padding: 50px 0 70px;
+        padding: 50px 0 50px;
         margin: 0;
         position: relative;
     }
@@ -1925,7 +2119,10 @@ h3.mobile-show {
         margin: 0px;
     }
     .time_flex-right {
-        margin: 5px 0 0;
+        margin: 15px 0 0;
+    }
+    .winner_result-time {
+        margin: 15px 0 0;
     }
     .timer h3 {
         padding: 0
@@ -1970,9 +2167,36 @@ h3.mobile-show {
         line-height: 36px;
         margin: 30px 0 15px 0;
     }
+    #messageText {
+        margin: 0 0 15px;
+        font-size: 18px;
+        line-height: 18px;
+    }
+    #navigateButton {
+        padding: 10px 15px;
+        font-size: 16px;
+        line-height: 16px;
+    }
+    .winner_result-time h4,
+    .winner_result-time p {
+        font-size: 18px;
+        line-height: 18px;
+    }
+    .winner_result-time h4 {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 @media (max-width:767px) {
+    .card.btn.payment_check.zoom.pointer:hover h5.card-title {
+        color: #3D6276;
+    }
+    .card.btn.payment_check.zoom.pointer:hover {
+        box-shadow: 0px 7px 9px rgba(25, 49, 55, 0.25);
+        background: #FFFFFF;
+        border: 1px solid #B6C2C8;
+    }
     .refferal-heading .refferCode {
         gap: 15px;
         flex-direction: column;
@@ -2003,7 +2227,7 @@ h3.mobile-show {
         width: 70px;
     }
     .profile_setting {
-        padding: 70px 0 70px;
+        padding: 30px 0 30px;
     }
     .refferCode ul li a svg {
         width: 16px;
@@ -2075,7 +2299,7 @@ h3.mobile-show {
     }
     .live_result_sec h2 {
         font-size: 28px;
-        margin: 20px 0 0;
+        margin: 0px 0 0;
     }
     .querybtn {
         margin: 0 auto;
@@ -2227,8 +2451,17 @@ h3.mobile-show {
     .register-wrapper .right-side {
         width: 80%;
     }
+    .payment_wrapper-main {
+        flex-direction: column;
+        margin: 0 0 15px;
+    }
     ul.ul_privacy {
         margin: 15px 0 0 20px;
+    }
+    #messageText {
+        margin: 0 0 15px;
+        font-size: 16px;
+        line-height: 18px;
     }
     .header-Section .page-details p {
         font-size: 24px;
@@ -2302,6 +2535,7 @@ h3.mobile-show {
     .time_flex-right .timer_heading-time {
         margin: 0;
     }
+
 }
 
 @media (max-width:480px) {
@@ -2312,10 +2546,18 @@ h3.mobile-show {
         align-items: center;
         flex-wrap: wrap;
     }
+    .qrCode {
+        text-align: center;
+        margin: 15px 0 0;
+    }
     .googlePhonePay {
         float: left;
         width: 100%;
-        margin: 15px 0 0;
+        margin: 0px 0 0;
+        justify-content: center;
+    }
+    .googlePhonePay a img {
+        width: 40px !important;
     }
     .backend_number-filed button {
         width: auto;
@@ -2448,10 +2690,11 @@ h3.mobile-show {
         width: 100%;
     }
     .time_flex-right {
-        gap: 20px;
-        flex-direction: column;
+        gap: 10px;
+        /* flex-direction: column; */
         float: left;
         width: 100%;
+        justify-content: center;
     }
     .time_flex-right button.figmabtn.wallet-btn {
         width: 100%;

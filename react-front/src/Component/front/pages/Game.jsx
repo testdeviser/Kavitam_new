@@ -1,23 +1,22 @@
+
+
+
 import React, { useState, useRef, useEffect, useContext } from "react";
 import Navbar from "../../../layouts/front/navbar";
 import "bootstrap/dist/css/bootstrap.css";
 import "./../../../assets/front/css/home.css";
-import Prize_Model_box from "../model";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
-import CountDouwn from "../CountDown/CountDouwn";
-import Event from "../Events/Event";
-import moment from "moment";
-import Header from "../../../layouts/front/header";
 import { WalletContext } from "../../../WalletContext";
+import { DateTime } from 'luxon';
 
 function Game(props) {
   const auth_token = localStorage.getItem('auth_token');
   const navigate = useNavigate();
   const [dataa, setdataa] = useState({
     event: [],
-    no_of_result: 4,
+    no_of_result: 17,
     showAllButton: true,
     showLessButton: false
   });
@@ -38,10 +37,12 @@ function Game(props) {
   };
 
   const viewLessbtn = () => {
-    setdataa({ ...dataa, no_of_result: 4, showAllButton: true, showLessButton: false });
+    setdataa({ ...dataa, no_of_result: 17, showAllButton: true, showLessButton: false });
   };
 
   const data11 = dataa.event.slice(0, dataa.no_of_result);
+
+  // console.log(data11);
 
 
   // useEffect(() => {
@@ -54,8 +55,6 @@ function Game(props) {
   //     clearInterval(intervalId); // Clean up the interval when the component unmounts
   //   };
   // }, []);
-
-
 
   const { setWalletAmount } = useContext(WalletContext);
 
@@ -294,7 +293,6 @@ function Game(props) {
   // }, [events]);
 
   const autoRefreshTimer = useRef(null);
-
   const fetchActiveEvents = () => {
     try {
       axios.get("api/todayActiveEvents").then((res) => {
@@ -344,30 +342,92 @@ function Game(props) {
     }
   }
 
-  //Function to start auto-refresh
-  const startAutoRefresh = () => {
-    autoRefreshTimer.current = setInterval(fetchActiveEvents, 3000); // 5 seconds
+  const timezone = 'Asia/Kolkata'; // Define your desired timezone
+  const [indianTime, setIndianTime] = useState("");
+  const [currentIndianTime, setCurrentIndianTime] = useState("");
+  const [current24IndianTime, set24CurrentIndianTime] = useState("");
+
+  const fetchCurrentIndianTime = () => {
+    try {
+      axios.get("api/current-indian-time").then((res) => {
+        if (res.data.status === 200) {
+          setIndianTime(res.data.current_indian_time);
+        } else {
+          console.log("time not found");
+        }
+      });
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 
-  // Function to stop auto-refresh
-  const stopAutoRefresh = () => {
-    clearInterval(autoRefreshTimer.current);
-  }
+  const fetchTime = async () => {
+    try {
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+
+      try {
+        const response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata", requestOptions);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        const dateTime = DateTime.fromISO(result.datetime);
+        // Format the time in 12-hour format with AM/PM
+        const formattedTime = dateTime.toFormat('hh:mm a');
+        const indianFormattedTime = dateTime.toFormat('hh:mm:ss');
+        const indian24hoursFormattedTime = dateTime.toFormat('HH:mm:ss');
+        setIndianTime(formattedTime);
+        setCurrentIndianTime(indianFormattedTime);
+        set24CurrentIndianTime(indian24hoursFormattedTime);
+      } catch (error) {
+        console.error('error', error);
+      }
+      // const response = await axios.get(`http://worldtimeapi.org/api/timezone/${timezone}`, {withCredentials: false});
+    } catch (error) {
+      console.error('Error fetching time:', error);
+    }
+  };
 
   useEffect(() => {
-    // Initial fetch
-    //fetchActiveEvents();
-    // Start auto-refresh when the component mounts
-    startAutoRefresh();
-    // Clean up the interval when the component unmounts
-    return () => stopAutoRefresh();
-  }, []);
+    // Fetch the initial Indian time when the component mounts
+    fetchCurrentIndianTime();
+
+    const intervalId = setInterval(() => {
+      fetchTime();
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [timezone]);
+
+  //Function to start auto-refresh
+  // const startAutoRefresh = () => {
+  //   autoRefreshTimer.current = setInterval(fetchActiveEvents, 3000); // 5 seconds
+  // }
+
+  // // Function to stop auto-refresh
+  // const stopAutoRefresh = () => {
+  //   clearInterval(autoRefreshTimer.current);
+  // }
+
+  // useEffect(() => {
+  //   // Initial fetch
+  //   //fetchActiveEvents();
+  //   // Start auto-refresh when the component mounts
+  //   startAutoRefresh();
+  //   // Clean up the interval when the component unmounts
+  //   return () => stopAutoRefresh();
+  // }, []);
 
 
 
   //Function to handle the auto-refresh
   const handleAutoRefresh = () => {
     fetchActiveEvents();
+    //fetchCurrentIndianTime();
     //fetchPreviousNumbers();
   };
 
@@ -375,13 +435,14 @@ function Game(props) {
   useEffect(() => {
     // Call the fetchData function immediately when the component mounts
     fetchActiveEvents();
+    //fetchCurrentIndianTime();
     // fetchPreviousNumbers();
 
     // Set up the interval for auto-refresh (e.g., every 5 seconds)
-    const intervalId = setInterval(handleAutoRefresh, 5000);
+    // const intervalId = setInterval(handleAutoRefresh, 5000);
 
     // Clean up the interval when the component unmounts to avoid memory leaks
-    return () => clearInterval(intervalId);
+    // return () => clearInterval(intervalId);
   }, [events]);
 
   const handleAmountKeyPress = (e) => {
@@ -392,15 +453,28 @@ function Game(props) {
   };
 
   const handleInputValidation = (e) => {
+    const sanitizedValue = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+    e.target.value = sanitizedValue;
+
     const minValue = 0; // Define your desired minimum value
     const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
-    const currentValue = parseFloat(e.target.value);
+    const currentValue = parseFloat(sanitizedValue);
 
-    //if (currentValue < minValue || currentValue > maxValue) {
-    if (currentValue < minValue) {
+    if (currentValue < minValue || currentValue > maxValue) {
       e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
     }
   };
+
+  // const handleInputValidation = (e) => {
+  //   const minValue = 0; // Define your desired minimum value
+  //   const maxValue = Number.MAX_SAFE_INTEGER; // Define your desired maximum value
+  //   const currentValue = parseFloat(e.target.value);
+
+  //   //if (currentValue < minValue || currentValue > maxValue) {
+  //   if (currentValue < minValue) {
+  //     e.target.value = ''; // Reset the value to an empty string or you can set it to a valid default value
+  //   }
+  // };
 
   useEffect(() => {
     // fetch_all_data();
@@ -494,7 +568,7 @@ function Game(props) {
         if (res.data.status === 200) {
           await axios.get("api/fetchWalletBalance").then((res) => {
             if (res.data.status === 200) {
-              console.log(res.data.amount);
+              //console.log(res.data.amount);
               setWalletAmount(res.data.amount);
               //setWalletBalance(res.data.amount);
               localStorage.setItem("wallet", res.data.amount);
@@ -550,13 +624,44 @@ function Game(props) {
 
           //  callback({ ...paymentStatus, status: true, price: grandtotal });
           // return true;
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: res.data.message,
-          });
         }
+        else {
+          const topMessageElement = document.getElementById("topMessage");
+          const messageTextElement = document.getElementById("messageText");
+          const navigateButton = document.getElementById("navigateButton");
+
+          if (topMessageElement && messageTextElement && navigateButton) {
+            messageTextElement.textContent = res.data.message; // Set the message content
+            navigateButton.style.display = "block"; // Show the button
+
+            navigateButton.addEventListener("click", () => {
+              // Add navigation logic here
+              navigate('/payment'); // Replace with the actual URL of the payment page
+            });
+
+            topMessageElement.style.display = "block"; // Show the message element
+
+            // Scroll to the top of the page
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // You can adjust the behavior as needed
+
+          }
+        }
+
+        // else {
+        //   const topMessageElement = document.getElementById("topMessage");
+        //   if (topMessageElement) {
+        //     topMessageElement.textContent = res.data.message; // Set the message content
+        //     topMessageElement.style.display = "block"; // Show the message element
+        //   }
+        // }
+
+        // else {y
+        //   Swal.fire({
+        //     // icon: "error",
+        //     // title: "Oops...",
+        //     text: res.data.message,
+        //   });
+        // }
       });
     } catch (err) {
       console.log(err);
@@ -670,6 +775,23 @@ function Game(props) {
     };
   }, []);
 
+  useEffect(() => {
+    // Parse the time strings into Date objects
+    const current24IndianTimeDate = new Date(`1970-01-01T${current24IndianTime}Z`);
+    const eventsTimeDate = new Date(`1970-01-01T${eventsTime}Z`);
+
+    // Calculate the time difference in milliseconds
+    const timeDiff = current24IndianTimeDate - eventsTimeDate;
+
+    // Convert milliseconds to minutes and seconds
+    const minutes = Math.floor(timeDiff / 60000);
+    const seconds = ((timeDiff % 60000) / 1000).toFixed(0).padStart(2, '0'); // Ensure two digits for seconds
+
+    // Set the time difference in state
+    setTimeDifference(`${minutes}:${seconds}`);
+  }, [current24IndianTime, eventsTime]);
+
+
   const timee = new Date(currentTime);
   const hours = timee.getHours() > 12 ? timee.getHours() - 12 : timee.getHours();
   const minutes = timee.getMinutes();
@@ -728,9 +850,9 @@ function Game(props) {
       console.log(err);
     }
   };
-  useEffect(() => {
-    fetchdata();
-  }, []);
+  // useEffect(() => {
+  //   fetchdata();
+  // }, []);
 
   //end selected numbers
 
@@ -826,6 +948,44 @@ function Game(props) {
   const data2 = inner.slice(firstIndex, lastIndex);
   const data3 = outer.slice(firstIndex, lastIndex);
 
+  function format12HourTime() {
+    // const lastResultTime = data11[0].event_time;
+    const lastResultTime = data11[data11.length - 1].event_time;
+
+    const [lasthours, lastminutes] = lastResultTime.split(':');
+
+    // Convert hours to a number
+    const hoursNum = parseInt(lasthours);
+
+    // Determine whether it's AM or PM
+    const period = hoursNum >= 12 ? 'PM' : 'AM';
+
+    // Convert hours to 12-hour format
+    const hours12 = hoursNum % 12 || 12;
+
+    // Create the formatted time string
+    const formattedTime = `${hours12}:${lastminutes} ${period}`;
+    return formattedTime;
+  }
+
+  function addOneHour(time) {
+    const [hours, minutes] = time.split(':');
+    const hoursNum = parseInt(hours);
+    const newHoursNum = (hoursNum + 1) % 24; // Adding 1 hour and accounting for rollover
+    const period = newHoursNum >= 12 ? 'PM' : 'AM';
+    const hours12 = newHoursNum % 12 || 12;
+    return `${hours12}:${minutes} ${period}`;
+  }
+
+  function chekNegativeValue(time) {
+    const containsSubstring = time.includes("-");
+    if (containsSubstring) {
+      // return "00:00";
+      return <div className="loader">Loading...</div>;
+    } else {
+      return time;
+    }
+  }
 
   if (loading) {
     return (
@@ -873,49 +1033,88 @@ function Game(props) {
           <div>No Event Found</div>
         ) : (
           <div className="container">
+            <div id="topMessage" className="top-message">
+              <p id="messageText"></p>
+              <button id="navigateButton" style={{ 'display': 'none' }}>Add Money</button>
+            </div>
             <div className="timer">
               <input type="hidden" name="active_event" value={events} />
+              <input type="hidden" name="currentIndianTime" value={currentIndianTime} />
+              <input type="hidden" name="current24IndianTime" value={current24IndianTime} />
+              {/* <input type="hidden" name="active_event" value={fetchedDataRef.current.eventID || ""} /> */}
               <input type="hidden" name="currentTime" value={currentTime1} />
+              {/* <input type="hidden" name="currentTime" value={fetchedDataRef.current.currentTime || ""} /> */}
+              {/* <input type="hidden" name="timeDifference" value={fetchedDataRef.current.setTimeDifference || ""} /> */}
               <input type="hidden" name="timeDifference" value={timeDifference} />
+              {/* <input type="hidden" name="active_event_time" value={fetchedDataRef.current.eventTime || ""} /> */}
               <input
                 type="hidden"
                 name="active_event_time"
                 value={eventsTime}
               />
-              <input
-                type="hidden"
-                name="updated_event_time"
-                value={updatedEventsTime}
-              />
-              <input
-                type="hidden"
-                name="updated_event_time1"
-                value={updatedEventsTime1}
-              />
-              <h3 className="mobile-hide">Pick your lucky number</h3>
-              <h3 className="mobile-show">Quick Pick or Choose Your Own Numbers</h3>
+              <input type="hidden" name="updated_event_time" value={updatedEventsTime} />
+              <input type="hidden" name="updated_event_time1" value={updatedEventsTime1} />
+
+              <h3 className="mobile-hide">Last Result is:</h3>
+
+
+              {/* <h3 className="mobile-hide">Last Result is:
+                {
+                  data11?.length > 0 && (
+                    <div>
+                      <h4>{data11[0].result}</h4>
+                      <p className='event-time'>
+                        {format12HourTime(data11[0].event_time)}
+                      </p>
+                    </div>
+                  )
+                }
+              </h3> */}
+              <h3 className="mobile-show">Choose your lucky number</h3>
+              {
+                data11?.length > 0 && (
+                  <div className="winner_result-time">
+                    <h4>{data11[data11.length - 1].result}</h4>
+                    <p className='event-time'>
+                      {format12HourTime(data11[data11.length - 1].event_time)} to {addOneHour(data11[data11.length - 1].event_time)}
+                    </p>
+                  </div>
+                )
+              }
+
               <div className="time_flex-right">
                 {/* <button className="figmabtn wallet-btn">
                   {" "}
                   Pick any numbers
                 </button> */}
                 <div className="timer_heading-time">
-                  <h2>Timer</h2>
+                  <h2>Time</h2>
 
-                  {time < 0 ? (
+                  <button className="figmabtn wallet-btn" style={{ 'display': 'none' }}>
+                    {formatTime(time)}
+                  </button>
+
+                  {/* {time < 0 ? (
                     <button className="figmabtn wallet-btn">00:00</button>
                   ) : (
                     <button className="figmabtn wallet-btn" style={{ 'display': 'none' }}>
                       {formatTime(time)}
                     </button>
-                  )}
+                  )} */}
                 </div>
 
-                <div>
-                  <button className="figmabtn wallet-btn">
-                    {`${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`}
-                  </button>
-                </div>
+                {/* <div>
+                  <button className="figmabtn wallet-btn">{indianTime} */}
+                {/* {`${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${ampm}`} */}
+                {/* </button>
+                </div> */}
+
+                {indianTime && (
+                  <div>
+                    <button className="figmabtn wallet-btn">{indianTime}</button>
+                  </div>
+                )}
+
 
                 {/* <div>
                   <button className="figmabtn wallet-btn">
@@ -939,48 +1138,36 @@ function Game(props) {
               <div className="scroll-container">
                 {data11?.map((e, i) => {
                   var event_time = e.event_time;
-                  var event_time_parts = event_time.split(":"); // Splitting the time string into hours, minutes, and seconds
+                  var event_time_parts = event_time.split(":");
                   var hours = parseInt(event_time_parts[0]);
                   var minutes = parseInt(event_time_parts[1]);
-                  // Determine AM or PM
+
                   var period = hours >= 12 ? "PM" : "AM";
 
-                  // Convert to 12-hour format
                   if (hours > 12) {
                     hours -= 12;
                   } else if (hours === 0) {
                     hours = 12;
                   }
 
-                  var formatted_event_time = `${hours}:${event_time_parts[1]} ${period}`; // Combining hours, minutes, and period
-                  // console.log("fomatted time");
-                  // console.log(formatted_event_time);
+                  var formatted_event_time = `${hours}:${event_time_parts[1]} ${period}`;
 
-                  //var formatted_event_time = `${hours}:${event_time_parts[1]} ${period}`;
+                  var hours1 = hours + 1;
+                  var period1 = period;
 
-                  // Parse the formatted_event_time to get hours and period
-                  var hours1 = parseInt(formatted_event_time.split(':')[0]);
-                  var period1 = formatted_event_time.split(' ')[1];
-
-                  // Adding one hour
-                  hours1 += 1;
-
-                  // Handling the case where adding an hour results in 12 (noon)
                   if (hours1 === 12) {
-                    if (period1 === 'AM') {
-                      period1 = 'PM'; // Change period from AM to PM
+                    if (period1 === "AM") {
+                      period1 = "PM";
                     } else {
-                      period1 = 'AM'; // Change period from PM to AM
+                      period1 = "AM";
                     }
                   }
 
-                  // Formatting the hours back into the "hh:mm AM/PM" format
-                  if (hours1 === 12 || hours1 === 0) {
-                    hours1 = 12; // Display 12 instead of 0 or 12 for noon/midnight
+                  if (hours1 === 13) {
+                    hours1 = 1;
                   }
 
-                  var formatted_new_event_time = `${hours1.toString().padStart(2, '0')}:${event_time_parts[1]} ${period1}`;
-
+                  var formatted_new_event_time = `${hours1.toString().padStart(2, "0")}:${event_time_parts[1]} ${period1}`;
                   var event_date = new Date(e.current_date);
                   const options = {
                     timeZone: 'Asia/Kolkata',
@@ -1028,8 +1215,9 @@ function Game(props) {
               <div className="col-lg-9 col-md-12">
                 <div className="game-left-sec">
                   <div className="counter_disable-num" id="block1">
+
                     <button className="clockdownTimer" id="timerBlock" style={{ 'display': 'none' }}>
-                      {formatTime(time)}
+                      {chekNegativeValue(formatTime(time))}
                     </button>
                   </div>
                   <div id="countdownDiv" className="main_num">
@@ -1067,11 +1255,12 @@ function Game(props) {
                   <div className="game-left-sec">
                     <div className="counter_disable-num" id="block2">
                       <button className="clockdownTimer" id="timerBlock1" style={{ 'display': 'none' }}>
-                        {formatTime(time)}
+                        {/* {formatTime(time)} */}
+                        {chekNegativeValue(formatTime(time))}
                       </button>
                     </div>
                     <div id="countdownDiv1" className="main_num">
-                      <h3 className="underline text-center mb-3">Ander</h3>
+                      <h3 className="underline text-center mb-3">Andar</h3>
                       {[...Array(10)].map((n, i) => {
                         i += 0;
                         return (
@@ -1105,7 +1294,8 @@ function Game(props) {
 
                     <div className="counter_disable-num" id="block3">
                       <button className="clockdownTimer" id="timerBlock2" style={{ 'display': 'none' }}>
-                        {formatTime(time)}
+                        {/* {formatTime(time)} */}
+                        {chekNegativeValue(formatTime(time))}
                       </button>
                     </div>
 
@@ -1141,13 +1331,14 @@ function Game(props) {
                 <div className="game-right-sec">
                   <div className="game-right-sec-inner horizontal_table_new container">
                     <div className="row">
+                      <h5>Selected Numbers</h5>
                       <div className="horizontal_table-col col-lg-4 col-md-4 col-sm-12">
                         <div className="table_border-horizontal">
                           <table>
                             <thead>
                               <tr>
                                 <td className="sub-menu" colSpan={2}>
-                                  Previously Selected numbers
+                                  Main Numbers
                                 </td>
                               </tr>
                             </thead>
@@ -1185,7 +1376,7 @@ function Game(props) {
                             <thead>
                               <tr>
                                 <td className="sub-menu" colSpan={2}>
-                                  Ander
+                                  Andar
                                 </td>
                               </tr>
                             </thead>
@@ -1285,7 +1476,8 @@ function Game(props) {
                                   <span>
                                     Rs.
                                     <input
-                                      type="number"
+                                      type="tel"
+                                      // pattern="[0-9]*"
                                       name={`main-amount-${number}`}
                                       id={`main-amount-${number}`}
                                       value={
@@ -1318,7 +1510,7 @@ function Game(props) {
                         <thead>
                           <tr>
                             <td className="sub-menu" colSpan={2}>
-                              Ander
+                              Andar
                             </td>
                           </tr>
                         </thead>
@@ -1336,7 +1528,8 @@ function Game(props) {
                                   <span>
                                     Rs.
                                     <input
-                                      type="number"
+                                      type="tel"
+                                      // type="number"
                                       name={`inner-amount-${number}`}
                                       id={`inner-amount-${number}`}
                                       value={
@@ -1381,7 +1574,8 @@ function Game(props) {
                                   <span>
                                     Rs.
                                     <input
-                                      type="number"
+                                      type="tel"
+                                      // type="number"
                                       name={`outer-amount-${number}`}
                                       id={`outer-amount-${number}`}
                                       value={

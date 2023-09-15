@@ -37,7 +37,13 @@ class PaymentController extends Controller
 
     public function withdrawals()
     {
-        $data = Withdrawal::where('status', 0)->orderBy('updated_at', 'desc')->get();
+        //$data = Withdrawal::where('status', 0)->orderBy('updated_at', 'desc')->get();
+
+        $data = Withdrawal::select('bank_details.bank_name', 'bank_details.bank_holder_name', 'bank_details.ifsc_code', 'bank_details.account_no', 'bank_details.user_name', 'withdrawals.amount', 'withdrawals.id')
+            ->join('bank_details', 'withdrawals.userId', '=', 'bank_details.user_id')
+            ->where('withdrawals.status', 0)
+            ->orderBy('withdrawals.updated_at', 'desc')
+            ->get();
 
         if ($data) {
             return response()->json([
@@ -55,7 +61,13 @@ class PaymentController extends Controller
 
     public function withdrawalHistory()
     {
-        $approved = Withdrawal::where('status', 1)->orderBy('updated_at', 'desc')->get();
+        //$approved = Withdrawal::where('status', 1)->orderBy('updated_at', 'desc')->get();
+
+        $approved = Withdrawal::select('bank_details.bank_name', 'bank_details.bank_holder_name', 'bank_details.ifsc_code', 'bank_details.account_no', 'bank_details.user_name', 'withdrawals.amount', 'withdrawals.id')
+            ->join('bank_details', 'withdrawals.userId', '=', 'bank_details.user_id')
+            ->where('withdrawals.status', 1)
+            ->orderBy('withdrawals.updated_at', 'desc')
+            ->get();
 
         if ($approved) {
             return response()->json([
@@ -73,7 +85,13 @@ class PaymentController extends Controller
 
     public function pendingWithdrawal()
     {
-        $rejected = Withdrawal::where('status', 2)->orderBy('updated_at', 'desc')->get();
+        //$rejected = Withdrawal::where('status', 2)->orderBy('updated_at', 'desc')->get();
+
+        $rejected = Withdrawal::select('bank_details.bank_name', 'bank_details.bank_holder_name', 'bank_details.ifsc_code', 'bank_details.account_no', 'bank_details.user_name', 'withdrawals.amount', 'withdrawals.id')
+            ->join('bank_details', 'withdrawals.userId', '=', 'bank_details.user_id')
+            ->where('withdrawals.status', 2)
+            ->orderBy('withdrawals.updated_at', 'desc')
+            ->get();
 
         if ($rejected) {
             return response()->json([
@@ -130,6 +148,7 @@ class PaymentController extends Controller
                 $transaction_history->userId = $userId;
                 $transaction_history->walletId = $wallet->id;
                 $transaction_history->withdrawalId = 0;
+                $transaction_history->UpiId = 0;
                 $transaction_history->payment_mode = "Add in wallet";
                 $transaction_history->eventId = 0;
                 $transaction_history->price = $data->amount;
@@ -185,17 +204,22 @@ class PaymentController extends Controller
                     $wallet->save();
                 }
 
+                $userTransHistory = TransactionHistory::where('userId', $data->userId)->where('UpiId', $id)->first();
+                $userTransHistory->status = 'Cr';
+                $userTransHistory->update();
+
                 // Add transaction history
-                $transaction_history = new TransactionHistory();
-                $transaction_history->userId = $userId;
-                $transaction_history->walletId = $wallet->id;
-                $transaction_history->withdrawalId = 0;
-                $transaction_history->payment_mode = "Add in wallet";
-                $transaction_history->eventId = 0;
-                $transaction_history->price = $data->amount;
-                $transaction_history->status = 'Cr';
-                $transaction_history->current_date = $currentDate;
-                $transaction_history->save();
+                // $transaction_history = new TransactionHistory();
+                // $transaction_history->userId = $userId;
+                // $transaction_history->walletId = $wallet->id;
+                // $transaction_history->withdrawalId = 0;
+                // $transaction_history->UpiId = 0;
+                // $transaction_history->payment_mode = "Add in wallet";
+                // $transaction_history->eventId = 0;
+                // $transaction_history->price = $data->amount;
+                // $transaction_history->status = 'Cr';
+                // $transaction_history->current_date = $currentDate;
+                // $transaction_history->save();
             }
 
             if ($res) {

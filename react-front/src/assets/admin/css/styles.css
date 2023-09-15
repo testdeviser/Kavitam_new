@@ -12598,11 +12598,11 @@ body {
 .sb-sidenav .sb-sidenav-menu .nav .nav-link {
   display: flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 12px 15px;
   font-size: 18px;
   font-weight: 400;
   position: relative;
-  margin: 3px 0;
+  margin: 0px 0;
   color: #fff;
   font-family: 'Barlow';
 }
@@ -12644,9 +12644,9 @@ body {
   /* color: rgba(255, 255, 255, 0.5); */
 }
 
-.sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon {
+/* .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon {
   color: #fff;
-}
+} */
 
 .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-sidenav-collapse-arrow {
   color: rgba(255, 255, 255, 0.25);
@@ -12871,11 +12871,10 @@ body {
 .sb-sidenav .sb-sidenav-menu .nav .nav-link.active-class {
   background: #fff;
   color: #FC8019;
-  border-radius: 0 60px 60px 0;
 }
 
-.sb-sidenav .sb-sidenav-menu .nav .nav-link.active-class .sb-nav-link-icon {
-  color: #FC8019;
+.sb-sidenav .sb-sidenav-menu .nav .nav-link.active-class .sb-nav-link-icon svg path {
+  stroke: #FC8019;
 }
 ul.navbar-nav li.nav-item.dropdown {
   width: 70px;
