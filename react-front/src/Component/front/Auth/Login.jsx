@@ -31,6 +31,7 @@ function Login(props) {
                         timer: 1500,
                     });
                     localStorage.setItem('auth_token', res.data.token);
+                    localStorage.setItem('firebase_node', res.data.firebase_node);
                     localStorage.setItem('user_name', res.data.username);
                     localStorage.setItem('user_id', res.data.userid);
                     //window.location.reload();

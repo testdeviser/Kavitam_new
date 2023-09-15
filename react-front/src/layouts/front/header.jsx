@@ -14,10 +14,12 @@ import { WalletContext } from '../../WalletContext';
 import GoogleTranslator from '../../Component/front/GoogleTranslator';
 import { handleSidebarStyle } from '../../utils';
 import { setActiveSidebarLink } from '../../utils/utils';
+import firebaseApp from '../../firebase';
 
 // function Header({ callback, setcheckNumber_loading, paymentStatus, walletBalance, ...props }) {
 function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
     const navigate = useNavigate();
+    const database = firebaseApp.database(); // Define 'database' using the imported Firebase app 
     const { walletAmount } = useContext(WalletContext);
 
     //const walletBalance = localStorage.getItem('wallet');
@@ -61,28 +63,53 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
 
     const [events, setEvents] = useState();
 
+    // useEffect(() => {
+    //     if (auth_token) {
+    //         fetchData();
+    //         // const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+
+    //         // return () => {
+    //         //     clearInterval(interval); // Clean up the interval on component unmount
+    //         // };
+    //     }
+    // }, [auth_token]);
+
+    //listen firebase value
+    const [withdrawalAmount, setWithdrawalAmount] = useState(0);
     useEffect(() => {
         if (auth_token) {
-            fetchData();
-            const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+            const firebase_node = localStorage.getItem('firebase_node');
+            // Reference to the Firebase database node
+            const uniqueValue = firebase_node; // Replace with your actual unique value
+            const withdrawalAmountRef = database.ref(`ammount/${uniqueValue}/walletBalance`);
 
+            // Set up a listener for changes in the database
+            withdrawalAmountRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data !== null) {
+                    setWithdrawalAmount(data); // Update the state with the value from the database
+                }
+            });
+
+            // Clean up the listener when the component unmounts
             return () => {
-                clearInterval(interval); // Clean up the interval on component unmount
+                withdrawalAmountRef.off('value');
             };
         }
     }, [auth_token]);
+    //end listen firebase value
 
-    const fetchData = () => {
-        axios.get('api/fetchWalletBalance').then((res) => {
-            if (res.data.status === 200) {
-                setEvents(res.data.amount);
-            } else {
-                //console.log('Events not found');
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
-    };
+    // const fetchData = () => {
+    //     axios.get('api/fetchWalletBalance').then((res) => {
+    //         if (res.data.status === 200) {
+    //             setEvents(res.data.amount);
+    //         } else {
+    //             //console.log('Events not found');
+    //         }
+    //     }).catch((error) => {
+    //         console.error(error);
+    //     });
+    // };
 
     const handleButtonClick = () => {
         // Redirect to the login page
@@ -278,6 +305,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                 });
 
                 localStorage.removeItem("auth_token");
+                localStorage.removeItem("firebase_node");
                 localStorage.removeItem("user_name");
                 localStorage.removeItem("user_id");
                 localStorage.removeItem("_grecaptcha");
@@ -285,8 +313,6 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
             }
         });
     }
-
-
 
     return (
         // <div className="header_with-bnnr define_float">
@@ -329,7 +355,14 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                                         </ul>
                                     </div>
 
-                                    {events ? (
+                                    <button onClick={handleButtonClick} className='figmabtn wallet-btn'>
+                                        <img src={process.env.PUBLIC_URL + '/image/wallet-icon.svg'} alt="" />
+                                        {/* Rs. {walletAmount} */}
+                                        Rs. {withdrawalAmount}
+                                    </button>
+
+
+                                    {/* {events ? (
                                         <button onClick={handleButtonClick} className='figmabtn wallet-btn'>
                                             <img src={process.env.PUBLIC_URL + '/image/wallet-icon.svg'} alt="" />
                                             Rs. {events}
@@ -339,7 +372,7 @@ function Header({ callback, setcheckNumber_loading, paymentStatus, ...props }) {
                                             <img src={process.env.PUBLIC_URL + '/image/wallet-icon.svg'} alt="" />
                                             Rs. {walletAmount}
                                         </button>
-                                    )}
+                                    )} */}
                                 </div>
 
                             </nav>

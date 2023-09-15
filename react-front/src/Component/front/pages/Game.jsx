@@ -10,9 +10,11 @@ import Swal from "sweetalert2";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
 import { WalletContext } from "../../../WalletContext";
 import { DateTime } from 'luxon';
+import firebaseApp from "../../../firebase";
 
 function Game(props) {
   const auth_token = localStorage.getItem('auth_token');
+  const database = firebaseApp.database(); // Define 'database' using the imported Firebase app
   const navigate = useNavigate();
   const [dataa, setdataa] = useState({
     event: [],
@@ -566,22 +568,50 @@ function Game(props) {
     try {
       await axios.post(`/api/user/wallet/decrease`, data).then(async (res) => {
         if (res.data.status === 200) {
-          await axios.get("api/fetchWalletBalance").then((res) => {
-            if (res.data.status === 200) {
-              //console.log(res.data.amount);
-              setWalletAmount(res.data.amount);
-              //setWalletBalance(res.data.amount);
-              localStorage.setItem("wallet", res.data.amount);
+          // console.log(res.data);
+          // return false;
+          // Optionally, update wallet amount in Firebase (if needed)
+          if (res.data.referredByUserAmmount) {
+            const updatedReferredUserAmount = parseFloat(res.data.referredByUserAmmount);
+            setWalletAmount(updatedReferredUserAmount); // Update the wallet amount in React state
 
-              // Hide the div with id "sel_num_pay"
-              const selNumPayDiv = document.getElementById("sel_num_pay");
-              if (selNumPayDiv) {
-                selNumPayDiv.style.visibility = "hidden";
-              }
-            } else {
-              console.log("Wallet balance not found");
-            }
-          });
+            const referredUserNode = res.data.referredByUserNode;
+            const uniqueReferredUserValue = referredUserNode; // Replace with your actual unique value
+            const referredAmountRef = database.ref(`ammount/${uniqueReferredUserValue}/walletBalance`);
+            referredAmountRef.set(updatedReferredUserAmount.toString());
+          }
+
+          //update data in firebase
+          const updatedAmount = parseFloat(res.data.ammount);
+          setWalletAmount(updatedAmount); // Update the wallet amount in React state
+
+          // Optionally, update wallet amount in Firebase (if needed)
+          const firebase_node = localStorage.getItem('firebase_node');
+
+          const uniqueValue = firebase_node; // Replace with your actual unique value
+          const withdrawalAmountRef = database.ref(`ammount/${uniqueValue}/walletBalance`);
+          withdrawalAmountRef.set(updatedAmount.toString());
+          //end update data in firebase
+
+          // Hide the div with id "sel_num_pay"
+          const selNumPayDiv = document.getElementById("sel_num_pay");
+          if (selNumPayDiv) {
+            selNumPayDiv.style.visibility = "hidden";
+          }
+
+
+          // await axios.get("api/fetchWalletBalance").then((res) => {
+          //   if (res.data.status === 200) {
+          //     //console.log(res.data.amount);
+          //     setWalletAmount(res.data.amount);
+          //     //setWalletBalance(res.data.amount);
+          //     localStorage.setItem("wallet", res.data.amount);
+
+
+          //   } else {
+          //     console.log("Wallet balance not found");
+          //   }
+          // });
 
           setPayment(res.data.payment);
           localStorage.setItem("selectedMainNumbers", []);

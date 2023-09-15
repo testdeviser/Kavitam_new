@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Datatable from 'react-data-table-component';
+import firebaseApp from '../../firebase';
 
 function Withdrawal(props) {
-
+    const database = firebaseApp.database(); // Define 'database' using the imported Firebase app
     const [data, setdata] = useState();
     const [approved, setApprovedData] = useState();
     const [rejected, setRejectedData] = useState();
@@ -82,6 +83,7 @@ function Withdrawal(props) {
         // Clean up the interval when the component unmounts
         return () => stopAutoRefresh();
     }, []);
+    const [walletAmount, setWalletAmount] = useState(0);
 
     const handleStatusUpdate = (paymentId, newStatus) => {
         try {
@@ -90,6 +92,26 @@ function Withdrawal(props) {
                 Swal.fire('Payment status updated', '', 'success');
                 // Call fetchWithdrawals again to update the data
                 fetchWithdrawals();
+
+                //update data in firebase
+                const updatedAmount = parseFloat(res.data.ammount);
+                setWalletAmount(updatedAmount); // Update the wallet amount in React state
+
+                // Optionally, update wallet amount in Firebase (if needed)
+                // const firebase_node = localStorage.getItem('firebase_node');
+
+                const firebaseNode = res.data.userData.firebase_node;
+
+                const uniqueValue = firebaseNode; // Replace with your actual unique value
+                const withdrawalAmountRef = database.ref(`ammount/${uniqueValue}/walletBalance`);
+                withdrawalAmountRef.set(updatedAmount.toString());
+
+
+                // Optionally, update wallet amount in Firebase (if needed)
+                // const uniqueValue = "-NeC-FhEE-D8U5mXeRx-"; // Replace with your actual unique value
+                // const withdrawalAmountRef = database.ref(`ammount/${uniqueValue}/withdrawalAmount`);
+                // withdrawalAmountRef.set(updatedAmount.toString());
+                //end update data in firebase
             });
         } catch (err) {
             console.log(err);

@@ -3,10 +3,28 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Navigate, useNavigate, Link } from 'react-router-dom';
 import '../../../assets/front/css/login.css';
+import firebaseApp from '../../../firebase';
+// import firebase from 'firebase';
+// import 'firebase/database';
+
+// const firebaseConfig = {
+//     apiKey: "AIzaSyB24PCT-aOcD4sWvdqhHprnaRW-UnUNeWI",
+//     authDomain: "kavitam-f583c.firebaseapp.com",
+//     databaseURL: "https://kavitam-f583c-default-rtdb.firebaseio.com",
+//     projectId: "kavitam-f583c",
+//     storageBucket: "kavitam-f583c.appspot.com",
+//     messagingSenderId: "41954438926",
+//     appId: "1:41954438926:web:f010162141b77ce975b1   5f",
+//     measurementId: "G-WRRBLXSV06"
+// };
+
+// // Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
 
 function Withdrawal(props) {
 
     const navigate = useNavigate();
+    const database = firebaseApp.database(); // Define 'database' using the imported Firebase app
     const [inputs, setInputs] = useState({
         bank_holder_name: '',
         account_no: '',
@@ -104,11 +122,40 @@ function Withdrawal(props) {
 
     const [showReceivedAmount, setShowReceivedAmount] = useState(false); // State to control visibility of received amount div
 
+    // const database = firebase.database(); // Define 'database' at the component level
+
+    const [walletAmount, setWalletAmount] = useState(0); // Initialize with the initial wallet amount
+    const [withdrawalAmount, setWithdrawalAmount] = useState(0);
+    const [walletBalance, setWalletBalance] = useState(0);
+
+    useEffect(() => {
+        // Reference to the Firebase database node
+        const firebase_node = localStorage.getItem('firebase_node');
+
+        const uniqueValue = firebase_node; // Replace with your actual unique value
+        const withdrawalAmountRef = database.ref(`ammount/${uniqueValue}/walletBalance`);
+
+        // Set up a listener for changes in the database
+        withdrawalAmountRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            setWalletBalance(data);
+            if (data !== null) {
+                setWithdrawalAmount(data); // Update the state with the value from the database
+            }
+        });
+
+        // Clean up the listener when the component unmounts
+        return () => {
+            withdrawalAmountRef.off('value');
+        };
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const withdrawalAmount = parseFloat(inputs.withdrawal_amount);
-        const totalBalance = parseFloat(events);
+        // const totalBalance = parseFloat(events);
+        const totalBalance = walletBalance;
 
         if (isNaN(withdrawalAmount)) {
             setErrors({ withdrawal_amount: 'Please enter withdrawal amount' });
@@ -134,13 +181,38 @@ function Withdrawal(props) {
             //console.log(res.data);
             if (res.data.status === 200) {
 
-                axios.get('api/fetchWalletBalance').then((res) => {
-                    if (res.data.status === 200) {
-                        setEvents(res.data.amount);
-                    } else {
-                        console.log('Events not found');
-                    }
-                });
+                //update data in firebase
+                const updatedAmount = parseFloat(res.data.ammount);
+                setWalletAmount(updatedAmount); // Update the wallet amount in React state
+
+                // Optionally, update wallet amount in Firebase (if needed)
+                const firebase_node = localStorage.getItem('firebase_node');
+
+                const uniqueValue = firebase_node; // Replace with your actual unique value
+                const withdrawalAmountRef = database.ref(`ammount/${uniqueValue}/walletBalance`);
+                withdrawalAmountRef.set(updatedAmount.toString());
+                //end update data in firebase
+
+
+                // add data in firebas real time database   
+                // const withdrawalData = {
+                //     withdrawalAmount: inputs.withdrawal_amount,
+                // };
+
+                // // Replace 'withdrawals' with the name of the Firebase Realtime Database node where you want to store the data
+                // const newWithdrawalRef = database.ref('ammount').push();
+                // newWithdrawalRef.set(withdrawalData);
+
+                //end
+
+
+                // axios.get('api/fetchWalletBalance').then((res) => {
+                //     if (res.data.status === 200) {
+                //         setEvents(res.data.amount);
+                //     } else {
+                //         console.log('Events not found');
+                //     }
+                // });
 
                 axios.get('api/fetchBankData').then((res) => {
                     if (res.data.status === 200) {
@@ -483,7 +555,9 @@ function Withdrawal(props) {
 
                                     <div className="login-form wallet_balance-aftersub">
                                         <div className="totalWalletBal define_float">
-                                            <p>Total Wallet Balance: <span>Rs. {events}</span></p>
+                                            {/* <p>Total Wallet Balance: <span>Rs. {events}</span></p> */}
+                                            <p>Total Wallet Balance: <span>Rs. {withdrawalAmount}</span></p>
+                                            {/* <p>Firebase Balance: <span>Rs. {withdrawalAmount}</span></p> */}
                                         </div>
                                         <form action="" onSubmit={handleSubmit} className="row">
                                             <div className="login_input col-lg-12 col-md-12 col-sm-12">
@@ -659,3 +733,5 @@ function Withdrawal(props) {
 }
 
 export default Withdrawal;
+
+
