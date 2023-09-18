@@ -429,7 +429,8 @@ class authentication extends Controller
                 'username' => $request->username,
                 'amount' => $totalAmount,
                 'refNo' => $request->refNo,
-                'bonus' => $hasBonus ? 0 : 1, // Set bonus value based on whether the user has a bonus or not
+                'bonus' => $hasBonus ? 0 : 1,
+                // Set bonus value based on whether the user has a bonus or not
             ]);
 
             $userWallet = Wallet::where('user_id', $request->userId)->first();
