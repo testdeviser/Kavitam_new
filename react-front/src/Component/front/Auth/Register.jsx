@@ -204,8 +204,6 @@ function Register(props) {
     axios.post(`api/user/Register`, data).then(res => {
       // console.log(res);
       if (res.data.status == 200) {
-
-        console.log(res);
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -232,7 +230,6 @@ function Register(props) {
         navigate('/game');
       }
       else if (res.data.status == 401) {
-        console.log(res);
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -240,7 +237,6 @@ function Register(props) {
         })
       }
       else {
-        console.log(res);
         seterr({ error: res.data.error });
         setinputs({ ...inputs, p_suggestion: res.data.p_suggestion });
       }

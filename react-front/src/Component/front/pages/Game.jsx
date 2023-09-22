@@ -216,7 +216,7 @@ function Game(props) {
   const handleOuterNumbers = (e, number) => {
     if (auth_token) {
       const isSelected = selectedOuterNumbers.includes(number);
-      const numberIndex = selectedInnerNumbers.indexOf(number);
+      const numberIndex = selectedOuterNumbers.indexOf(number);
 
       if (isSelected) {
         setSelectedOuterNumbers(selectedOuterNumbers.filter((n) => n !== number));
@@ -295,74 +295,137 @@ function Game(props) {
   // }, [events]);
 
   const autoRefreshTimer = useRef(null);
-  const fetchActiveEvents = () => {
+
+  const fetchActiveEvents = async () => {
     try {
-      axios.get("api/todayActiveEvents").then((res) => {
-        if (res.data.status === 200) {
-          setEvents(res.data.event_id);
-          setCurrentTime(res.data.currentTime1);
-          setEventTime(res.data.time);
+      const res = await axios.get("api/todayActiveEvents");
 
-          var currentTime = new Date("2000-01-01T" + res.data.currentTime1 + "Z");
-          var eventTime = new Date("2000-01-01T" + res.data.time + "Z");
-          var timeDifference = new Date(currentTime - eventTime);
-          // Calculate the total number of minutes and seconds in the time difference
-          var totalMinutes = timeDifference.getUTCMinutes();
-          var totalSeconds = timeDifference.getUTCSeconds();
-          var difference =
-            totalMinutes + ":" + totalSeconds.toString().padStart(2, "0");
+      if (res.data.status === 200) {
+        setEvents(res.data.event_id);
+        setCurrentTime(res.data.currentTime1);
+        setEventTime(res.data.time);
 
-          var time1 = "60:00";
-          var time2 = difference;
-          var [hours1, minutes1] = time1.split(":").map(Number);
-          var [hours2, minutes2] = time2.split(":").map(Number);
-          var totalMinutes1 = hours1 * 60 + minutes1;
-          var totalMinutes2 = hours2 * 60 + minutes2;
-          var differenceMinutes = totalMinutes1 - totalMinutes2;
-          var differenceHours = Math.floor(differenceMinutes / 60);
-          var differenceRemainingMinutes = differenceMinutes % 60;
-          var difference1 =
-            differenceHours.toString().padStart(2, "0") +
-            ":" +
-            differenceRemainingMinutes.toString().padStart(2, "0");
+        const currentTime = new Date("2000-01-01T" + res.data.currentTime1 + "Z");
+        const eventTime = new Date("2000-01-01T" + res.data.time + "Z");
+        const timeDifference = new Date(currentTime - eventTime);
 
-          // console.log("kuch bhi");
-          // console.log(difference1);
-          setTimeDifference(difference1);
+        // Calculate the total number of minutes and seconds in the time difference
+        const totalMinutes = timeDifference.getUTCMinutes();
+        const totalSeconds = timeDifference.getUTCSeconds();
+        const difference =
+          totalMinutes + ":" + totalSeconds.toString().padStart(2, "0");
 
-          const timeString = difference1;
-          const [minutes, seconds] = timeString.split(":").map(Number);
-          const totalSeconds1 = minutes * 60 + seconds;
-          setUpdatedEventTime2(totalSeconds1);
-        } else {
-          console.log("Events not found");
-        }
-      });
-    }
-    catch (err) {
+        const time1 = "60:00";
+        const time2 = difference;
+        const [hours1, minutes1] = time1.split(":").map(Number);
+        const [hours2, minutes2] = time2.split(":").map(Number);
+        const totalMinutes1 = hours1 * 60 + minutes1;
+        const totalMinutes2 = hours2 * 60 + minutes2;
+        const differenceMinutes = totalMinutes1 - totalMinutes2;
+        const differenceHours = Math.floor(differenceMinutes / 60);
+        const differenceRemainingMinutes = differenceMinutes % 60;
+        const difference1 =
+          differenceHours.toString().padStart(2, "0") +
+          ":" +
+          differenceRemainingMinutes.toString().padStart(2, "0");
+
+        setTimeDifference(difference1);
+
+        const timeString = difference1;
+        const [minutes, seconds] = timeString.split(":").map(Number);
+        const totalSeconds1 = minutes * 60 + seconds;
+        setUpdatedEventTime2(totalSeconds1);
+      } else {
+        console.log("Events not found");
+      }
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
+
+  // const fetchActiveEvents = () => {
+  //   try {
+  //     axios.get("api/todayActiveEvents").then((res) => {
+  //       if (res.data.status === 200) {
+  //         setEvents(res.data.event_id);
+  //         setCurrentTime(res.data.currentTime1);
+  //         setEventTime(res.data.time);
+
+  //         var currentTime = new Date("2000-01-01T" + res.data.currentTime1 + "Z");
+  //         var eventTime = new Date("2000-01-01T" + res.data.time + "Z");
+  //         var timeDifference = new Date(currentTime - eventTime);
+  //         // Calculate the total number of minutes and seconds in the time difference
+  //         var totalMinutes = timeDifference.getUTCMinutes();
+  //         var totalSeconds = timeDifference.getUTCSeconds();
+  //         var difference =
+  //           totalMinutes + ":" + totalSeconds.toString().padStart(2, "0");
+
+  //         var time1 = "60:00";
+  //         var time2 = difference;
+  //         var [hours1, minutes1] = time1.split(":").map(Number);
+  //         var [hours2, minutes2] = time2.split(":").map(Number);
+  //         var totalMinutes1 = hours1 * 60 + minutes1;
+  //         var totalMinutes2 = hours2 * 60 + minutes2;
+  //         var differenceMinutes = totalMinutes1 - totalMinutes2;
+  //         var differenceHours = Math.floor(differenceMinutes / 60);
+  //         var differenceRemainingMinutes = differenceMinutes % 60;
+  //         var difference1 =
+  //           differenceHours.toString().padStart(2, "0") +
+  //           ":" +
+  //           differenceRemainingMinutes.toString().padStart(2, "0");
+
+  //         // console.log("kuch bhi");
+  //         // console.log(difference1);
+  //         setTimeDifference(difference1);
+
+  //         const timeString = difference1;
+  //         const [minutes, seconds] = timeString.split(":").map(Number);
+  //         const totalSeconds1 = minutes * 60 + seconds;
+  //         setUpdatedEventTime2(totalSeconds1);
+  //       } else {
+  //         console.log("Events not found");
+  //       }
+  //     });
+  //   }
+  //   catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   const timezone = 'Asia/Kolkata'; // Define your desired timezone
   const [indianTime, setIndianTime] = useState("");
   const [currentIndianTime, setCurrentIndianTime] = useState("");
   const [current24IndianTime, set24CurrentIndianTime] = useState("");
 
-  const fetchCurrentIndianTime = () => {
+  // const fetchCurrentIndianTime = () => {
+  //   try {
+  //     axios.get("api/current-indian-time").then((res) => {
+  //       if (res.data.status === 200) {
+  //         setIndianTime(res.data.current_indian_time);
+  //       } else {
+  //         console.log("time not found");
+  //       }
+  //     });
+  //   }
+  //   catch (err) {
+  //     console.log(err);
+  //   }
+  // }
+
+  const fetchCurrentIndianTime = async () => {
     try {
-      axios.get("api/current-indian-time").then((res) => {
-        if (res.data.status === 200) {
-          setIndianTime(res.data.current_indian_time);
-        } else {
-          console.log("time not found");
-        }
-      });
-    }
-    catch (err) {
+      const res = await axios.get("api/current-indian-time");
+
+      if (res.data.status === 200) {
+        setIndianTime(res.data.current_indian_time);
+      } else {
+        console.log("time not found");
+      }
+    } catch (err) {
       console.log(err);
     }
   }
+
 
   const fetchTime = async () => {
     try {

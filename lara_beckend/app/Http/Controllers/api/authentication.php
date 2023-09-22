@@ -20,6 +20,9 @@ use App\Mail\ContactUsEmail;
 use App\Mail\MyTestMail;
 use Carbon\Carbon;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class authentication extends Controller
 {
     // when click on verify btn
@@ -642,6 +645,56 @@ class authentication extends Controller
                 }
             }
         }
+    }
+
+    public function contactus_new(Request $request)
+    {
+        require base_path("vendor/autoload.php");
+        $mail = new PHPMailer(true); // Passing `true` enables exceptions
+
+        try {
+
+            // Email server settings
+            $mail->SMTPDebug = 0;
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com'; //  smtp host
+            $mail->SMTPAuth = true;
+            $mail->Username = 'kavi998854@gmail.com'; //  sender username
+            $mail->Password = 'xmdtbewbxpkhtrpp'; // sender password
+            $mail->SMTPSecure = 'tls'; // encryption - ssl/tls
+            $mail->Port = 587; // port - 587/465
+
+            $mail->setFrom('testdeviser@gmail.com', 'dev test');
+            $mail->addAddress('testdeviser@gmail.com', 'devtesting');
+            $mail->addCC('jaspreetsaini416@gmail.com', 'Jaspreet');
+            $mail->addBCC('preettjass@gmail.com', 'jasss    ');
+
+            $mail->addReplyTo('testdeviser@gmail.com', 'testdev');
+            $mail->isHTML(true); // Set email content format to HTML
+
+            $mail->Subject = 'contact us email';
+            $mail->Body = 'Testin contact us email';
+
+            // $mail->AltBody = plain text version of email body;
+
+            // $mail->AltBody = plain text version of email body;
+
+            if (!$mail->send()) {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Thank You for getting in Touch'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Thank You for getting in Touch'
+                ]);
+            }
+
+        } catch (Exception $e) {
+            return back()->with('error', 'Message could not be sent.');
+        }
+
     }
 
 

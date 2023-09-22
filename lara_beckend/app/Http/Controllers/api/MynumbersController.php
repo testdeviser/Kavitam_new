@@ -732,10 +732,19 @@ class MynumbersController extends Controller
                 $formattedDate = $carbonInstance->format('F d, Y'); // Output: 'July 31, 2023'
 
                 $eventPlayedDate = $formattedDate . ', ' . $time;
+
+                //$result = EventResult::where('current_date', $currentDate)->where('status', 1)->orderBy('id')->get();
+
                 $todayResult = EventResult::where('event_id', $eventId)
                     ->where('event_time', $time24hours)
                     ->where('current_date', $eventNewDate)
+                    ->where('status', 1)
                     ->first();
+
+                // $todayResult = EventResult::where('event_id', $eventId)
+                //     ->where('event_time', $time24hours)
+                //     ->where('current_date', $eventNewDate)
+                //     ->first();
 
                 if (!empty($todayResult) && isset($todayResult->result) && $todayResult->result < 10) {
                     $num_padded = sprintf("%02d", $todayResult->result);
@@ -805,9 +814,15 @@ class MynumbersController extends Controller
                 $formattedDateWeekly = $carbonInstanceWeekly->format('F d, Y'); // Output: 'July 31, 2023'
 
                 $eventPlayedDateWeekly = $formattedDateWeekly . ', ' . $timeWeekly;
+                // $WeeklyResult = EventResult::where('event_id', $eventIdWeekly)
+                //     ->where('event_time', $time24hoursWeekly)
+                //     ->where('current_date', $eventNewDateWeekly)
+                //     ->first();
+
                 $WeeklyResult = EventResult::where('event_id', $eventIdWeekly)
                     ->where('event_time', $time24hoursWeekly)
                     ->where('current_date', $eventNewDateWeekly)
+                    ->where('status', 1)
                     ->first();
 
                 if (!empty($WeeklyResult) && isset($WeeklyResult->result) && $WeeklyResult->result < 10) {
@@ -877,9 +892,15 @@ class MynumbersController extends Controller
                 $formattedDateMonthly = $carbonInstanceMonthly->format('F d, Y'); // Output: 'July 31, 2023'
 
                 $eventPlayedDateMonthly = $formattedDateMonthly . ', ' . $timeMonthly;
+                // $MonthlyResult = EventResult::where('event_id', $eventIdMonthly)
+                //     ->where('event_time', $time24hoursMonthly)
+                //     ->where('current_date', $eventNewDateMonthly)
+                //     ->first();
+
                 $MonthlyResult = EventResult::where('event_id', $eventIdMonthly)
                     ->where('event_time', $time24hoursMonthly)
                     ->where('current_date', $eventNewDateMonthly)
+                    ->where('status', 1)
                     ->first();
 
                 if (!empty($MonthlyResult) && isset($MonthlyResult->result) && $MonthlyResult->result < 10) {
