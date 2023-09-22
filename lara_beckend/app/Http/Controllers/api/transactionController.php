@@ -953,6 +953,242 @@ class transactionController extends Controller
 
     }
 
+    // public function finalResult(Request $req)
+    // {
+    //     $event = $req->event;
+    //     $number = $req->number;
+    //     $eventsTime = $req->eventsTime;
+    //     $formattedTime = date('H:i:s', strtotime($eventsTime));
+    //     $currentDate = Carbon::now()->format('Y-m-d');
+
+    //     // Check if a record with the same event_id and current_date exists in the database
+    //     $existingRecord = EventResult::where('event_id', $event)
+    //         ->where('current_date', $currentDate)
+    //         ->first();
+
+    //     if ($existingRecord) {
+
+    //         $numb = $existingRecord['result'];
+
+    //         if ($numb < 10) {
+    //             $num_padded = sprintf("%02d", $numb);
+    //             $numberkey = (string) $num_padded;
+    //             $num = $numberkey;
+    //         } else {
+    //             $num = $numb;
+    //             //$randomNumber = $nonExistingNumbers[$firstIndex];
+    //         }
+
+
+    //         $digits1 = str_split($num);
+    //         $frsstDigit = $digits1[0];
+    //         $scndDigit = $digits1[1];
+
+    //         $priceMultiplyBy = PriceMultiplyBy::first();
+    //         $main = $priceMultiplyBy->main;
+    //         $ander = $priceMultiplyBy->ander;
+    //         $bahar = $priceMultiplyBy->bahar;
+
+    //         $winning_users_frm_main = MainNumbers::where('number', $num)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+    //         if (!empty($winning_users_frm_main)) {
+    //             foreach ($winning_users_frm_main as $key => $value) {
+    //                 $userId = $value->userId;
+    //                 $userAmount = $value->prize;
+    //                 $winningPrice = $userAmount * $main;
+    //                 $userWallet = Wallet::where('user_id', $userId)->first();
+    //                 $userWalletId = $userWallet->id;
+    //                 $priceAddedTowallet = Wallet::where('user_id', $userId)->increment('ammount', $winningPrice);
+
+    //                 $transaction_history = new TransactionHistory();
+    //                 $transaction_history->userId = $userId;
+    //                 $transaction_history->walletId = $userWalletId;
+    //                 $transaction_history->withdrawalId = 0;
+    //                 $transaction_history->UpiId = 0;
+    //                 $transaction_history->payment_mode = "Win";
+    //                 $transaction_history->eventId = $req->event;
+    //                 $transaction_history->price = $winningPrice;
+    //                 $transaction_history->status = 'Cr';
+    //                 $transaction_history->current_date = $currentDate;
+    //                 $transaction_history->save();
+
+    //             }
+    //         }
+
+    //         $winning_users_frm_inner = inner::where('number', $frsstDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+    //         if (!empty($winning_users_frm_inner)) {
+    //             foreach ($winning_users_frm_inner as $key => $value1) {
+    //                 $userId1 = $value1->userId;
+    //                 $userAmount1 = $value1->price;
+    //                 $winningPrice1 = $userAmount1 * $ander;
+    //                 $userWallet1 = Wallet::where('user_id', $userId1)->first();
+    //                 $userWalletId1 = $userWallet1->id;
+    //                 $priceAddedTowallet1 = Wallet::where('user_id', $userId1)->increment('ammount', $winningPrice1);
+
+    //                 $transaction_history = new TransactionHistory();
+    //                 $transaction_history->userId = $userId1;
+    //                 $transaction_history->walletId = $userWalletId1;
+    //                 $transaction_history->withdrawalId = 0;
+    //                 $transaction_history->UpiId = 0;
+    //                 $transaction_history->payment_mode = "Win";
+    //                 $transaction_history->eventId = $req->event;
+    //                 $transaction_history->price = $winningPrice1;
+    //                 $transaction_history->status = 'Cr';
+    //                 $transaction_history->current_date = $currentDate;
+    //                 $transaction_history->save();
+    //             }
+    //         }
+
+    //         $winning_users_frm_outer = outer::where('number', $scndDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+    //         if (!empty($winning_users_frm_outer)) {
+    //             foreach ($winning_users_frm_outer as $key => $value2) {
+    //                 $userId2 = $value2->userId;
+    //                 $userAmount2 = $value2->price;
+    //                 $winningPrice2 = $userAmount2 * $bahar;
+    //                 $userWallet2 = Wallet::where('user_id', $userId2)->first();
+    //                 $userWalletId2 = $userWallet2->id;
+    //                 $priceAddedTowallet2 = Wallet::where('user_id', $userId2)->increment('ammount', $winningPrice2);
+
+    //                 $transaction_history = new TransactionHistory();
+    //                 $transaction_history->userId = $userId2;
+    //                 $transaction_history->walletId = $userWalletId2;
+    //                 $transaction_history->withdrawalId = 0;
+    //                 $transaction_history->UpiId = 0;
+    //                 $transaction_history->payment_mode = "Win";
+    //                 $transaction_history->eventId = $req->event;
+    //                 $transaction_history->price = $winningPrice2;
+    //                 $transaction_history->status = 'Cr';
+    //                 $transaction_history->current_date = $currentDate;
+    //                 $transaction_history->save();
+    //             }
+    //         }
+    //     } else {
+
+    //         // If no record exists, create a new one
+    //         $user = EventResult::create([
+    //             'event_id' => $event,
+    //             'event_time' => $formattedTime,
+    //             'current_date' => $currentDate,
+    //             'result' => $number,
+    //             'status' => 1,
+    //         ]);
+
+    //         $numb = $req->number;
+
+    //         if ($numb < 10) {
+    //             $num_padded = sprintf("%02d", $numb);
+    //             $numberkey = (string) $num_padded;
+    //             $num = $numberkey;
+    //         } else {
+    //             $num = $numb;
+    //             //$randomNumber = $nonExistingNumbers[$firstIndex];
+    //         }
+
+    //         $digits1 = str_split($num);
+    //         $frsstDigit = $digits1[0];
+    //         $scndDigit = $digits1[1];
+
+    //         $priceMultiplyBy = PriceMultiplyBy::first();
+    //         $main = $priceMultiplyBy->main;
+    //         $ander = $priceMultiplyBy->ander;
+    //         $bahar = $priceMultiplyBy->bahar;
+
+    //         $winning_users_frm_main = MainNumbers::where('number', $num)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+    //         if (!empty($winning_users_frm_main)) {
+    //             foreach ($winning_users_frm_main as $key => $value) {
+    //                 $userId = $value->userId;
+    //                 $userAmount = $value->prize;
+    //                 $winningPrice = $userAmount * $main;
+    //                 $userWallet = Wallet::where('user_id', $userId)->first();
+    //                 $userWalletId = $userWallet->id;
+    //                 $priceAddedTowallet = Wallet::where('user_id', $userId)->increment('ammount', $winningPrice);
+
+    //                 $transaction_history = new TransactionHistory();
+    //                 $transaction_history->userId = $userId;
+    //                 $transaction_history->walletId = $userWalletId;
+    //                 $transaction_history->withdrawalId = 0;
+    //                 $transaction_history->UpiId = 0;
+    //                 $transaction_history->payment_mode = "Win";
+    //                 $transaction_history->eventId = $req->event;
+    //                 $transaction_history->price = $winningPrice;
+    //                 $transaction_history->status = 'Cr';
+    //                 $transaction_history->current_date = $currentDate;
+    //                 $transaction_history->save();
+
+    //             }
+    //         }
+
+    //         $winning_users_frm_inner = inner::where('number', $frsstDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+    //         if (!empty($winning_users_frm_inner)) {
+    //             foreach ($winning_users_frm_inner as $key => $value1) {
+    //                 $userId1 = $value1->userId;
+    //                 $userAmount1 = $value1->price;
+    //                 $winningPrice1 = $userAmount1 * $ander;
+    //                 $userWallet1 = Wallet::where('user_id', $userId1)->first();
+    //                 $userWalletId1 = $userWallet1->id;
+    //                 $priceAddedTowallet1 = Wallet::where('user_id', $userId1)->increment('ammount', $winningPrice1);
+
+    //                 $transaction_history = new TransactionHistory();
+    //                 $transaction_history->userId = $userId1;
+    //                 $transaction_history->walletId = $userWalletId1;
+    //                 $transaction_history->withdrawalId = 0;
+    //                 $transaction_history->UpiId = 0;
+    //                 $transaction_history->payment_mode = "Win";
+    //                 $transaction_history->eventId = $req->event;
+    //                 $transaction_history->price = $winningPrice1;
+    //                 $transaction_history->status = 'Cr';
+    //                 $transaction_history->current_date = $currentDate;
+    //                 $transaction_history->save();
+    //             }
+    //         }
+
+    //         $winning_users_frm_outer = outer::where('number', $scndDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+    //         if (!empty($winning_users_frm_outer)) {
+    //             foreach ($winning_users_frm_outer as $key => $value2) {
+    //                 $userId2 = $value2->userId;
+    //                 $userAmount2 = $value2->price;
+    //                 $winningPrice2 = $userAmount2 * $bahar;
+    //                 $userWallet2 = Wallet::where('user_id', $userId2)->first();
+    //                 $userWalletId2 = $userWallet2->id;
+    //                 $priceAddedTowallet2 = Wallet::where('user_id', $userId2)->increment('ammount', $winningPrice2);
+
+    //                 $transaction_history = new TransactionHistory();
+    //                 $transaction_history->userId = $userId2;
+    //                 $transaction_history->walletId = $userWalletId2;
+    //                 $transaction_history->withdrawalId = 0;
+    //                 $transaction_history->UpiId = 0;
+    //                 $transaction_history->payment_mode = "Win";
+    //                 $transaction_history->eventId = $req->event;
+    //                 $transaction_history->price = $winningPrice2;
+    //                 $transaction_history->status = 'Cr';
+    //                 $transaction_history->current_date = $currentDate;
+    //                 $transaction_history->save();
+    //             }
+    //         }
+
+    //         // $testing = [
+    //         //     'event_id' => $event,
+    //         //     'event_time' => $eventsTime,
+    //         //     'current_date' => $currentDate,
+    //         //     'result' => $number,
+    //         //     ];
+
+    //         // $testingg = json_encode($testing);
+    //         if ($user) {
+    //             return response()->json([
+    //                 'status' => 200,
+    //                 'message' => 'Result Announced Successfully!',
+    //             ]);
+    //         } else {
+    //             return response()->json([
+    //                 'status' => 401,
+    //                 'message' => 'Not Found!',
+    //             ]);
+    //         }
+    //     }
+
+    // }
+
+
     public function finalResult(Request $req)
     {
         $event = $req->event;
@@ -990,6 +1226,9 @@ class transactionController extends Controller
             $bahar = $priceMultiplyBy->bahar;
 
             $winning_users_frm_main = MainNumbers::where('number', $num)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            
+            $winningMainUserData = []; // Initialize an empty array to store user data
+            
             if (!empty($winning_users_frm_main)) {
                 foreach ($winning_users_frm_main as $key => $value) {
                     $userId = $value->userId;
@@ -1010,11 +1249,26 @@ class transactionController extends Controller
                     $transaction_history->status = 'Cr';
                     $transaction_history->current_date = $currentDate;
                     $transaction_history->save();
-
+                    
+                    $userWallet = Wallet::where('user_id', $userId)->first();
+                    $user = User::where('id', $userId)->first();
+                    
+                    // Create an associative array and add it to the $winningUserData array
+                    $mainUserEntry = [
+                        'userId' => $userId,
+                        'firebase_node' => $user->firebase_node,
+                        'userWalletAmount' => $userWallet->ammount, // Assuming this is the column name in the Wallet model
+                    ];
+                    
+                    $winningMainUserData[] = $mainUserEntry;
+        
                 }
             }
 
             $winning_users_frm_inner = inner::where('number', $frsstDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            
+            $winningInnerUserData = []; // Initialize an empty array to store user data
+            
             if (!empty($winning_users_frm_inner)) {
                 foreach ($winning_users_frm_inner as $key => $value1) {
                     $userId1 = $value1->userId;
@@ -1035,10 +1289,25 @@ class transactionController extends Controller
                     $transaction_history->status = 'Cr';
                     $transaction_history->current_date = $currentDate;
                     $transaction_history->save();
+                    
+                    $userWallet1 = Wallet::where('user_id', $userId1)->first();
+                    $user1 = User::where('id', $userId1)->first();
+                    
+                    // Create an associative array and add it to the $winningUserData array
+                    $innerUserEntry = [
+                        'userId' => $userId1,
+                        'firebase_node' => $user1->firebase_node,
+                        'userWalletAmount' => $userWallet1->ammount, // Assuming this is the column name in the Wallet model
+                    ];
+                    
+                    $winningInnerUserData[] = $innerUserEntry;
                 }
             }
 
             $winning_users_frm_outer = outer::where('number', $scndDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            
+            $winningOuterUserData = []; // Initialize an empty array to store user data
+            
             if (!empty($winning_users_frm_outer)) {
                 foreach ($winning_users_frm_outer as $key => $value2) {
                     $userId2 = $value2->userId;
@@ -1059,8 +1328,30 @@ class transactionController extends Controller
                     $transaction_history->status = 'Cr';
                     $transaction_history->current_date = $currentDate;
                     $transaction_history->save();
+                    
+                    $userWallet2 = Wallet::where('user_id', $userId2)->first();
+                    $user2 = User::where('id', $userId2)->first();
+                    
+                    // Create an associative array and add it to the $winningUserData array
+                    $outerUserEntry = [
+                        'userId' => $userId2,
+                        'firebase_node' => $user2->firebase_node,
+                        'userWalletAmount' => $userWallet2->ammount, // Assuming this is the column name in the Wallet model
+                    ];
+                    
+                    $winningOuterUserData[] = $outerUserEntry;
                 }
             }
+            
+            // Merge the three arrays into one
+            $mergedUserData = array_merge($winningMainUserData, $winningInnerUserData, $winningOuterUserData);
+            
+            return response()->json([
+                'status' => 200,
+                'mergedUserData' => $mergedUserData,
+                'message' => 'Result Announced Successfully!',
+            ]);
+            
         } else {
 
             // If no record exists, create a new one
@@ -1093,6 +1384,9 @@ class transactionController extends Controller
             $bahar = $priceMultiplyBy->bahar;
 
             $winning_users_frm_main = MainNumbers::where('number', $num)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            
+            $winningMainUserData = []; // Initialize an empty array to store user data
+            
             if (!empty($winning_users_frm_main)) {
                 foreach ($winning_users_frm_main as $key => $value) {
                     $userId = $value->userId;
@@ -1113,11 +1407,26 @@ class transactionController extends Controller
                     $transaction_history->status = 'Cr';
                     $transaction_history->current_date = $currentDate;
                     $transaction_history->save();
+                    
+                    $userWallet = Wallet::where('user_id', $userId)->first();
+                    $user = User::where('id', $userId)->first();
+                    
+                    // Create an associative array and add it to the $winningUserData array
+                    $mainUserEntry = [
+                        'userId' => $userId,
+                        'firebase_node' => $user->firebase_node,
+                        'userWalletAmount' => $userWallet->ammount, // Assuming this is the column name in the Wallet model
+                    ];
+                    
+                    $winningMainUserData[] = $mainUserEntry;
 
                 }
             }
 
             $winning_users_frm_inner = inner::where('number', $frsstDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            
+            $winningInnerUserData = []; // Initialize an empty array to store user data
+             
             if (!empty($winning_users_frm_inner)) {
                 foreach ($winning_users_frm_inner as $key => $value1) {
                     $userId1 = $value1->userId;
@@ -1138,10 +1447,26 @@ class transactionController extends Controller
                     $transaction_history->status = 'Cr';
                     $transaction_history->current_date = $currentDate;
                     $transaction_history->save();
+                    
+                    $userWallet1 = Wallet::where('user_id', $userId1)->first();
+                    $user1 = User::where('id', $userId1)->first();
+                    
+                    // Create an associative array and add it to the $winningUserData array
+                    $innerUserEntry = [
+                        'userId' => $userId1,
+                        'firebase_node' => $user1->firebase_node,
+                        'userWalletAmount' => $userWallet1->ammount, // Assuming this is the column name in the Wallet model
+                    ];
+                    
+                    $winningInnerUserData[] = $innerUserEntry;
+                    
                 }
             }
 
             $winning_users_frm_outer = outer::where('number', $scndDigit)->where('event_id', $req->event)->where('current_date', $currentDate)->get();
+            
+            $winningOuterUserData = []; // Initialize an empty array to store user data
+            
             if (!empty($winning_users_frm_outer)) {
                 foreach ($winning_users_frm_outer as $key => $value2) {
                     $userId2 = $value2->userId;
@@ -1162,8 +1487,30 @@ class transactionController extends Controller
                     $transaction_history->status = 'Cr';
                     $transaction_history->current_date = $currentDate;
                     $transaction_history->save();
+                    
+                    $userWallet2 = Wallet::where('user_id', $userId2)->first();
+                    $user2 = User::where('id', $userId2)->first();
+                    
+                    // Create an associative array and add it to the $winningUserData array
+                    $outerUserEntry = [
+                        'userId' => $userId2,
+                        'firebase_node' => $user2->firebase_node,
+                        'userWalletAmount' => $userWallet2->ammount, // Assuming this is the column name in the Wallet model
+                    ];
+                    
+                    $winningOuterUserData[] = $outerUserEntry;
+                    
                 }
             }
+            
+            // Merge the three arrays into one
+            $mergedUserData = array_merge($winningMainUserData, $winningInnerUserData, $winningOuterUserData);
+            
+            return response()->json([
+                'status' => 200,
+                'mergedUserData' => $mergedUserData,
+                'message' => 'Result Announced Successfully!',
+            ]);
 
             // $testing = [
             //     'event_id' => $event,
@@ -1173,20 +1520,21 @@ class transactionController extends Controller
             //     ];
 
             // $testingg = json_encode($testing);
-            if ($user) {
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Result Announced Successfully!',
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 401,
-                    'message' => 'Not Found!',
-                ]);
-            }
+            // if ($user) {
+            //     return response()->json([
+            //         'status' => 200,
+            //         'message' => 'Result Announced Successfully!',
+            //     ]);
+            // } else {
+            //     return response()->json([
+            //         'status' => 401,
+            //         'message' => 'Not Found!',
+            //     ]);
+            // }
         }
 
     }
+    
 
 
     public function AlreadyPlay_this_event(Request $req, $event_id)

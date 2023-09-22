@@ -11,7 +11,7 @@ function AllEventResults(props) {
     });
     const [data, setdata] = useState({
         event: [],
-        no_of_result: 17,
+        no_of_result: 24,
     });
 
     const fetch_events = () => {
